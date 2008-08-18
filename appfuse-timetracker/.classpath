@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/resources"/>
 	<classpathentry kind="src" output="core/target/classes" path="core/src/main/java"/>
 	<classpathentry kind="src" output="core/target/test-classes" path="core/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="core/target/classes" path="core/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="core/target/test-classes" path="core/src/test/resources"/>
+	<classpathentry kind="src" output="core/target/classes" path="core/src/main/resources"/>
+	<classpathentry kind="src" output="core/target/test-classes" path="core/src/test/resources"/>
 	<classpathentry kind="src" output="web/target/classes" path="web/src/main/java"/>
 	<classpathentry kind="src" output="web/target/test-classes" path="web/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="web/target/classes" path="web/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="web/target/test-classes" path="web/src/test/resources"/>
-	<classpathentry excluding="**" kind="src" output="web/target/test-classes" path="web/src/main/webapp"/>
+	<classpathentry kind="src" output="web/target/classes" path="web/src/main/resources"/>
+	<classpathentry kind="src" output="web/target/test-classes" path="web/src/test/resources"/>
+	<classpathentry kind="src" output="web/target/test-classes" path="web/src/main/webapp"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
