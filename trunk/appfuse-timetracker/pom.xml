@@ -349,7 +349,7 @@
         <jdbc.version>5.0.5</jdbc.version>
         <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
         <jdbc.url><![CDATA[jdbc:mysql://localhost/appfuse_timetracker?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8]]></jdbc.url>
-        <jdbc.username>root</jdbc.username>
-        <jdbc.password></jdbc.password>
+        <jdbc.username>appfuse</jdbc.username>
+        <jdbc.password>appfuse</jdbc.password>
     </properties>
 </project>
