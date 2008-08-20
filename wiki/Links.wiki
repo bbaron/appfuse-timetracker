@@ -1,5 +1,4 @@
 #labels Featured
-= Links =
 
   * [http://appfuse.org/display/APF/Home AppFuse]
   * [http://galaxy.andromda.org/ AndroMDA]
