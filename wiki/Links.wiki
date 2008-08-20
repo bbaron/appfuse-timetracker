@@ -3,5 +3,5 @@
 
 = Links =
 
-[http://appfuse.org/display/APF/Home AppFuse]
-[http://galaxy.andromda.org/ AndroMDA]
+  * [http://appfuse.org/display/APF/Home AppFuse]
+  * [http://galaxy.andromda.org/ AndroMDA]
