@@ -10,8 +10,10 @@
 	<bean id="approveTimecardsController" class="com.bbaron.timetracker.web.controllers.HomeController">
 		<property name="viewName" value="approve-timecards" />
 	</bean>
-	<bean id="newTimecardSetupController" class="com.bbaron.timetracker.web.controllers.HomeController">
-		<property name="viewName" value="new-timecard-setup" />
+	<bean id="newTimecardSetupController" class="com.bbaron.timetracker.web.controllers.NewTimecardSetupController">
+		<property name="formView" value="new-timecard-setup" />
+		<property name="successView" value="timecard" />
+		<property name="commandClass" value="com.bbaron.timetracker.model.Timecard" />
 	</bean>
 	<bean id="searchTimecardsController" class="com.bbaron.timetracker.web.controllers.HomeController">
 		<property name="viewName" value="search-timecards" />
