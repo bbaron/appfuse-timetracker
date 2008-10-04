@@ -47,7 +47,7 @@
     </logger-->
 
     <logger name="org.springframework">
-        <level value="WARN"/>
+        <level value="DEBUG"/>
     </logger>
    
     <logger name="com.bbaron">
@@ -59,7 +59,7 @@
     </logger>
 
     <root>
-        <level value="WARN"/>
+        <level value="INFO"/>
         <appender-ref ref="CONSOLE"/>
     </root>
 
