@@ -36,7 +36,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
+			<artifactId>spring</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
 		<dependency>
@@ -50,20 +50,35 @@
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>1.2.3</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.4</version>
+		</dependency>
 	</dependencies>
 	<properties>
+        <dbunit.dataTypeFactoryName>org.dbunit.dataset.datatype.DefaultDataTypeFactory</dbunit.dataTypeFactoryName>
+        <dbunit.operation.type>CLEAN_INSERT</dbunit.operation.type>
+        <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
 		<jstl.version>1.1.2</jstl.version>
 		<javax.servlet.version>2.4</javax.servlet.version>
 		<org.springframework.version>2.5.5</org.springframework.version>
 		<org.hibernate.version>3.2.6.ga</org.hibernate.version>
+		<hibernate.annotations.version>3.3.0.ga</hibernate.annotations.version>
+		<hibernate.version>3.2.6.ga</hibernate.version>
 		<log4j.version>1.2.14</log4j.version>
-		<hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
 		<jdbc.groupId>mysql</jdbc.groupId>
 		<jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
 		<jdbc.version>5.0.5</jdbc.version>
 		<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
 		<jdbc.url><![CDATA[jdbc:mysql://localhost/timetracker?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8]]></jdbc.url>
-		<jdbc.username>root</jdbc.username>
-		<jdbc.password>admin</jdbc.password>
+		<jdbc.username>timetracker</jdbc.username>
+		<jdbc.password></jdbc.password>
 	</properties>
 </project>
