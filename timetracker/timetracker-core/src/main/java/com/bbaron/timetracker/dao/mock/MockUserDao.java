@@ -5,11 +5,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.bbaron.timetracker.dao.UserDao;
 import com.bbaron.timetracker.model.User;
 
 @Repository
-public class MockUserDao extends MockGenericDao<Long, User> implements UserDao {
+public class MockUserDao extends MockGenericDao<User, Long> {
 
     @Override
     protected List<User> createEntities() {

@@ -5,24 +5,23 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bbaron.timetracker.dao.TimecardDao;
-import com.bbaron.timetracker.dao.UserDao;
+import com.bbaron.timetracker.dao.GenericDao;
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.model.User;
 
 @Service
 public class TimecardServiceImpl implements TimecardService {
 
-	private TimecardDao timecardDao;
-	private UserDao userDao;
+	private GenericDao<Timecard, Long> timecardDao;
+	private GenericDao<User, Long> userDao;
 
     @Autowired
-	public void setUserDao(UserDao userDao) {
+	public void setUserDao(GenericDao<User, Long> userDao) {
 		this.userDao = userDao;
 	}
 
     @Autowired
-	public void setTimecardDao(TimecardDao timecardDao) {
+	public void setTimecardDao(GenericDao<Timecard, Long> timecardDao) {
 		this.timecardDao = timecardDao;
 	}
 

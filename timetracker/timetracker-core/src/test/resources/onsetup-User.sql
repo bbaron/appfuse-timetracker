@@ -1,0 +1,1 @@
+insert into tt_user (id, first_name, last_name, username) values (-1, 'first1', 'last1', 'user1');

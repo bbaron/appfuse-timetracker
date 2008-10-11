@@ -9,7 +9,7 @@ import java.util.Map;
 import com.bbaron.timetracker.dao.GenericDao;
 import com.bbaron.timetracker.model.IEntity;
 
-public abstract class MockGenericDao<PK extends Serializable, T extends IEntity<PK>> implements GenericDao<PK, T> {
+public abstract class MockGenericDao<T, PK extends Serializable> implements GenericDao<T, PK> {
 
     private boolean exists = false;
     private List<T> entities = createEntities();
@@ -82,11 +82,12 @@ public abstract class MockGenericDao<PK extends Serializable, T extends IEntity<
         throwIf();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T save(T object) {
         throwIf();
         if (id != null) {
-            object.setId(id);
+            ((IEntity)object).setId(id);
         }
 
         return object;
