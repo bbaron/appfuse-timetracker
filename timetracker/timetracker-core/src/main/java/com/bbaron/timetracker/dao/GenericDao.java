@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import com.bbaron.timetracker.model.Entity;
+import com.bbaron.timetracker.model.IEntity;
 
 
 /**
@@ -16,7 +16,7 @@ import com.bbaron.timetracker.model.Entity;
  * @param <T> a type variable
  * @param <PK> the primary key for that type
  */
-public interface GenericDao <PK extends Serializable, T extends Entity<PK>> {
+public interface GenericDao <PK extends Serializable, T extends IEntity<PK>> {
 
     /**
      * Generic method used to get all entities of a particular type. This

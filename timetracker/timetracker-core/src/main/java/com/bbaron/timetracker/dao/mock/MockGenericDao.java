@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.bbaron.timetracker.dao.GenericDao;
-import com.bbaron.timetracker.model.Entity;
+import com.bbaron.timetracker.model.IEntity;
 
-public abstract class MockGenericDao<PK extends Serializable, T extends Entity<PK>> implements GenericDao<PK, T> {
+public abstract class MockGenericDao<PK extends Serializable, T extends IEntity<PK>> implements GenericDao<PK, T> {
 
     private boolean exists = false;
     private List<T> entities = createEntities();
