@@ -1,0 +1,1 @@
+delete from tt_user where id = -1;

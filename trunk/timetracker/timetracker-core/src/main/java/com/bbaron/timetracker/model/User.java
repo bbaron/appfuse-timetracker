@@ -44,7 +44,7 @@ public class User implements IEntity<Long> {
         this.lastName = lastName;
     }
 
-    @Column(name = "username", length = 30, nullable = false, unique = true)
+    @Column(nullable = false, length = 50, unique = true)
     public String getUsername() {
         return username;
     }
