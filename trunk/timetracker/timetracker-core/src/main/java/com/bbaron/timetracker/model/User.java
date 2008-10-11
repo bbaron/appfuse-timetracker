@@ -1,42 +1,56 @@
 package com.bbaron.timetracker.model;
 
-public class User implements Entity<Long> {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-	private String firstName;
-	private String lastName;
-	private String username;
-	private Long id;
+@Entity
+@Table(name = "tt_user")
+public class User implements IEntity<Long> {
 
-	public Long getId() {
-		return id;
-	}
+    private String firstName;
+    private String lastName;
+    private String username;
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getId() {
+        return id;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    @Column(name = "first_name", length = 30, nullable = false)
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    @Column(name = "last_name", length = 30, nullable = false)
+    public String getLastName() {
+        return lastName;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    @Column(name = "username", length = 30, nullable = false, unique = true)
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
 }
