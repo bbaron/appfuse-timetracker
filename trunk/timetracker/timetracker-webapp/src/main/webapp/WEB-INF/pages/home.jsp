@@ -34,7 +34,7 @@
         <table>
             <tbody>
                 <tr>
-                    <td><a href="new-timecard-setup.htm">New timecard</a></td>
+                    <td><a href="new-timecard-setup.htm?submitterId=2002">New timecard</a></td>
                 </tr>
                 <tr>
                     <td><a href="timecard.htm">Last saved timecard</a></td>
