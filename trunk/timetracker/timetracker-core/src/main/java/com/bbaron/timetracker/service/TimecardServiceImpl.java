@@ -2,6 +2,7 @@ package com.bbaron.timetracker.service;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class TimecardServiceImpl implements TimecardService {
 
 	private GenericDao<Timecard, Long> timecardDao;
 	private GenericDao<User, Long> userDao;
+	protected Logger logger = Logger.getLogger(getClass());
 
     @Autowired
 	public void setUserDao(GenericDao<User, Long> userDao) {
@@ -28,6 +30,9 @@ public class TimecardServiceImpl implements TimecardService {
 	@Override
 	public Long createTimecard(Long userId, Date startDate) {
 		User submitter = userDao.get(userId);
+		if (logger.isInfoEnabled()) {
+		    logger.info("creating timecard for user " + submitter + " starting " + startDate);
+		}
 		Timecard timecard = new Timecard();
 		timecard.setSubmitter(submitter);
 		timecard.setStartDate(startDate);
