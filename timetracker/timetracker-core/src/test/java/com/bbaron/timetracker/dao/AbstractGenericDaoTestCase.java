@@ -23,7 +23,6 @@ public abstract class AbstractGenericDaoTestCase<T, PK extends Serializable> ext
 
     private GenericDaoHibernate<T, PK> dao;
     private Class<T> entityClass;
-    private String sqlScript;
     private SessionFactory sessionFactory;
     private PK validId;
     private PK invalidId;
@@ -94,26 +93,8 @@ public abstract class AbstractGenericDaoTestCase<T, PK extends Serializable> ext
         return sessionFactory;
     }
 
-    /**
-     * Get the base name of the sql scripts for loading and deleting data.
-     * <p>
-     * The load script is invoked in the {@link #onSetUpBeforeTransaction()}
-     * method and should be in the classpath with prefix onsetup- and suffix
-     * .sql.
-     * <p>
-     * The delete script is invoked in the {@link #onSetUpBeforeTransaction()}
-     * method and should be in the classpath with prefix onteardown- and suffix
-     * .sql.
-     * 
-     * @return the class name (no package) of the entityClass field.
-     */
-    protected String getSqlScript() {
-        return entityClass.getSimpleName();
-    }
-
     @Override
     protected void onSetUp() throws Exception {
-        sqlScript = getSqlScript();
         dao = new GenericDaoHibernate<T, PK>(entityClass);
         dao.setSessionFactory(sessionFactory);
         super.onSetUp();
@@ -121,12 +102,12 @@ public abstract class AbstractGenericDaoTestCase<T, PK extends Serializable> ext
 
     @Override
     protected void onSetUpBeforeTransaction() throws Exception {
-        super.executeSqlScript("classpath:/onsetup-" + sqlScript + ".sql", false);
+        super.executeSqlScript("classpath:/dao-setup.sql", false);
     }
 
     @Override
     protected void onTearDownAfterTransaction() throws Exception {
-        super.executeSqlScript("classpath:/onteardown-" + sqlScript + ".sql", false);
+        super.executeSqlScript("classpath:/dao-teardown.sql", false);
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {
