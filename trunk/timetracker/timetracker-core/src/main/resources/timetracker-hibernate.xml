@@ -58,7 +58,10 @@
 	</bean>
 
 
-	<bean id="timecardDao" class="com.bbaron.timetracker.dao.mock.MockTimecardDao" />
+	<bean id="timecardDao" parent="genericDao"
+		class="com.bbaron.timetracker.dao.hibernate.GenericDaoHibernate">
+		<constructor-arg value="com.bbaron.timetracker.model.Timecard" />
+	</bean>
 
 
 </beans>
