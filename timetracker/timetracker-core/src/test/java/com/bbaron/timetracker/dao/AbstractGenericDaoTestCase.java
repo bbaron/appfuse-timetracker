@@ -6,7 +6,6 @@ import junit.framework.Assert;
 
 import org.hibernate.SessionFactory;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import com.bbaron.timetracker.dao.hibernate.GenericDaoHibernate;
 
@@ -109,16 +108,6 @@ public abstract class AbstractGenericDaoTestCase<T, PK extends Serializable> ext
     
     protected abstract String[] getSetUpStatements();
     
-//    @Override
-//    protected void onSetUpBeforeTransaction() throws Exception {
-//        super.executeSqlScript("classpath:/dao-setup.sql", false);
-//    }
-//
-//    @Override
-//    protected void onTearDownAfterTransaction() throws Exception {
-//        super.executeSqlScript("classpath:/dao-teardown.sql", false);
-//    }
-
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -171,24 +160,11 @@ public abstract class AbstractGenericDaoTestCase<T, PK extends Serializable> ext
 
     public void testUpdate() throws Exception {
         T entity = dao.get(validId);
-
+        updateEntity(entity);
         dao.save(entity);
         flush();
 
-//        entity = dao.get(validId);
-//
-//        // verify that violation occurs when adding new user with same username
-//        clearIdFrom(entity);
-//
-//        endTransaction();
-//
-//        try {
-//            dao.save(entity);
-//            flush();
-//            fail("save didn't throw DataIntegrityViolationException");
-//        } catch (DataIntegrityViolationException e) {
-//            assertNotNull(e);
-//            logger.debug("expected exception: " + e.getMessage());
-//        }
     }
+
+	protected abstract void updateEntity(T entity);
 }

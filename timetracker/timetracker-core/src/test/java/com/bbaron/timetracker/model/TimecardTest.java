@@ -10,6 +10,6 @@ public class TimecardTest {
     @Test
     public void testTimecardDefaultStatusIsDraft() throws Exception {
         Timecard timecard = new Timecard();
-        assertEquals("Draft", timecard.getStatus());
+        assertEquals(TimecardStatus.Draft, timecard.getStatus());
     }
 }

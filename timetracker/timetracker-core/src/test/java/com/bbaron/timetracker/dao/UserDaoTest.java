@@ -10,8 +10,7 @@ public class UserDaoTest extends AbstractGenericDaoTestCase<User, Long> {
 
     @Override
     protected User createEntity() {
-        User user = new User();
-        user.setUsername("testuser");
+        User user = new User("testuser");
         user.setFirstName("Test");
         user.setLastName("Last");
         return user;
@@ -43,5 +42,10 @@ public class UserDaoTest extends AbstractGenericDaoTestCase<User, Long> {
                 "insert into tt_user (id, first_name, last_name, username) values (-1, 'first1', 'last1', 'user1')",
         };
     }
+
+	@Override
+	protected void updateEntity(User user) {
+		user.setLastName("newLastName");
+	}
 
 }

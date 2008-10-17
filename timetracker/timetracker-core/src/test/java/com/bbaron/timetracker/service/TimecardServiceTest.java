@@ -28,7 +28,7 @@ public class TimecardServiceTest {
 
     @Test
     public void testCreateTimecard() throws Exception {
-        User user = new User();
+        User user = new User("user");
         user.setId(1L);
         userDao.setEntities(user);
         Date startDate = new Date();
