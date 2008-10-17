@@ -9,20 +9,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 @Entity
-@Table(name = "tt_timecard")
+@Table(name = "tt_timecard", uniqueConstraints = { @UniqueConstraint(columnNames = { "submitter_id", "start_date" }) })
 public class Timecard implements IEntity<Long> {
 
-	private Long id;
-	private String status;
-	private Date startDate;
-	private String comments;
-	private User submitter;
-	private User approver;
+    private Long id;
+    private String status = "Draft";
+    private Date startDate;
+    private String comments;
+    private User submitter;
+    private User approver;
 
     @ManyToOne(optional = false)
     public User getSubmitter() {
@@ -79,16 +80,13 @@ public class Timecard implements IEntity<Long> {
         this.comments = comments;
     }
 
-
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 0;
         User u = getSubmitter();
-        result = prime * result
-                + ((startDate == null) ? 0 : startDate.hashCode());
-        result = prime * result
-                + ((u == null) ? 0 : u.hashCode());
+        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+        result = prime * result + ((u == null) ? 0 : u.hashCode());
         return result;
     }
 
@@ -116,10 +114,8 @@ public class Timecard implements IEntity<Long> {
 
     @Override
     public String toString() {
-        ToStringBuilder sb = new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
-        .append("submitter", this.getSubmitter().getUsername())
-        .append("status", this.status)
-        .append("startDate", this.startDate);
+        ToStringBuilder sb = new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE).append("submitter",
+                this.getSubmitter().getUsername()).append("status", this.status).append("startDate", this.startDate);
         return sb.toString();
     }
 

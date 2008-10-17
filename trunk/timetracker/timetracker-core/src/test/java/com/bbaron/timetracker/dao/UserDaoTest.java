@@ -37,4 +37,11 @@ public class UserDaoTest extends AbstractGenericDaoTestCase<User, Long> {
         user.setId(null);
     }
 
+    @Override
+    protected String[] getSetUpStatements() {
+        return new String[] {
+                "insert into tt_user (id, first_name, last_name, username) values (-1, 'first1', 'last1', 'user1')",
+        };
+    }
+
 }
