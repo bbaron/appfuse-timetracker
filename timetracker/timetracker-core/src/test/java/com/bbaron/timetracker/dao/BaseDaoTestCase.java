@@ -14,7 +14,6 @@ import org.springframework.test.AbstractTransactionalDataSourceSpringContextTest
 
 /**
  * Base class for running DAO tests.
- * @author mraible
  */
 public abstract class BaseDaoTestCase extends AbstractTransactionalDataSourceSpringContextTests {
 
