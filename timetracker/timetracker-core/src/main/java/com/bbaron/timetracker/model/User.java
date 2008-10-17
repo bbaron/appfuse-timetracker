@@ -13,7 +13,8 @@ import org.hibernate.annotations.AccessType;
 @Table(name = "tt_user")
 public class User implements IEntity<Long> {
 
-    private String firstName;
+	private static final long serialVersionUID = -275331587263329788L;
+	private String firstName;
     private String lastName;
     private String username;
     private Long id;
