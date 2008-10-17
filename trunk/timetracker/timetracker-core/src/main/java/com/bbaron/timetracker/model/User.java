@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.AccessType;
+
 @Entity
 @Table(name = "tt_user")
 public class User implements IEntity<Long> {
@@ -16,7 +18,16 @@ public class User implements IEntity<Long> {
     private String username;
     private Long id;
 
-    @Id
+    @SuppressWarnings("unused")
+	private User() {
+    	
+    }
+    
+    public User(String username) {
+		this.username = username;
+	}
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
@@ -44,15 +55,12 @@ public class User implements IEntity<Long> {
         this.lastName = lastName;
     }
 
-    @Column(nullable = false, length = 50, unique = true)
+    @Column(nullable = false, length = 50, unique = true, updatable = false)
+    @AccessType("field")
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    
     @Override
     public String toString() {
         return getUsername();

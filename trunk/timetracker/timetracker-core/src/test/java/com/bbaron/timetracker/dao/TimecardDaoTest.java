@@ -3,6 +3,7 @@ package com.bbaron.timetracker.dao;
 import java.util.Date;
 
 import com.bbaron.timetracker.model.Timecard;
+import com.bbaron.timetracker.model.TimecardStatus;
 import com.bbaron.timetracker.model.User;
 
 public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> {
@@ -16,7 +17,7 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
         Timecard timecard = new Timecard();
         timecard.setComments("comment");
         timecard.setStartDate(new Date());
-        timecard.setStatus("Draft");
+        timecard.setStatus(TimecardStatus.Submitted);
         User submitter = (User) getSessionFactory().getCurrentSession().get(User.class, -1L);
         timecard.setSubmitter(submitter);
         return timecard;
@@ -29,7 +30,7 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 
     @Override
     protected Object getExpected() {
-        return "Draft";
+        return TimecardStatus.Submitted;
     }
 
     @Override
@@ -51,5 +52,10 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 
         };
     }
+
+	@Override
+	protected void updateEntity(Timecard timecard) {
+		timecard.setStatus(TimecardStatus.Approved);
+	}
 
 }

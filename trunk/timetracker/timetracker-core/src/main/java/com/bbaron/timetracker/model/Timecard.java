@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class Timecard implements IEntity<Long> {
 
     private Long id;
-    private String status = "Draft";
+    private TimecardStatus status = TimecardStatus.Draft;
     private Date startDate;
     private String comments;
     private User submitter;
@@ -53,12 +55,13 @@ public class Timecard implements IEntity<Long> {
         this.id = id;
     }
 
-    @Column(name = "status", length = 20, nullable = false)
-    public String getStatus() {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    public TimecardStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TimecardStatus status) {
         this.status = status;
     }
 

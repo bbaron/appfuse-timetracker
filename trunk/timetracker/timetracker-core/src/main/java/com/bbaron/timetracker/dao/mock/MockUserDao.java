@@ -13,11 +13,10 @@ public class MockUserDao extends MockGenericDao<User, Long> {
     @Override
     protected List<User> createEntities() {
         List<User> list = new ArrayList<User>();
-        User e = new User();
+        User e = new User("user");
         e.setFirstName("first");
         e.setLastName("last");
         e.setId(1L);
-        e.setUsername("user");
         list.add(e);
         return list;
     }
