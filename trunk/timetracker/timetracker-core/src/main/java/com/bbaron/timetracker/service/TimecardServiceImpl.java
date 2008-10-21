@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bbaron.timetracker.dao.GenericDao;
+import com.bbaron.timetracker.model.TimeAllocation;
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.model.User;
 
@@ -38,6 +39,12 @@ public class TimecardServiceImpl implements TimecardService {
 		timecard.setStartDate(startDate);
 		Timecard saved = timecardDao.save(timecard);
 		return saved.getId();
+	}
+
+	@Override
+	public void enterTimeAllocation(Long timecardId, TimeAllocation alloc) {
+		Timecard timecard = timecardDao.get(timecardId);
+		timecard.addTimeAllocation(alloc);
 	}
 
 }

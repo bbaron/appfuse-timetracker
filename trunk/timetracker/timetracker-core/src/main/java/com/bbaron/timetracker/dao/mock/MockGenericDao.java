@@ -29,7 +29,7 @@ public abstract class MockGenericDao<T, PK extends Serializable> implements Gene
         this.exception = exception;
     }
 
-    private void throwIf() {
+    private void throwIfExceptionSet() {
         if (exception != null) {
             try {
                 throw exception.getClass().getConstructor(String.class).newInstance(exception.getMessage());
@@ -49,43 +49,43 @@ public abstract class MockGenericDao<T, PK extends Serializable> implements Gene
 
     @Override
     public boolean exists(PK id) {
-        throwIf();
+        throwIfExceptionSet();
         return exists;
     }
 
     @Override
     public List<T> findByNamedQuery(String queryName, Map<String, Object> queryParams) {
-        throwIf();
+        throwIfExceptionSet();
         return null;
     }
 
     @Override
     public T get(PK id) {
-        throwIf();
+        throwIfExceptionSet();
         return entities.get(0);
     }
 
     @Override
     public List<T> getAll() {
-        throwIf();
+        throwIfExceptionSet();
         return entities;
     }
 
     @Override
     public List<T> getAllDistinct() {
-        throwIf();
+        throwIfExceptionSet();
         return entities;
     }
 
     @Override
     public void remove(PK id) {
-        throwIf();
+        throwIfExceptionSet();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public T save(T object) {
-        throwIf();
+        throwIfExceptionSet();
         if (id != null) {
             ((IEntity)object).setId(id);
         }
