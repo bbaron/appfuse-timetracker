@@ -1,10 +1,9 @@
 package com.bbaron.timetracker.dao;
 
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import com.bbaron.timetracker.model.Timecard;
-import com.bbaron.timetracker.model.TimecardStatus;
-import com.bbaron.timetracker.model.User;
+import com.bbaron.timetracker.model.*;
 
 public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> {
 
@@ -14,10 +13,17 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 
     @Override
     protected Timecard createEntity() {
+    	Calendar cal = new GregorianCalendar();
         Timecard timecard = new Timecard();
         timecard.setComments("comment");
-        timecard.setStartDate(new Date());
+        timecard.setStartDate(cal.getTime());
         timecard.setStatus(TimecardStatus.Submitted);
+        TimeAllocation alloc = new TimeAllocation();
+        alloc.setTask(Task.Development);
+        alloc.setTimePeriodStartTime(cal.getTime());
+        cal.add(Calendar.HOUR_OF_DAY, 1);
+        alloc.setTimePeriodEndTime(cal.getTime());
+		timecard.addTimeAllocation(alloc);
         User submitter = (User) getSessionFactory().getCurrentSession().get(User.class, -1L);
         timecard.setSubmitter(submitter);
         return timecard;
