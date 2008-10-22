@@ -25,7 +25,7 @@ public class Timecard implements IEntity<Long> {
 	private User approver;
 	private List<TimeAllocation> timeAllocations = new ArrayList<TimeAllocation>();
 
-	@org.hibernate.annotations.CollectionOfElements
+	@org.hibernate.annotations.CollectionOfElements(fetch = FetchType.EAGER)
 	@org.hibernate.annotations.IndexColumn(name = "position", nullable = false)
 	@JoinTable(name = "tt_timecard_alloc", joinColumns = @JoinColumn(name = "timecard_id"))
     @AccessType("field")
