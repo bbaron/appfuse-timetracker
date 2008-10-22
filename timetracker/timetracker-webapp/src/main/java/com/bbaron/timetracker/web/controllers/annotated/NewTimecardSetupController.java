@@ -1,15 +1,9 @@
 package com.bbaron.timetracker.web.controllers.annotated;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,22 +16,11 @@ import com.bbaron.timetracker.web.validators.NewTimecardValidator;
 
 @Controller
 @RequestMapping("/new-timecard-setup.htm")
-public class NewTimecardSetupController {
-
-    private TimecardService timecardService;
-    private NewTimecardValidator validator;
+public class NewTimecardSetupController extends AbstractTimecardController {
 
     @Autowired
     public NewTimecardSetupController(TimecardService timecardService, NewTimecardValidator validator) {
-        this.timecardService = timecardService;
-        this.validator = validator;
-    }
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        super(timecardService, validator);
     }
 
     @RequestMapping(method = RequestMethod.GET)

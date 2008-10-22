@@ -5,13 +5,12 @@ import org.springframework.validation.Validator;
 
 import com.bbaron.timetracker.web.commands.NewTimecard;
 
-public class NewTimecardValidator implements Validator {
 
-    @Override
-    public boolean supports(@SuppressWarnings("unchecked") Class clazz) {
-        return NewTimecard.class.isAssignableFrom(clazz);
+public class NewTimecardValidator extends AbstractTimecardValidator implements Validator {
+
+    public NewTimecardValidator() {
+        super(NewTimecard.class);
     }
-
     @Override
     public void validate(Object target, Errors errors) {
         // TODO Auto-generated method stub
