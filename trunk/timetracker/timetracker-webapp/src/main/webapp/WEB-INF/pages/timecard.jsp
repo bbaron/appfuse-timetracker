@@ -39,20 +39,10 @@
                         <th>Start Date</th>
                     </tr>
                     <tr>
-                        <td>nbhatia</td>
-                        <td>
-                            <select name="approver">
-                                <option value="0">-- Select --</option>
-                                <option value="4">cmicali</option>
-                                <option value="3">ecrutchfield</option>
-                                <option value="2">lcoude</option>
-                                <option value="1">nbhatia</option>
-                            </select>
-                        </td>
-                        <td>Draft</td>
-                        <td>
-                            06/05/2006
-                        </td>
+                        <td>${submitter}</td>
+                        <td>${approver}</td>
+                        <td>${status}</td>
+                        <td>${startDate}</td>
                     </tr>
                 </table>
             </div>
@@ -71,48 +61,15 @@
                         </tr>
                     </thead>
                     <tbody>
+				        <c:forEach var="alloc" items="${allocList}">
                         <tr>
-                            <td>06/05/2006</td>
-                            <td>09:00 AM</td>
-                            <td>12:00 PM</td>
-                            <td>Analysis</td>
+                            <td><c:out value="${date}/></td>
+                            <td><c:out value="${start}/></td>
+                            <td><c:out value="${end}/></td>
+                            <td><c:out value="${task}/></td>
                             <td class="align_center"><input class="checkbox" type="checkbox" /></td>
                         </tr>
-                        <tr>
-                            <td>06/05/2006</td>
-                            <td>01:00 PM</td>
-                            <td>05:00 PM</td>
-                            <td>Research</td>
-                            <td class="align_center"><input class="checkbox" type="checkbox" /></td>
-                        </tr>
-                        <tr>
-                            <td>06/06/2006</td>
-                            <td>09:00 AM</td>
-                            <td>12:00 PM</td>
-                            <td>Analysis</td>
-                            <td class="align_center"><input class="checkbox" type="checkbox" /></td>
-                        </tr>
-                        <tr>
-                            <td>06/06/2006</td>
-                            <td>01:00 PM</td>
-                            <td>05:00 PM</td>
-                            <td>Analysis</td>
-                            <td class="align_center"><input class="checkbox" type="checkbox" /></td>
-                        </tr>
-                        <tr>
-                            <td>06/07/2006</td>
-                            <td>09:00 AM</td>
-                            <td>12:00 PM</td>
-                            <td>Analysis</td>
-                            <td class="align_center"><input class="checkbox" type="checkbox" /></td>
-                        </tr>
-                        <tr>
-                            <td>06/07/2006</td>
-                            <td>01:00 PM</td>
-                            <td>05:00 PM</td>
-                            <td>Research</td>
-                            <td class="align_center"><input class="checkbox" type="checkbox" /></td>
-                        </tr>
+	        			</c:forEach>
                     </tbody>
                 </table>
 
