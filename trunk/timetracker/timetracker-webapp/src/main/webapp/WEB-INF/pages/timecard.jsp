@@ -26,8 +26,7 @@
     </div>
 
     <div class="content">
-        <form:form commandName="timecard">
-
+        <form:form commandName="timeAllocation">
             <h2>Timecard</h2>
 
             <div class="timecardstatus">
@@ -42,7 +41,7 @@
                         <td>${timecard.submitter}</td>
                         <td>${timecard.approver}</td>
                         <td>${timecard.status}</td>
-                        <td>${timecard.startDate}</td>
+                        <td><fmt:formatDate value="${timecard.startDate}" type="date" pattern="yyyy-MM-dd"/></td>
                     </tr>
                 </table>
             </div>
@@ -54,19 +53,19 @@
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Start</th>
-                            <th>End</th>
+                            <th>Hours</th>
+                            <th>Minutes</th>
                             <th>Task</th>
                             <th class="align_center"><a class="button" href="">Delete</a></th>
                         </tr>
                     </thead>
                     <tbody>
-				        <c:forEach var="alloc" items="${timecard.timeAllocations}">
+				        <c:forEach var="alloc" items="${timecard.timeAllocationList}">
                         <tr>
-                            <td><c:out value="${date}"/></td>
-                            <td><c:out value="${start}"/></td>
-                            <td><c:out value="${end}"/></td>
-                            <td><c:out value="${task}"/></td>
+                            <td><fmt:formatDate value="${alloc.taskDate}" type="date" pattern="yyyy-MM-dd"/></td>
+                            <td><c:out value="${alloc.hours}"/></td>
+                            <td><c:out value="${alloc.minutes}"/></td>
+                            <td><c:out value="${alloc.task}"/></td>
                             <td class="align_center"><input class="checkbox" type="checkbox" /></td>
                         </tr>
 	        			</c:forEach>
@@ -79,26 +78,20 @@
                     <tbody>
                         <tr>
                             <td>
-                                <select name="date">
-                                    <option value="0">06/05/2006</option>
-                                    <option value="1">06/06/2006</option>
-                                    <option value="2">06/07/2006</option>
-                                    <option value="3">06/08/2006</option>
-                                    <option value="4">06/09/2006</option>
-                                    <option value="5">06/10/2006</option>
-                                    <option value="6">06/11/2006</option>
-                                </select>
+				               <form:select path="taskDate">
+				                   <form:options items="${timecard.dateSelection}"/>
+				               </form:select>
                             </td>
-                            <td><input type="text" id="start" size="7" /></td>
-                            <td><input type="text" id="end" size="7" /></td>
+                            <td><form:input path="hours" size="2"/></td>
+                            <td><form:input path="minutes" size="2"/></td>
                             <td>
-                                <select name="task">
-                                    <option value="0">-- Select --</option>
-                                    <option value="1">Analysis</option>
-                                    <option value="2">Reseach</option>
-                                </select>
+				               <form:select path="task">
+				                   <form:option value="" label="--Please Select"/>
+				                   <form:options items="${tasks}"/>
+				               </form:select>
+				               <form:errors path="task" cssClass="error"/>
                             </td>
-                            <td class="align_center"><a class="button" href="">Add</a></td>
+                            <td class="align_center"><input type="submit" value="Add" /></td>
                         </tr>
                     </tbody>
                 </table>

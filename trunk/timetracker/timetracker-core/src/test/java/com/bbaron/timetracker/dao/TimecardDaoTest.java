@@ -20,9 +20,9 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
         timecard.setStatus(TimecardStatus.Submitted);
         TimeAllocation alloc = new TimeAllocation();
         alloc.setTask(Task.Development);
-        alloc.setTimePeriodStartTime(cal.getTime());
-        cal.add(Calendar.HOUR_OF_DAY, 1);
-        alloc.setTimePeriodEndTime(cal.getTime());
+        alloc.setTaskDate(cal.getTime());
+        alloc.setHours(3);
+        alloc.setMinutes(15);
 		timecard.addTimeAllocation(alloc);
         User submitter = (User) getSessionFactory().getCurrentSession().get(User.class, -1L);
         timecard.setSubmitter(submitter);

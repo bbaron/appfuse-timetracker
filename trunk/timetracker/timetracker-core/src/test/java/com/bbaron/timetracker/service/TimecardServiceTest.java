@@ -47,13 +47,16 @@ public class TimecardServiceTest {
     @Test
 	public void testEnterTimeAllocation() throws Exception {
 		Long timecardId = TIMECARD_ID;
+		Integer hours = 4;
+		Integer minutes = 30;
 		Date startTime = new Date();
-		Date endTime = new Date();
+		Date taskDate = new Date();
 		Task task = Task.Admin;
 		TimeAllocation alloc = new TimeAllocation();
 		alloc.setTask(task);
-		alloc.setTimePeriodStartTime(startTime);
-		alloc.setTimePeriodEndTime(endTime);
+		alloc.setHours(hours);
+		alloc.setMinutes(minutes);
+		alloc.setTaskDate(taskDate);
 		Timecard timecard = new Timecard();
 		timecard.setStartDate(startTime);
 		timecard.setSubmitter(user);

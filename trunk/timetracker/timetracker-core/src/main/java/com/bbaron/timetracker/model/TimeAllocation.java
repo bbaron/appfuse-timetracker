@@ -1,10 +1,12 @@
 package com.bbaron.timetracker.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -15,32 +17,36 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class TimeAllocation implements Serializable {
 
 	private static final long serialVersionUID = 33779457716057568L;
-	private Date timePeriodStartTime;
-	private Date timePeriodEndTime;
+	private Date taskDate;
+	private Integer hours;
+	private Integer minutes = 0;
 	private Task task;
-	private transient final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-	@Column(name = "time_period_start_time", nullable = false)
-	public Date getTimePeriodStartTime() {
-		return timePeriodStartTime;
+	@Column(nullable = false, name = "hours")
+	public Integer getHours() {
+		return hours;
 	}
 
-	public void setTimePeriodStartTime(Date timePeriodStartTime) {
-		this.timePeriodStartTime = timePeriodStartTime;
+	public void setHours(Integer hours) {
+		this.hours = hours;
 	}
 
-	@Column(name = "time_period_end_time", nullable = false)
-	public Date getTimePeriodEndTime() {
-		return timePeriodEndTime;
+	@Column(nullable = false, name = "minutes")
+	public Integer getMinutes() {
+		return minutes;
 	}
 
-	@Transient
-	public String getDate() {
-		return dateFormat.format(getTimePeriodStartTime());
+	public void setMinutes(Integer minutes) {
+		this.minutes = minutes;
 	}
-	
-	public void setTimePeriodEndTime(Date timePeriodEndTime) {
-		this.timePeriodEndTime = timePeriodEndTime;
+
+	@Column(name = "task_date", nullable = false)
+	public Date getTaskDate() {
+		return taskDate;
+	}
+
+	public void setTaskDate(Date taskDate) {
+		this.taskDate = taskDate;
 	}
 
 	@Enumerated(EnumType.STRING)
@@ -63,26 +69,29 @@ public class TimeAllocation implements Serializable {
 		}
 		final TimeAllocation lhs = this;
 		final TimeAllocation rhs = (TimeAllocation) obj;
-		return new EqualsBuilder().append(lhs.getTask(), rhs.getTask()).append(
-				lhs.getTimePeriodStartTime(), rhs.getTimePeriodStartTime())
-				.append(lhs.getTimePeriodEndTime(), rhs.getTimePeriodEndTime())
+		return new EqualsBuilder()
+			.append(lhs.getTask(), rhs.getTask())
+			.append(lhs.getTaskDate(), rhs.getTaskDate())
+			.append(lhs.getHours(), rhs.getHours())
+			.append(lhs.getMinutes(), rhs.getMinutes())
 				.isEquals();
 	}
 
 	@Override
 	public String toString() {
 		ToStringBuilder sb = new ToStringBuilder(this,
-				ToStringStyle.DEFAULT_STYLE).append("task",
-				this.getTask().name()).append("start",
-				this.getTimePeriodStartTime()).append("end",
-				this.getTimePeriodEndTime());
+				ToStringStyle.DEFAULT_STYLE)
+				.append("task",	getTask())
+				.append("taskDate",	getTaskDate())
+				.append("hours", getHours())
+				.append("minutes", getMinutes());
 		return sb.toString();
 	}
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(getTask()).append(
-				getTimePeriodEndTime()).append(getTimePeriodEndTime())
+				getTaskDate()).append(getTaskDate())
 				.hashCode();
 	}
 }
