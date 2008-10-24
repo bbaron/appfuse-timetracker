@@ -1,7 +1,8 @@
 package com.bbaron.timetracker.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import javax.persistence.*;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.AccessType;
+
+import com.bbaron.timetracker.util.Constants;
 
 @Entity
 @Table(name = "tt_timecard", uniqueConstraints = { @UniqueConstraint(columnNames = {
@@ -29,7 +32,7 @@ public class Timecard implements IEntity<Long> {
 	@org.hibernate.annotations.IndexColumn(name = "position", nullable = false)
 	@JoinTable(name = "tt_timecard_alloc", joinColumns = @JoinColumn(name = "timecard_id"))
     @AccessType("field")
-	Collection<TimeAllocation> getTimeAllocations() {
+	List<TimeAllocation> getTimeAllocations() {
 		return timeAllocations;
 	}
 	
@@ -143,6 +146,21 @@ public class Timecard implements IEntity<Long> {
 				.append("status", this.status).append("startDate",
 						this.startDate);
 		return sb.toString();
+	}
+
+	@Transient
+	public String[] getDateSelection() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.SYSTEM_DATE_FORMAT);
+        String[] dates = new String[7];
+        dates[0] = dateFormat.format(getStartDate());
+        Calendar next = Calendar.getInstance();
+        next.setTime(getStartDate());
+        next.add(Calendar.DATE, 1);
+        for (int i = 1; i < 7; i++) {
+        	dates[i] = dateFormat.format(next.getTime());
+            next.add(Calendar.DATE, 1);
+        }
+		return dates;
 	}
 
 }

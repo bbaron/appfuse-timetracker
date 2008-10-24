@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.bbaron.timetracker.model.TimeAllocation;
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.service.TimecardService;
 import com.bbaron.timetracker.web.commands.TimecardEntry;
@@ -14,7 +15,7 @@ import com.bbaron.timetracker.web.validators.TimecardEntryValidator;
 
 @Controller
 @RequestMapping("/timecard.htm")
-@SessionAttributes("timecardEntry")
+@SessionAttributes("timeAllocation")
 public class TimecardController extends AbstractTimecardController {
 
     @Autowired
@@ -25,24 +26,35 @@ public class TimecardController extends AbstractTimecardController {
     @RequestMapping(method = RequestMethod.GET)
     public String setupForm(@RequestParam(required = true, value = "timecardId") Long timecardId, ModelMap model) {
         Timecard timecard = timecardService.getTimecard(timecardId);
+        if (logger.isDebugEnabled()) {
+        	logger.debug("timecard has " + timecard.getTimeAllocationList().size() + " time allocations");
+        	for (TimeAllocation ta : timecard.getTimeAllocationList()) {
+                logger.debug(ta);        	
+			}
+        }
         model.addAttribute("timecard", timecard);
-        model.addAttribute("timecardEntry", new TimecardEntry());
+        model.addAttribute("timeAllocation", new TimeAllocation());
         model.addAttribute("tasks", timecardService.getAllTasks());
         model.addAttribute("users", timecardService.getAllUsers());
+        model.addAttribute("dates", timecard.getDateSelection());
         model.addAttribute("statuses", timecardService.getAllStatuses());
         return "timecard";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String processSubmit(@ModelAttribute("timecardEntry") TimecardEntry timecardEntry, BindingResult result,
+    public String processSubmit(
+    		@RequestParam(required = true, value = "timecardId") Long timecardId,
+    		@ModelAttribute("timeAllocation") TimeAllocation alloc,
+    		BindingResult result,
             SessionStatus status) {
-        validator.validate(timecardEntry, result);
+        validator.validate(alloc, result);
         if (result.hasErrors()) {
             return "timecard";
         } else {
-//            timecardService.enterTimeAllocation(timecardEntry.getTimecardId(), timecardEntry.getTimeAllocation());
+        	logger.debug("submitting alloc " + alloc + " for timecard id " + timecardId);
+            timecardService.enterTimeAllocation(timecardId, alloc);
             status.setComplete();
-            return "redirect:timecard.htm";
+            return "redirect:timecard.htm?" + "timecardId=" + timecardId;
         }
     }
 

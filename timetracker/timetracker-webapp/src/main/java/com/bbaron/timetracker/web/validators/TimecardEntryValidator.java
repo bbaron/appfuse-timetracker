@@ -2,13 +2,13 @@ package com.bbaron.timetracker.web.validators;
 
 import org.springframework.validation.Errors;
 
-import com.bbaron.timetracker.web.commands.TimecardEntry;
+import com.bbaron.timetracker.model.TimeAllocation;
 
 
 public class TimecardEntryValidator extends AbstractTimecardValidator {
 
     public TimecardEntryValidator() {
-        super(TimecardEntry.class);
+        super(TimeAllocation.class);
     }
 
     @Override
