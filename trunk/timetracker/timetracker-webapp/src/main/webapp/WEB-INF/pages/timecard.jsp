@@ -26,7 +26,7 @@
     </div>
 
     <div class="content">
-        <form action="timecard.htm" method="POST">
+        <form:form commandName="timecard">
 
             <h2>Timecard</h2>
 
@@ -39,10 +39,10 @@
                         <th>Start Date</th>
                     </tr>
                     <tr>
-                        <td>${submitter}</td>
-                        <td>${approver}</td>
-                        <td>${status}</td>
-                        <td>${startDate}</td>
+                        <td>${timecard.submitter}</td>
+                        <td>${timecard.approver}</td>
+                        <td>${timecard.status}</td>
+                        <td>${timecard.startDate}</td>
                     </tr>
                 </table>
             </div>
@@ -61,12 +61,12 @@
                         </tr>
                     </thead>
                     <tbody>
-				        <c:forEach var="alloc" items="${allocList}">
+				        <c:forEach var="alloc" items="${timecard.timeAllocations}">
                         <tr>
-                            <td><c:out value="${date}/></td>
-                            <td><c:out value="${start}/></td>
-                            <td><c:out value="${end}/></td>
-                            <td><c:out value="${task}/></td>
+                            <td><c:out value="${date}"/></td>
+                            <td><c:out value="${start}"/></td>
+                            <td><c:out value="${end}"/></td>
+                            <td><c:out value="${task}"/></td>
                             <td class="align_center"><input class="checkbox" type="checkbox" /></td>
                         </tr>
 	        			</c:forEach>
@@ -115,7 +115,7 @@
                 <a class="button" href="timecard.htm">Submit</a>
             </div>
 
-        </form>
+        </form:form>
     </div>
 </body>
 </html>

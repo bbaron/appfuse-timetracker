@@ -1,6 +1,7 @@
 package com.bbaron.timetracker.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class TimeAllocation implements Serializable {
 	private Date timePeriodStartTime;
 	private Date timePeriodEndTime;
 	private Task task;
+	private transient final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Column(name = "time_period_start_time", nullable = false)
 	public Date getTimePeriodStartTime() {
@@ -32,6 +34,11 @@ public class TimeAllocation implements Serializable {
 		return timePeriodEndTime;
 	}
 
+	@Transient
+	public String getDate() {
+		return dateFormat.format(getTimePeriodStartTime());
+	}
+	
 	public void setTimePeriodEndTime(Date timePeriodEndTime) {
 		this.timePeriodEndTime = timePeriodEndTime;
 	}

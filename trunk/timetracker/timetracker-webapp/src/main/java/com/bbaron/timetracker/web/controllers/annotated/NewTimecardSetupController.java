@@ -38,9 +38,9 @@ public class NewTimecardSetupController extends AbstractTimecardController {
         if (result.hasErrors()) {
             return "new-timecard-setup";
         } else {
-            timecardService.createTimecard(timecard.getSubmitterId(), timecard.getStartDate());
+            Long id = timecardService.createTimecard(timecard.getSubmitterId(), timecard.getStartDate());
             status.setComplete();
-            return "redirect:timecard.htm";
+            return "redirect:timecard.htm?timecardId=" + id;
         }
     }
 }
