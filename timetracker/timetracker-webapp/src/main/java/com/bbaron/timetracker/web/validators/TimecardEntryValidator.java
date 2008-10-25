@@ -13,8 +13,11 @@ public class TimecardEntryValidator extends AbstractTimecardValidator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        // TODO Auto-generated method stub
-
+        rejectIfEmpty(target, errors, "task");
+        rejectIfEmpty(target, errors, "taskDate");
+        TimeAllocation alloc = (TimeAllocation) target;
+        rejectIfOutOfBounds(target, errors, "hours", 0, 24, alloc.getHours());
+        rejectIfOutOfBounds(target, errors, "hours", 0, 60, alloc.getMinutes());
     }
 
 }

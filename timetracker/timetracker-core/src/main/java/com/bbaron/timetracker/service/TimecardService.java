@@ -15,6 +15,8 @@ public interface TimecardService {
 
     Timecard getTimecard(Long timecardId);
 
+    Timecard getTimecardDetail(Long timecardId);
+
     Map<Long, String> getAllUsers();
 
     Collection<String> getAllTasks();

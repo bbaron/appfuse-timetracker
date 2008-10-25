@@ -4,13 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.bbaron.timetracker.model.TimeAllocation;
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.service.TimecardService;
-import com.bbaron.timetracker.web.commands.TimecardEntry;
 import com.bbaron.timetracker.web.validators.TimecardEntryValidator;
 
 @Controller
@@ -25,7 +28,7 @@ public class TimecardController extends AbstractTimecardController {
     
     @RequestMapping(method = RequestMethod.GET)
     public String setupForm(@RequestParam(required = true, value = "timecardId") Long timecardId, ModelMap model) {
-        Timecard timecard = timecardService.getTimecard(timecardId);
+        Timecard timecard = timecardService.getTimecardDetail(timecardId);
         if (logger.isDebugEnabled()) {
         	logger.debug("timecard has " + timecard.getTimeAllocationList().size() + " time allocations");
         	for (TimeAllocation ta : timecard.getTimeAllocationList()) {
@@ -49,7 +52,7 @@ public class TimecardController extends AbstractTimecardController {
             SessionStatus status) {
         validator.validate(alloc, result);
         if (result.hasErrors()) {
-            return "timecard";
+            return "redirect:timecard.htm?" + "timecardId=" + timecardId;
         } else {
         	logger.debug("submitting alloc " + alloc + " for timecard id " + timecardId);
             timecardService.enterTimeAllocation(timecardId, alloc);

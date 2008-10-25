@@ -41,7 +41,7 @@
     </logger>
    
     <logger name="com.bbaron">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
 
     <root>

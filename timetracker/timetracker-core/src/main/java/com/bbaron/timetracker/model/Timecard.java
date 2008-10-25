@@ -3,6 +3,7 @@ package com.bbaron.timetracker.model;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -28,16 +29,16 @@ public class Timecard implements IEntity<Long> {
 	private User approver;
 	private List<TimeAllocation> timeAllocations = new ArrayList<TimeAllocation>();
 
-	@org.hibernate.annotations.CollectionOfElements(fetch = FetchType.EAGER)
+	@org.hibernate.annotations.CollectionOfElements(fetch = FetchType.LAZY)
 	@org.hibernate.annotations.IndexColumn(name = "position", nullable = false)
 	@JoinTable(name = "tt_timecard_alloc", joinColumns = @JoinColumn(name = "timecard_id"))
     @AccessType("field")
-	List<TimeAllocation> getTimeAllocations() {
+	public List<TimeAllocation> getTimeAllocations() {
 		return timeAllocations;
 	}
 	
 	@Transient
-	public List<TimeAllocation> getTimeAllocationList() {
+	public Collection<TimeAllocation> getTimeAllocationList() {
 		return new ArrayList<TimeAllocation>(getTimeAllocations());
 	}
 
@@ -58,7 +59,7 @@ public class Timecard implements IEntity<Long> {
 		this.submitter = submitter;
 	}
 
-	@ManyToOne(optional = true)
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	public User getApprover() {
 		return approver;
 	}
