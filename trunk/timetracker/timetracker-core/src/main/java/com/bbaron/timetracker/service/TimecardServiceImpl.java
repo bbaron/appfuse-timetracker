@@ -10,56 +10,76 @@ import java.util.TreeSet;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.bbaron.timetracker.dao.GenericDao;
+import com.bbaron.timetracker.dao.*;
 import com.bbaron.timetracker.model.Task;
 import com.bbaron.timetracker.model.TimeAllocation;
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.model.TimecardStatus;
 import com.bbaron.timetracker.model.User;
 
-@Service
+@Service("timecardService")
 public class TimecardServiceImpl implements TimecardService {
 
-	private GenericDao<Timecard, Long> timecardDao;
-	private GenericDao<User, Long> userDao;
+    private TimecardDao timecardDao;
+    private UserDao userDao;
+    private TimecardFactory timecardFactory;
     private final Collection<String> statuses = getAllEnums(TimecardStatus.values());
     private final Collection<String> tasks = getAllEnums(Task.values());
-    
-	protected Logger logger = Logger.getLogger(getClass());
+
+    protected Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-	public void setUserDao(GenericDao<User, Long> userDao) {
-		this.userDao = userDao;
-	}
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Autowired
-	public void setTimecardDao(GenericDao<Timecard, Long> timecardDao) {
-		this.timecardDao = timecardDao;
-	}
+    public void setTimecardDao(TimecardDao timecardDao) {
+        this.timecardDao = timecardDao;
+    }
 
-	@Override
-	public Long createTimecard(Long userId, Date startDate) {
-		User submitter = userDao.get(userId);
-		if (logger.isInfoEnabled()) {
-		    logger.info("creating timecard for user " + submitter + " starting " + startDate);
-		}
-		Timecard timecard = new Timecard();
-		timecard.setSubmitter(submitter);
-		timecard.setStartDate(startDate);
-		Timecard saved = timecardDao.save(timecard);
-		return saved.getId();
-	}
-
-	@Override
-	public void enterTimeAllocation(Long timecardId, TimeAllocation alloc) {
-		Timecard timecard = timecardDao.get(timecardId);
-		timecard.addTimeAllocation(alloc);
-	}
+    @Autowired
+    public void setTimecardFactory(TimecardFactory timecardFactory) {
+        this.timecardFactory = timecardFactory;
+    }
 
     @Override
+    @Transactional
+    public Long createTimecard(Long userId, Date startDate) {
+        User submitter = userDao.get(userId);
+        if (logger.isInfoEnabled()) {
+            logger.info("creating timecard for user " + submitter + " starting " + startDate);
+        }
+        Timecard timecard = new Timecard();
+        timecard.setSubmitter(submitter);
+        timecard.setStartDate(startDate);
+        Timecard saved = timecardDao.save(timecard);
+        return saved.getId();
+    }
+
+    @Override
+    @Transactional
+    public void enterTimeAllocation(Long timecardId, TimeAllocation alloc) {
+        Timecard timecard = timecardDao.get(timecardId);
+        timecard.addTimeAllocation(alloc);
+        timecardDao.save(timecard);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Timecard getTimecard(Long timecardId) {
         Timecard timecard = timecardDao.get(timecardId);
+        timecardFactory.initialize(timecard, false);
+        return timecard;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Timecard getTimecardDetail(Long timecardId) {
+        Timecard timecard = timecardDao.get(timecardId);
+        timecardFactory.initialize(timecard, true);
         return timecard;
     }
 
@@ -67,11 +87,11 @@ public class TimecardServiceImpl implements TimecardService {
     public Collection<String> getAllStatuses() {
         return statuses;
     }
-    
+
     private Collection<String> getAllEnums(Enum<?>[] values) {
         SortedSet<String> set = new TreeSet<String>();
         for (Enum<?> value : values) {
-            set.add(value.name());            
+            set.add(value.name());
         }
         return set;
     }
@@ -82,9 +102,10 @@ public class TimecardServiceImpl implements TimecardService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Map<Long, String> getAllUsers() {
         Map<Long, String> map = new HashMap<Long, String>();
-        
+
         for (User user : userDao.getAll()) {
             map.put(user.getId(), user.getUsername());
         }

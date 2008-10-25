@@ -47,11 +47,11 @@
     </logger-->
 
     <logger name="org.springframework">
-        <level value="INFO"/>
+        <level value="WARN"/>
     </logger>
    
     <logger name="com.bbaron">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
 
     <logger name="com.bbaron.webapp.filter.StaticFilter">

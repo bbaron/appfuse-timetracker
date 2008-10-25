@@ -63,6 +63,6 @@ public class TimecardServiceTest {
 		timecardDao.setId(TIMECARD_ID);
 		timecardDao.setEntities(timecard);
 		timecardService.enterTimeAllocation(timecardId, alloc);
-		assertEquals(1, timecard.getTimeAllocationList().size());
+		assertEquals(1, timecard.getTimeAllocations().size());
 	}
 }

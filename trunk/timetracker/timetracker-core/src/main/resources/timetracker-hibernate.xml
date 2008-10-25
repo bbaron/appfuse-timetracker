@@ -47,21 +47,4 @@
 
 	<bean
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-
-	<bean name="genericDao" abstract="true">
-        <property name="sessionFactory" ref="sessionFactory"/>
-	</bean>
-
-	<bean id="userDao" parent="genericDao"
-		class="com.bbaron.timetracker.dao.hibernate.GenericDaoHibernate">
-		<constructor-arg value="com.bbaron.timetracker.model.User" />
-	</bean>
-
-
-	<bean id="timecardDao" parent="genericDao"
-		class="com.bbaron.timetracker.dao.hibernate.GenericDaoHibernate">
-		<constructor-arg value="com.bbaron.timetracker.model.Timecard" />
-	</bean>
-
-
 </beans>

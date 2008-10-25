@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -53,6 +55,12 @@ public class GenericDaoHibernate<T, PK extends Serializable> extends HibernateDa
     public GenericDaoHibernate(final Class<T> persistentClass) {
         this.persistentClass = persistentClass;
     }
+    
+    @Autowired
+    public void setAutoWiredSessionFactory(SessionFactory factory) {
+        super.setSessionFactory(factory);
+    }
+    
 
     /**
      * {@inheritDoc}
