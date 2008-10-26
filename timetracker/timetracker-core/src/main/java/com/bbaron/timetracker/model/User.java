@@ -19,8 +19,7 @@ public class User implements IEntity<Long> {
     private String username;
     private Long id;
 
-    @SuppressWarnings("unused")
-	private User() {
+	User() {
     	
     }
     

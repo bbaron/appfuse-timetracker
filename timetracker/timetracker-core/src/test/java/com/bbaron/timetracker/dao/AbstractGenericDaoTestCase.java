@@ -1,6 +1,7 @@
 package com.bbaron.timetracker.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -21,7 +22,11 @@ import com.bbaron.timetracker.dao.hibernate.GenericDaoHibernate;
 public abstract class AbstractGenericDaoTestCase<T, PK extends Serializable> extends BaseDaoTestCase {
 
     private GenericDaoHibernate<T, PK> dao;
-    private Class<T> entityClass;
+    public GenericDaoHibernate<T, PK> getDao() {
+		return dao;
+	}
+
+	private Class<T> entityClass;
     private SessionFactory sessionFactory;
     private PK validId;
     private PK invalidId;
@@ -94,9 +99,13 @@ public abstract class AbstractGenericDaoTestCase<T, PK extends Serializable> ext
 
     @Override
     protected void onSetUp() throws Exception {
-        dao = new GenericDaoHibernate<T, PK>(entityClass);
+        dao = createDao(entityClass);
         dao.setSessionFactory(sessionFactory);
         super.onSetUp();
+    }
+    
+    protected GenericDaoHibernate<T, PK> createDao(Class<T> entityClass) {
+    	return new GenericDaoHibernate<T, PK>(entityClass);
     }
 
     @Override
@@ -163,8 +172,12 @@ public abstract class AbstractGenericDaoTestCase<T, PK extends Serializable> ext
         updateEntity(entity);
         dao.save(entity);
         flush();
-
     }
+    
+    public void testGetAll() throws Exception {
+		List<T> list = dao.getAll();
+		assertNotNull(list);
+	}
 
 	protected abstract void updateEntity(T entity);
 }
