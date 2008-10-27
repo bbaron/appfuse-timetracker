@@ -88,7 +88,7 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 	}
 
 	public void testFindLastSaved() throws Exception {
-		Timecard latest = timecardDao.findLastSaved(2002L);
+		Timecard latest = timecardDao.findLastSaved(-1L);
 		assertEquals(-2, latest.getId().intValue());
 	}
 }
