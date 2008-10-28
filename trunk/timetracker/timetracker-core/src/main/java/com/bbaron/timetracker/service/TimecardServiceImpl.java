@@ -24,7 +24,6 @@ public class TimecardServiceImpl implements TimecardService {
 
     private TimecardDao timecardDao;
     private UserDao userDao;
-    private TimecardFactory timecardFactory;
     private final Collection<String> statuses = getAllEnums(TimecardStatus.values());
     private final Collection<String> tasks = getAllEnums(Task.values());
 
@@ -38,11 +37,6 @@ public class TimecardServiceImpl implements TimecardService {
     @Autowired
     public void setTimecardDao(TimecardDao timecardDao) {
         this.timecardDao = timecardDao;
-    }
-
-    @Autowired
-    public void setTimecardFactory(TimecardFactory timecardFactory) {
-        this.timecardFactory = timecardFactory;
     }
 
     @Override
@@ -70,16 +64,13 @@ public class TimecardServiceImpl implements TimecardService {
     @Override
     @Transactional(readOnly = true)
     public Timecard getTimecard(Long timecardId) {
-        Timecard timecard = timecardDao.get(timecardId);
-        timecardFactory.initialize(timecard, false);
+        Timecard timecard = timecardDao.findById(timecardId);
         return timecard;
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Timecard getTimecardDetail(Long timecardId) {
-        Timecard timecard = timecardDao.get(timecardId);
-        timecardFactory.initialize(timecard, true);
+    public Timecard getLatestTimecard(Long submitterId) {
+        Timecard timecard = timecardDao.findLastSaved(submitterId);
         return timecard;
     }
 

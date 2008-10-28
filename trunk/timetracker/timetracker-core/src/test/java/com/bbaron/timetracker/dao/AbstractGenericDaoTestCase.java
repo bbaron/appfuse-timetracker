@@ -121,7 +121,7 @@ public abstract class AbstractGenericDaoTestCase<T, PK extends Serializable> ext
         this.sessionFactory = sessionFactory;
     }
 
-    public void _testAddAndRemove() throws Exception {
+    public void testAddAndRemove() throws Exception {
         T entity = createEntity();
 
         entity = dao.save(entity);
@@ -142,18 +142,18 @@ public abstract class AbstractGenericDaoTestCase<T, PK extends Serializable> ext
         }
     }
 
-    public void _testExists() throws Exception {
+    public void testExists() throws Exception {
         boolean b = dao.exists(validId);
         assertTrue(b);
     }
 
-    public void _testGet() throws Exception {
+    public void testGet() throws Exception {
         Object entity = dao.get(validId);
 
         assertNotNull(entity);
     }
 
-    public void _testGetInvalid() throws Exception {
+    public void testGetInvalid() throws Exception {
         try {
             dao.get(invalidId);
             fail("unexpected entity found in database, failing test...");
@@ -162,19 +162,19 @@ public abstract class AbstractGenericDaoTestCase<T, PK extends Serializable> ext
         }
     }
 
-    public void _testNotExists() throws Exception {
+    public void testNotExists() throws Exception {
         boolean b = dao.exists(invalidId);
         assertFalse(b);
     }
 
-    public void _testUpdate() throws Exception {
+    public void testUpdate() throws Exception {
         T entity = dao.get(validId);
         updateEntity(entity);
         dao.save(entity);
         flush();
     }
     
-    public void _testGetAll() throws Exception {
+    public void testGetAll() throws Exception {
 		List<T> list = dao.getAll();
 		assertNotNull(list);
 	}

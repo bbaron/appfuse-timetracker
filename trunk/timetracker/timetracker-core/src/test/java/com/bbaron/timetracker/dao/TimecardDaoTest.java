@@ -3,6 +3,8 @@ package com.bbaron.timetracker.dao;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.hibernate.LazyInitializationException;
+
 import com.bbaron.timetracker.dao.hibernate.GenericDaoHibernate;
 import com.bbaron.timetracker.dao.hibernate.TimecardDaoHibernate;
 import com.bbaron.timetracker.model.*;
@@ -66,10 +68,13 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 		return new String[] {
 				"insert into tt_user (id, first_name, last_name, username) values (-1, 'first1', 'last1', 'user1')",
 				"insert into tt_user (id, first_name, last_name, username) values (-2, 'first2', 'last2', 'user2')",
+                "insert into tt_user (id, first_name, last_name, username) values (-3, 'first3', 'last3', 'user3')",
 				"insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
 						+ "values (-1, 'Draft', '2008/10/15', 'Timecard -1', null, -1)",
 				"insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
 						+ "values (-2, 'Draft', '2008/10/22', 'Timecard -2', -2, -1)",
+                "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
+                        + "values (-3, 'Draft', '2008/10/22', null, null, -3)",
 				"insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
 						+ "values (-1, '2008/10/15', 4, 20, 'Admin', 0)",
 				"insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
@@ -90,5 +95,30 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 	public void testFindLastSaved() throws Exception {
 		Timecard latest = timecardDao.findLastSaved(-1L);
 		assertEquals(-2, latest.getId().intValue());
+		super.endTransaction();
+		try {
+            latest.getSubmitter().getFirstName();
+            latest.getApprover().getFirstName();
+		    latest.getTimeAllocations().size();
+		} catch (LazyInitializationException e) {
+		    fail("timecard not fully initialized: " + e.toString());
+		}
 	}
+	
+	public void testFindLastSaved_noAssociations() throws Exception {
+        Timecard latest = timecardDao.findLastSaved(-3L);
+        flush();
+        endTransaction();
+        assertNull(latest.getApprover());
+        assertTrue(latest.getTimeAllocations().isEmpty());
+    }
+	
+	public void testNoLastTimecard() throws Exception {
+        try {
+            assertNull(timecardDao.findLastSaved(-999L));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("findLastSaved should return null when nothing found " + e.toString());
+        }
+    }
 }
