@@ -70,7 +70,7 @@ public class TimecardServiceImpl implements TimecardService {
 
     @Override
     public Timecard getLatestTimecard(Long submitterId) {
-        Timecard timecard = timecardDao.findLastSaved(submitterId);
+        Timecard timecard = timecardDao.findLatest(submitterId);
         return timecard;
     }
 

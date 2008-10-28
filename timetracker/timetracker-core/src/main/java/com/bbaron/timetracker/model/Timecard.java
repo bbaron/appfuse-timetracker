@@ -18,6 +18,21 @@ import com.bbaron.timetracker.util.Constants;
 @Entity
 @Table(name = "tt_timecard", uniqueConstraints = { @UniqueConstraint(columnNames = {
 		"submitter_id", "start_date" }) })
+@NamedQueries( { 
+	@NamedQuery(name = "latestTimecard", query = "from Timecard timecard "
+			+ "join fetch timecard.submitter "
+			+ "left join fetch timecard.approver "
+			+ "left join fetch timecard.timeAllocations "
+			+ "where timecard.submitter.id = :submitterId "
+			+ "and timecard.startDate = (select max(t.startDate) " +
+				"from Timecard t " +
+				"where t.submitter.id = :submitterId)"), 
+	@NamedQuery(name = "timecard", query = "from Timecard timecard "
+			+ "join fetch timecard.submitter "
+			+ "left join fetch timecard.approver "
+			+ "left join fetch timecard.timeAllocations "
+			+ "where timecard.id = :timecardId "),
+	})
 public class Timecard implements IEntity<Long> {
 
 	private static final long serialVersionUID = -6182443930278749700L;
