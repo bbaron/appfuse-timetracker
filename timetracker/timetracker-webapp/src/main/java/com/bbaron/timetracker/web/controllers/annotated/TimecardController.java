@@ -1,5 +1,7 @@
 package com.bbaron.timetracker.web.controllers.annotated;
 
+import javax.servlet.ServletException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,8 +29,21 @@ public class TimecardController extends AbstractTimecardController {
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String setupForm(@RequestParam(required = true, value = "timecardId") Long timecardId, ModelMap model) {
-        Timecard timecard = timecardService.getTimecardDetail(timecardId);
+    public String setupForm(@RequestParam(required = false, value = "timecardId") Long timecardId,
+            @RequestParam(required = false, value = "submitterId") Long submitterId,
+            ModelMap model) throws Exception {
+        if (timecardId == null && submitterId == null) {
+            throw new ServletException("one or timecardId, submitterId is required");
+        }
+        Timecard timecard = null;
+        if (timecardId != null) {
+            timecard = timecardService.getTimecard(timecardId);
+        } else {
+            timecard = timecardService.getLatestTimecard(submitterId);
+            if (timecard == null) {
+                return "redirect:new-timecard-setup.htm?submitterId=" + submitterId; 
+            }
+        }
         if (logger.isDebugEnabled()) {
         	logger.debug("timecard has " + timecard.getTimeAllocationList().size() + " time allocations");
         	for (TimeAllocation ta : timecard.getTimeAllocationList()) {

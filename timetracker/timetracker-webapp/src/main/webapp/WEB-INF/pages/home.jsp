@@ -37,7 +37,7 @@
                     <td><a href="new-timecard-setup.htm?submitterId=2002">New timecard</a></td>
                 </tr>
                 <tr>
-                    <td><a href="timecard.htm">Last saved timecard</a></td>
+                    <td><a href="timecard.htm?submitterId=2002">Last saved timecard</a></td>
                 </tr>
                 <tr>
                     <td><a href="search-timecards.htm">Search timecards</a></td>

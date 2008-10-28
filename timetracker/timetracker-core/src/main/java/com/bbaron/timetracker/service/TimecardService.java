@@ -9,13 +9,13 @@ import com.bbaron.timetracker.model.Timecard;
 
 public interface TimecardService {
 
-    Long createTimecard(Long userId, Date startDate);
+    Long createTimecard(Long submitterId, Date startDate);
 
     void enterTimeAllocation(Long timecardId, TimeAllocation alloc);
 
     Timecard getTimecard(Long timecardId);
-
-    Timecard getTimecardDetail(Long timecardId);
+    
+    Timecard getLatestTimecard(Long submitterId);
 
     Map<Long, String> getAllUsers();
 

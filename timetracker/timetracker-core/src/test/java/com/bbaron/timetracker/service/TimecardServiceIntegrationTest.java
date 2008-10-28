@@ -33,8 +33,4 @@ public class TimecardServiceIntegrationTest extends AbstractTransactionalDataSou
         assertNotNull(timecard.getSubmitter().getUsername());
     }
     
-    public void testGetTimecardDetail() throws Exception {
-        Timecard timecard = timecardService.getTimecardDetail(2000L);
-        assertNotNull(timecard.getTimeAllocationList().iterator().next().getTask());
-    }
 }
