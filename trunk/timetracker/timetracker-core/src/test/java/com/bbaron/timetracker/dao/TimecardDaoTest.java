@@ -92,8 +92,8 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 		timecard.setStatus(TimecardStatus.Approved);
 	}
 
-	public void testFindLastSaved() throws Exception {
-		Timecard latest = timecardDao.findLastSaved(-1L);
+	public void testFindLatest() throws Exception {
+		Timecard latest = timecardDao.findLatest(-1L);
 		assertEquals(-2, latest.getId().intValue());
 		super.endTransaction();
 		try {
@@ -104,9 +104,22 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 		    fail("timecard not fully initialized: " + e.toString());
 		}
 	}
+
+	public void testFindById() throws Exception {
+		Timecard timecard = timecardDao.findById(-2L);
+		assertEquals(-2, timecard.getId().intValue());
+		super.endTransaction();
+		try {
+            timecard.getSubmitter().getFirstName();
+            timecard.getApprover().getFirstName();
+		    timecard.getTimeAllocations().size();
+		} catch (LazyInitializationException e) {
+		    fail("timecard not fully initialized: " + e.toString());
+		}
+	}
 	
-	public void testFindLastSaved_noAssociations() throws Exception {
-        Timecard latest = timecardDao.findLastSaved(-3L);
+	public void testFindLatest_noAssociations() throws Exception {
+        Timecard latest = timecardDao.findLatest(-3L);
         flush();
         endTransaction();
         assertNull(latest.getApprover());
@@ -115,10 +128,10 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 	
 	public void testNoLastTimecard() throws Exception {
         try {
-            assertNull(timecardDao.findLastSaved(-999L));
+            assertNull(timecardDao.findLatest(-999L));
         } catch (Exception e) {
             e.printStackTrace();
-            fail("findLastSaved should return null when nothing found " + e.toString());
+            fail("findLatest should return null when nothing found " + e.toString());
         }
     }
 }

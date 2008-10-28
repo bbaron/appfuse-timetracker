@@ -18,7 +18,7 @@ public class MockTimecardDao extends MockGenericDao<Timecard, Long> implements T
     }
 
 	@Override
-	public Timecard findLastSaved(Long submitterId) {
+	public Timecard findLatest(Long submitterId) {
 		return null;
 	}
 
