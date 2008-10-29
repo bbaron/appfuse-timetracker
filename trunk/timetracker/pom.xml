@@ -77,6 +77,11 @@
             <artifactId>aspectjrt</artifactId>
             <version>${aspectj.version}</version>
         </dependency>
+        <dependency>
+        	<groupId>com.domainlanguage.timeandmoney</groupId>
+        	<artifactId>generic-timeandmoney</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 	<properties>
         <aspectj.version>1.6.0</aspectj.version>
