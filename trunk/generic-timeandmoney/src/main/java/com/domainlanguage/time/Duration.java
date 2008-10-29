@@ -15,7 +15,7 @@ public class Duration implements Comparable<Duration>, Serializable {
 	public static final Duration NONE = milliseconds(0);
 
 	private long quantity;
-	private TimeUnit unit;
+    private TimeUnit unit;
 	
 	public static Duration milliseconds(long howMany) {
 		return Duration.of(howMany, TimeUnit.millisecond);
@@ -261,4 +261,8 @@ public class Duration implements Comparable<Duration>, Serializable {
     void setForPersistentMapping_Unit(TimeUnit unit) {
         this.unit = unit;
     }
+    public long getQuantity() {
+        return quantity;
+    }
+
 }
