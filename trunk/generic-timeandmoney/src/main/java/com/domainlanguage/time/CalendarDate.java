@@ -204,16 +204,32 @@ public class CalendarDate implements Comparable<Object>, Serializable {
 		Calendar calendar = asJavaCalendarUniversalZoneMidnight();
 		return calendar.get(Calendar.DAY_OF_WEEK);
 	}
+	
+	public int getDay() {
+	    return day;
+	}
+
+	@Deprecated
     public int breachEncapsulationOf_day() {
-        return day;
+        return getDay();
     }
 
-    public int breachEncapsulationOf_month() {
+    public int getMonth() {
         return month;
     }
+    
+    @Deprecated
+    public int breachEncapsulationOf_month() {
+        return getMonth();
+    }
 
-    public int breachEncapsulationOf_year() {
+    public int getYear() {
         return year;
+    }
+
+    @Deprecated()
+    public int breachEncapsulationOf_year() {
+        return getYear();
     }
     //Only for use by persistence mapping frameworks
     //<rant>These methods break encapsulation and we put them in here begrudgingly</rant>
