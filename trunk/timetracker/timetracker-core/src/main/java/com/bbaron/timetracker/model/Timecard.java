@@ -13,7 +13,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.AccessType;
 
-import com.bbaron.timetracker.util.Constants;
+import com.bbaron.timetracker.util.Constants;;
 
 @Entity
 @Table(name = "tt_timecard", uniqueConstraints = { @UniqueConstraint(columnNames = {
@@ -26,12 +26,12 @@ import com.bbaron.timetracker.util.Constants;
 			+ "where timecard.submitter.id = :submitterId "
 			+ "and timecard.startDate = (select max(t.startDate) " +
 				"from Timecard t " +
-				"where t.submitter.id = :submitterId)"), 
-	@NamedQuery(name = "timecard", query = "from Timecard timecard "
+				"where t.submitter.id = :submitterId)") 
+	,@NamedQuery(name = "timecard", query = "from Timecard timecard "
 			+ "join fetch timecard.submitter "
 			+ "left join fetch timecard.approver "
 			+ "left join fetch timecard.timeAllocations "
-			+ "where timecard.id = :timecardId "),
+			+ "where timecard.id = :timecardId ")
 	})
 public class Timecard implements IEntity<Long> {
 

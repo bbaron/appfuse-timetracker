@@ -13,11 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bbaron.timetracker.dao.*;
-import com.bbaron.timetracker.model.Task;
-import com.bbaron.timetracker.model.TimeAllocation;
-import com.bbaron.timetracker.model.Timecard;
-import com.bbaron.timetracker.model.TimecardStatus;
-import com.bbaron.timetracker.model.User;
+import com.bbaron.timetracker.model.*;
 
 @Service("timecardService")
 public class TimecardServiceImpl implements TimecardService {

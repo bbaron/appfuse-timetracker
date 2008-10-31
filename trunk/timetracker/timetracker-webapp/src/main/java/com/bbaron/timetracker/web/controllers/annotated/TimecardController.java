@@ -1,11 +1,17 @@
 package com.bbaron.timetracker.web.controllers.annotated;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,23 +19,51 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.bbaron.timetracker.model.Task;
 import com.bbaron.timetracker.model.TimeAllocation;
 import com.bbaron.timetracker.model.Timecard;
+import com.bbaron.timetracker.model.TimecardStatus;
 import com.bbaron.timetracker.service.TimecardService;
-import com.bbaron.timetracker.web.validators.TimecardEntryValidator;
+import com.bbaron.timetracker.util.Constants;
+import com.bbaron.timetracker.util.EnumEditor;
+import com.bbaron.timetracker.web.commands.NewTimecard;
+import com.bbaron.timetracker.web.validators.NewTimecardValidator;
+import com.bbaron.timetracker.web.validators.TimeAllocationValidator;
 
 @Controller
-@RequestMapping("/timecard.htm")
+@RequestMapping({"/timecard.htm", "/new-timecard-setup.htm"})
 @SessionAttributes("timeAllocation")
-public class TimecardController extends AbstractTimecardController {
+public class TimecardController  {
 
-    @Autowired
-    public TimecardController(TimecardService timecardService, TimecardEntryValidator validator) {
-        super(timecardService, validator);
+    protected final Logger logger = Logger.getLogger(getClass());
+    private TimecardService timecardService;
+    private NewTimecardValidator newTimecardValidator;
+    private TimeAllocationValidator timeAllocationValidator;
+
+    public void setNewTimecardValidator(NewTimecardValidator newTimecardValidator) {
+        this.newTimecardValidator = newTimecardValidator;
+    }
+
+    public void setTimeAllocationValidator(TimeAllocationValidator timecardEntryValidator) {
+        this.timeAllocationValidator = timecardEntryValidator;
     }
     
-    @RequestMapping(method = RequestMethod.GET)
-    public String setupForm(@RequestParam(required = false, value = "timecardId") Long timecardId,
+    public void setTimecardService(TimecardService timecardService) {
+        this.timecardService = timecardService;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        logger.debug("initializing web data binding");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.SYSTEM_DATE_FORMAT);
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        binder.registerCustomEditor(TimecardStatus.class, new EnumEditor(TimecardStatus.class));
+        binder.registerCustomEditor(Task.class, new EnumEditor(Task.class));
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/timecard.htm")
+    public String setupTimecardForm(@RequestParam(required = false, value = "timecardId") Long timecardId,
             @RequestParam(required = false, value = "submitterId") Long submitterId,
             ModelMap model) throws Exception {
         if (timecardId == null && submitterId == null) {
@@ -59,13 +93,13 @@ public class TimecardController extends AbstractTimecardController {
         return "timecard";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String processSubmit(
+    @RequestMapping(method = RequestMethod.POST, value = "/timecard.htm")
+    public String processTimecard(
     		@RequestParam(required = true, value = "timecardId") Long timecardId,
     		@ModelAttribute("timeAllocation") TimeAllocation alloc,
     		BindingResult result,
             SessionStatus status) {
-        validator.validate(alloc, result);
+        timeAllocationValidator.validate(alloc, result);
         if (result.hasErrors()) {
             return "redirect:timecard.htm?" + "timecardId=" + timecardId;
         } else {
@@ -73,6 +107,27 @@ public class TimecardController extends AbstractTimecardController {
             timecardService.enterTimeAllocation(timecardId, alloc);
             status.setComplete();
             return "redirect:timecard.htm?" + "timecardId=" + timecardId;
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/new-timecard-setup.htm")
+    public String setupNewTimecardForm(@RequestParam(required = false, value = "submitterId") Long submitterId, ModelMap model) {
+        NewTimecard timecard = new NewTimecard();
+        timecard.setSubmitterId(submitterId);
+        model.addAttribute("timecard", timecard);
+        return "new-timecard-setup";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/new-timecard-setup.htm")
+    public String processNewTimecard(@ModelAttribute("timecard") NewTimecard timecard, BindingResult result,
+            SessionStatus status) {
+        newTimecardValidator.validate(timecard, result);
+        if (result.hasErrors()) {
+            return "new-timecard-setup";
+        } else {
+            Long id = timecardService.createTimecard(timecard.getSubmitterId(), timecard.getStartDate());
+            status.setComplete();
+            return "redirect:timecard.htm?timecardId=" + id;
         }
     }
 
