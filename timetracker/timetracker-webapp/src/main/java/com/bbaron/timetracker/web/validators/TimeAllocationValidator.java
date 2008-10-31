@@ -1,13 +1,15 @@
 package com.bbaron.timetracker.web.validators;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
 import com.bbaron.timetracker.model.TimeAllocation;
 
 
-public class TimecardEntryValidator extends AbstractTimecardValidator {
+@Component("timeAllocationValidator")
+public class TimeAllocationValidator extends AbstractTimecardValidator {
 
-    public TimecardEntryValidator() {
+    public TimeAllocationValidator() {
         super(TimeAllocation.class);
     }
 

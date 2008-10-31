@@ -4,10 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 	http://www.springframework.org/schema/context 
-	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	http://www.springframework.org/schema/context/spring-context-2.5.xsd" default-autowire="byName">
 
 	<context:component-scan
-		base-package="com.bbaron.timetracker.web.controllers.annotated" />
+		base-package="com.bbaron.timetracker.web" />
 	<bean id="defaultAnnotationHandlerMapping"
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="order" value="1" />
@@ -28,11 +28,6 @@
 		<property name="viewName" value="search-timecards" />
 	</bean>
 
-	<bean id="newTimecardValidator"
-		class="com.bbaron.timetracker.web.validators.NewTimecardValidator" />
-	<bean id="timecardValidator"
-		class="com.bbaron.timetracker.web.validators.TimecardEntryValidator" />
-		
 	<bean id="simpleUrlHandlerMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
@@ -40,7 +35,6 @@
 				/home.htm=homeController
 				/approve-timecards.htm=approveTimecardsController
 				/search-timecards.htm=searchTimecardsController
-				/timecard.htm=timecardController
 			</value>
 		</property>
 		<property name="order" value="0" />
