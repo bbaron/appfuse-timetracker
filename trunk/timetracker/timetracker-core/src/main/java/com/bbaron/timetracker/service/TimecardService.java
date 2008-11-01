@@ -2,11 +2,11 @@ package com.bbaron.timetracker.service;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
 
 import com.bbaron.timetracker.model.TimeAllocation;
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.model.TimecardSearchCriteria;
+import com.bbaron.timetracker.model.User;
 
 public interface TimecardService {
 
@@ -18,7 +18,7 @@ public interface TimecardService {
     
     Timecard getLatestTimecard(Long submitterId);
 
-    Map<Long, String> getAllUsers();
+    Collection<User> getAllUsers();
 
     Collection<String> getAllTasks();
 

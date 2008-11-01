@@ -4,26 +4,26 @@ import java.util.Date;
 
 public class TimecardSearchCriteria {
 
-	private String submitter;
-	private String approver;
+	private Long submitterId;
+	private Long approverId;
 	private TimecardStatus status;
 	private Date startDateMin;
 	private Date startDateMax;
 
-	public String getSubmitter() {
-		return submitter;
+	public Long getSubmitterId() {
+		return submitterId;
 	}
 
-	public void setSubmitter(String submitterId) {
-		this.submitter = submitterId;
+	public void setSubmitterId(Long submitterId) {
+		this.submitterId = submitterId;
 	}
 
-	public String getApprover() {
-		return approver;
+	public Long getApproverId() {
+		return approverId;
 	}
 
-	public void setApprover(String approverId) {
-		this.approver = approverId;
+	public void setApproverId(Long approverId) {
+		this.approverId = approverId;
 	}
 
 	public TimecardStatus getStatus() {
@@ -50,4 +50,24 @@ public class TimecardSearchCriteria {
 		this.startDateMax = startDateMax;
 	}
 
+	@Override
+	public String toString() {
+	    StringBuilder s = new StringBuilder();
+        if (submitterId != null) {
+            s.append(" submitter = " + submitterId);
+        }
+        if (approverId != null) {
+            s.append(" approver = " + approverId);
+        }
+        if (startDateMin != null) {
+            s.append(" min = " + startDateMin);
+        }
+        if (startDateMax != null) {
+            s.append(" max = " + startDateMax);
+        }
+        if (status != null) {
+            s.append(" status = " + status);
+        }
+	    return s.toString();
+	}
 }

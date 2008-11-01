@@ -2,8 +2,6 @@ package com.bbaron.timetracker.service;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -12,8 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bbaron.timetracker.dao.*;
-import com.bbaron.timetracker.model.*;
+import com.bbaron.timetracker.dao.TimecardDao;
+import com.bbaron.timetracker.dao.UserDao;
+import com.bbaron.timetracker.model.Task;
+import com.bbaron.timetracker.model.TimeAllocation;
+import com.bbaron.timetracker.model.Timecard;
+import com.bbaron.timetracker.model.TimecardSearchCriteria;
+import com.bbaron.timetracker.model.TimecardStatus;
+import com.bbaron.timetracker.model.User;
 
 @Service("timecardService")
 public class TimecardServiceImpl implements TimecardService {
@@ -90,13 +94,8 @@ public class TimecardServiceImpl implements TimecardService {
 
     @Override
     @Transactional(readOnly = true)
-    public Map<Long, String> getAllUsers() {
-        Map<Long, String> map = new HashMap<Long, String>();
-
-        for (User user : userDao.getAll()) {
-            map.put(user.getId(), user.getUsername());
-        }
-        return map;
+    public Collection<User> getAllUsers() {
+        return userDao.getAll();
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.bbaron.timetracker.web.controllers.annotated;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 
@@ -25,6 +27,7 @@ import com.bbaron.timetracker.model.TimeAllocation;
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.model.TimecardSearchCriteria;
 import com.bbaron.timetracker.model.TimecardStatus;
+import com.bbaron.timetracker.model.User;
 import com.bbaron.timetracker.service.TimecardService;
 import com.bbaron.timetracker.util.Constants;
 import com.bbaron.timetracker.util.EnumEditor;
@@ -36,7 +39,7 @@ import com.bbaron.timetracker.web.validators.TimecardSearchCriteriaValidator;
 @Controller
 @RequestMapping("/timecard-*.htm")
 @SessionAttributes("timeAllocation")
-public class TimecardController  {
+public class TimecardController {
 
     protected final Logger logger = Logger.getLogger(getClass());
     private TimecardService timecardService;
@@ -51,7 +54,7 @@ public class TimecardController  {
     public void setTimeAllocationValidator(TimeAllocationValidator timecardEntryValidator) {
         this.timeAllocationValidator = timecardEntryValidator;
     }
-    
+
     public void setTimecardSearchCriteriaValidator(TimecardSearchCriteriaValidator timecardSearchCriteriaValidator) {
         this.timecardSearchCriteriaValidator = timecardSearchCriteriaValidator;
     }
@@ -69,11 +72,10 @@ public class TimecardController  {
         binder.registerCustomEditor(TimecardStatus.class, new EnumEditor(TimecardStatus.class));
         binder.registerCustomEditor(Task.class, new EnumEditor(Task.class));
     }
-    
+
     @RequestMapping(method = RequestMethod.GET, value = "/timecard-edit.htm")
     public String setupTimecardForm(@RequestParam(required = false, value = "timecardId") Long timecardId,
-            @RequestParam(required = false, value = "submitterId") Long submitterId,
-            ModelMap model) throws Exception {
+            @RequestParam(required = false, value = "submitterId") Long submitterId, ModelMap model) throws Exception {
         if (timecardId == null && submitterId == null) {
             throw new ServletException("one or timecardId, submitterId is required");
         }
@@ -83,32 +85,39 @@ public class TimecardController  {
         } else {
             timecard = timecardService.getLatestTimecard(submitterId);
             if (timecard == null) {
-                return "redirect:timecard-new.htm?submitterId=" + submitterId; 
+                return setupNewTimecardForm(submitterId, model);
             }
         }
         if (logger.isDebugEnabled()) {
-        	logger.debug("timecard has " + timecard.getTimeAllocationList().size() + " time allocations");
-        	for (TimeAllocation ta : timecard.getTimeAllocationList()) {
-                logger.debug(ta);        	
-			}
+            logger.debug("timecard has " + timecard.getTimeAllocationList().size() + " time allocations");
+            for (TimeAllocation ta : timecard.getTimeAllocationList()) {
+                logger.debug(ta);
+            }
         }
         model.addAttribute("timecard", timecard);
         model.addAttribute("timeAllocation", new TimeAllocation());
         model.addAttribute("tasks", timecardService.getAllTasks());
-        model.addAttribute("users", timecardService.getAllUsers());
+        Map<Long, String> users = new HashMap<Long, String>();
+
+        for (User user : timecardService.getAllUsers()) {
+            users.put(user.getId(), user.getUsername());
+        }
+
+        model.addAttribute("users", users);
         model.addAttribute("dates", timecard.getDateSelection());
         model.addAttribute("statuses", timecardService.getAllStatuses());
         return "timecard-edit";
     }
-    
+
     @RequestMapping(method = RequestMethod.POST, value = "/timecard-search.htm")
-    public String searchTimecards(@ModelAttribute("criteria") TimecardSearchCriteria criteria,
-            BindingResult result,
+    public String searchTimecards(@ModelAttribute("criteria") TimecardSearchCriteria criteria, BindingResult result,
             SessionStatus status, ModelMap model) {
+        logger.info("criteria = " + criteria);
         timecardSearchCriteriaValidator.validate(criteria, result);
         model.addAttribute("criteria", criteria);
         if (!result.hasErrors()) {
             Collection<Timecard> timecards = timecardService.searchTimecards(criteria);
+            logger.info("timecards found = " + timecards.size());
             model.addAttribute("timecards", timecards);
         }
         return setupSearchTimecards(model);
@@ -123,16 +132,13 @@ public class TimecardController  {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/timecard-edit.htm")
-    public String processTimecard(
-    		@RequestParam(required = true, value = "timecardId") Long timecardId,
-    		@ModelAttribute("timeAllocation") TimeAllocation alloc,
-    		BindingResult result,
-            SessionStatus status) {
+    public String processTimecard(@RequestParam(required = true, value = "timecardId") Long timecardId,
+            @ModelAttribute("timeAllocation") TimeAllocation alloc, BindingResult result, SessionStatus status) {
         timeAllocationValidator.validate(alloc, result);
         if (result.hasErrors()) {
             return "redirect:timecard-edit.htm?" + "timecardId=" + timecardId;
         } else {
-        	logger.debug("submitting alloc " + alloc + " for timecard id " + timecardId);
+            logger.debug("submitting alloc " + alloc + " for timecard id " + timecardId);
             timecardService.enterTimeAllocation(timecardId, alloc);
             status.setComplete();
             return "redirect:timecard-edit.htm?" + "timecardId=" + timecardId;
@@ -140,7 +146,8 @@ public class TimecardController  {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/timecard-new.htm")
-    public String setupNewTimecardForm(@RequestParam(required = false, value = "submitterId") Long submitterId, ModelMap model) {
+    public String setupNewTimecardForm(@RequestParam(required = false, value = "submitterId") Long submitterId,
+            ModelMap model) {
         NewTimecard timecard = new NewTimecard();
         timecard.setSubmitterId(submitterId);
         model.addAttribute("timecard", timecard);

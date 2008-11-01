@@ -82,6 +82,11 @@
         	<artifactId>generic-timeandmoney</artifactId>
         	<version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+        	<groupId>commons-beanutils</groupId>
+        	<artifactId>commons-beanutils</artifactId>
+        	<version>1.8.0</version>
+        </dependency>
 	</dependencies>
 	<properties>
         <aspectj.version>1.6.0</aspectj.version>

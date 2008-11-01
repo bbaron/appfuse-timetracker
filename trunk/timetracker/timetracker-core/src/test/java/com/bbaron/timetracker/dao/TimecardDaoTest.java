@@ -1,6 +1,9 @@
 package com.bbaron.timetracker.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.hibernate.LazyInitializationException;
@@ -11,127 +14,164 @@ import com.bbaron.timetracker.model.*;
 
 public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> {
 
-	private TimecardDaoHibernate timecardDao;
-	
-	public TimecardDaoTest() {
-		super(Timecard.class, -1L, 1000L);
-	}
+    private TimecardDaoHibernate timecardDao;
 
-	@Override
-	protected GenericDaoHibernate<Timecard, Long> createDao(
-			Class<Timecard> entityClass) {
-		this.timecardDao = new TimecardDaoHibernate();
-		return this.timecardDao;
-	}
+    public TimecardDaoTest() {
+        super(Timecard.class, -1L, 1000L);
+    }
 
-	@Override
-	protected Timecard createEntity() {
-		Calendar cal = new GregorianCalendar();
-		Timecard timecard = new Timecard();
-		timecard.setComments("comment");
-		timecard.setStartDate(cal.getTime());
-		timecard.setStatus(TimecardStatus.Submitted);
-		TimeAllocation alloc = new TimeAllocation();
-		alloc.setTask(Task.Development);
-		alloc.setTaskDate(cal.getTime());
-		alloc.setHours(3);
-		alloc.setMinutes(15);
-		timecard.addTimeAllocation(alloc);
-		User submitter = (User) getSessionFactory().getCurrentSession().get(
-				User.class, -1L);
-		timecard.setSubmitter(submitter);
-		return timecard;
-	}
+    @Override
+    protected GenericDaoHibernate<Timecard, Long> createDao(Class<Timecard> entityClass) {
+        this.timecardDao = new TimecardDaoHibernate();
+        return this.timecardDao;
+    }
 
-	@Override
-	protected Object getActualFrom(Timecard timecard) {
-		return timecard.getStatus();
-	}
+    @Override
+    protected Timecard createEntity() {
+        Calendar cal = new GregorianCalendar();
+        Timecard timecard = new Timecard();
+        timecard.setComments("comment");
+        timecard.setStartDate(cal.getTime());
+        timecard.setStatus(TimecardStatus.Submitted);
+        TimeAllocation alloc = new TimeAllocation();
+        alloc.setTask(Task.Development);
+        alloc.setTaskDate(cal.getTime());
+        alloc.setHours(3);
+        alloc.setMinutes(15);
+        timecard.addTimeAllocation(alloc);
+        User submitter = (User) getSessionFactory().getCurrentSession().get(User.class, -1L);
+        timecard.setSubmitter(submitter);
+        return timecard;
+    }
 
-	@Override
-	protected Object getExpected() {
-		return TimecardStatus.Submitted;
-	}
+    @Override
+    protected Object getActualFrom(Timecard timecard) {
+        return timecard.getStatus();
+    }
 
-	@Override
-	protected Long getIdFrom(Timecard timecard) {
-		return timecard.getId();
-	}
+    @Override
+    protected Object getExpected() {
+        return TimecardStatus.Submitted;
+    }
 
-	@Override
-	protected void clearIdFrom(Timecard timecard) {
-		timecard.setId(null);
-	}
+    @Override
+    protected Long getIdFrom(Timecard timecard) {
+        return timecard.getId();
+    }
 
-	@Override
-	protected String[] getSetUpStatements() {
-		return new String[] {
-				"insert into tt_user (id, first_name, last_name, username) values (-1, 'first1', 'last1', 'user1')",
-				"insert into tt_user (id, first_name, last_name, username) values (-2, 'first2', 'last2', 'user2')",
+    @Override
+    protected void clearIdFrom(Timecard timecard) {
+        timecard.setId(null);
+    }
+
+    @Override
+    protected String[] getSetUpStatements() {
+        return new String[] {
+                "insert into tt_user (id, first_name, last_name, username) values (-1, 'first1', 'last1', 'user1')",
+                "insert into tt_user (id, first_name, last_name, username) values (-2, 'first2', 'last2', 'user2')",
                 "insert into tt_user (id, first_name, last_name, username) values (-3, 'first3', 'last3', 'user3')",
-				"insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
-						+ "values (-1, 'Draft', '2008/10/15', 'Timecard -1', null, -1)",
-				"insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
-						+ "values (-2, 'Draft', '2008/10/22', 'Timecard -2', -2, -1)",
                 "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
-                        + "values (-3, 'Draft', '2008/10/22', null, null, -3)",
-				"insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
-						+ "values (-1, '2008/10/15', 4, 20, 'Admin', 0)",
-				"insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
-						+ "values (-1, '2008/10/16', 1, 0, 'Meeting', 1)",
-				"insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
-						+ "values (-2, '2008/10/22', 4, 20, 'Admin', 0)",
-				"insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
-						+ "values (-2, '2008/10/23', 1, 0, 'Meeting', 1)",
+                        + "values (-1, 'Draft', '2008/11/15', 'Timecard -1', null, -1)",
+                "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
+                        + "values (-2, 'Draft', '2008/11/22', 'Timecard -2', -2, -1)",
+                "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
+                        + "values (-3, 'Draft', '2008/11/23', null, null, -3)",
+                "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
+                        + "values (-1, '2008/11/15', 4, 20, 'Admin', 0)",
+                "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
+                        + "values (-1, '2008/11/16', 1, 0, 'Meeting', 1)",
+                "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
+                        + "values (-2, '2008/11/22', 4, 20, 'Admin', 0)",
+                "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
+                        + "values (-2, '2008/11/23', 1, 0, 'Meeting', 1)",
 
-		};
-	}
+        };
+    }
 
-	@Override
-	protected void updateEntity(Timecard timecard) {
-		timecard.setStatus(TimecardStatus.Approved);
-	}
+    @Override
+    protected void updateEntity(Timecard timecard) {
+        timecard.setStatus(TimecardStatus.Approved);
+    }
 
-	public void testFindLatest() throws Exception {
-		Timecard latest = timecardDao.findLatest(-1L);
-		assertEquals(-2, latest.getId().intValue());
-		super.endTransaction();
-		try {
+    public void testFindLatest() throws Exception {
+        Timecard latest = timecardDao.findLatest(-1L);
+        assertEquals(-2, latest.getId().intValue());
+        super.endTransaction();
+        try {
             latest.getSubmitter().getFirstName();
             latest.getApprover().getFirstName();
-		    latest.getTimeAllocations().size();
-		} catch (LazyInitializationException e) {
-		    fail("timecard not fully initialized: " + e.toString());
-		}
-	}
+            latest.getTimeAllocations().size();
+        } catch (LazyInitializationException e) {
+            fail("timecard not fully initialized: " + e.toString());
+        }
+    }
 
-	public void testFindById() throws Exception {
-		Timecard timecard = timecardDao.findById(-2L);
-		assertEquals(-2, timecard.getId().intValue());
-		super.endTransaction();
-		try {
+    public void testFindById() throws Exception {
+        Timecard timecard = timecardDao.findById(-2L);
+        assertEquals(-2, timecard.getId().intValue());
+        super.endTransaction();
+        try {
             timecard.getSubmitter().getFirstName();
             timecard.getApprover().getFirstName();
-		    timecard.getTimeAllocations().size();
-		} catch (LazyInitializationException e) {
-		    fail("timecard not fully initialized: " + e.toString());
-		}
-	}
-	
-	public void testFindLatest_noAssociations() throws Exception {
+            timecard.getTimeAllocations().size();
+        } catch (LazyInitializationException e) {
+            fail("timecard not fully initialized: " + e.toString());
+        }
+    }
+
+    public void testFindLatest_noAssociations() throws Exception {
         Timecard latest = timecardDao.findLatest(-3L);
         flush();
         endTransaction();
         assertNull(latest.getApprover());
         assertTrue(latest.getTimeAllocations().isEmpty());
     }
-	
-	public void testNoLastTimecard() throws Exception {
+
+    public void testNoLastTimecard() throws Exception {
         try {
             assertNull(timecardDao.findLatest(-999L));
         } catch (Exception e) {
             e.printStackTrace();
             fail("findLatest should return null when nothing found " + e.toString());
         }
+    }
+
+    public void testFindByCriteriaSubmitter() throws Exception {
+        TimecardSearchCriteria criteria = new TimecardSearchCriteria();
+        criteria.setSubmitterId(-1L);
+        assertTestFindByCriteria(criteria, 2);
+    }
+
+    public void testFindByCriteriaApprover() throws Exception {
+        TimecardSearchCriteria criteria = new TimecardSearchCriteria();
+        criteria.setApproverId(-2L);
+        assertTestFindByCriteria(criteria, 1);
+    }
+
+    public void testFindByCriteriaDate() throws Exception {
+        TimecardSearchCriteria criteria = new TimecardSearchCriteria();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date nov15 = format.parse("2008-11-15");
+        Date nov22 = format.parse("2008-11-22");
+        criteria.setStartDateMin(nov15);
+        criteria.setStartDateMax(nov22);
+        assertTestFindByCriteria(criteria, 2);
+        criteria.setStartDateMin(nov22);
+        criteria.setStartDateMax(nov15);
+        assertTestFindByCriteria(criteria, 0);
+        criteria.setStartDateMin(nov22);
+        criteria.setStartDateMax(nov22);
+        assertTestFindByCriteria(criteria, 1);
+    }
+
+    public void testFindByCriteriaAll() throws Exception {
+        TimecardSearchCriteria criteria = new TimecardSearchCriteria();
+        Collection<Timecard> result = timecardDao.findByCriteria(criteria);
+        assertFalse(result.isEmpty());
+    }
+
+    private void assertTestFindByCriteria(TimecardSearchCriteria criteria, int expectedSize) {
+        Collection<Timecard> result = timecardDao.findByCriteria(criteria);
+        assertEquals(expectedSize, result.size());
     }
 }

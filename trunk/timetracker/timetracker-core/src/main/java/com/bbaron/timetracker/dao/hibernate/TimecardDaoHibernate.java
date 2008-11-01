@@ -3,7 +3,6 @@ package com.bbaron.timetracker.dao.hibernate;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
@@ -64,15 +63,15 @@ public class TimecardDaoHibernate extends GenericDaoHibernate<Timecard, Long>
                 .setFetchMode("approver", FetchMode.JOIN);
 
         // Add submitter criteria
-        if (StringUtils.isEmpty(criteria.getSubmitter()) == false) {
+        if (criteria.getSubmitterId() != null) {
             timecardCriteria.createCriteria("submitter").add(
-                    Restrictions.eq("username", criteria.getSubmitter()));
+                    Restrictions.idEq(criteria.getSubmitterId()));
         }
 
         // Add submitter criteria
-        if (StringUtils.isEmpty(criteria.getApprover()) == false) {
+        if (criteria.getApproverId() != null) {
             timecardCriteria.createCriteria("approver").add(
-                    Restrictions.eq("username", criteria.getApprover()));
+                    Restrictions.idEq(criteria.getApproverId()));
         }
 
         // Add status criteria
