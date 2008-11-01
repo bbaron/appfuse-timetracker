@@ -24,17 +24,12 @@
 	<bean id="approveTimecardsController" class="com.bbaron.timetracker.web.controllers.HomeController">
 		<property name="viewName" value="approve-timecards" />
 	</bean>
-	<bean id="searchTimecardsController" class="com.bbaron.timetracker.web.controllers.HomeController">
-		<property name="viewName" value="search-timecards" />
-	</bean>
-
 	<bean id="simpleUrlHandlerMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
 			<value>
 				/home.htm=homeController
 				/approve-timecards.htm=approveTimecardsController
-				/search-timecards.htm=searchTimecardsController
 			</value>
 		</property>
 		<property name="order" value="0" />

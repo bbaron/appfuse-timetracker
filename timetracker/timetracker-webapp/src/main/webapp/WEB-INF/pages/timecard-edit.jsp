@@ -19,9 +19,9 @@
     <div class="menubar">
         <ul>
             <li class="first"><a href="home.htm">Home</a></li>
-            <li><a class="selected" href="timecard.htm">Timecard Details</a></li>
-            <li><a href="search-timecards.htm">Search Timecards</a></li>
-            <li><a href="approve-timecards.htm">Approve Timecards</a></li>
+            <li><a class="selected" href="timecard-edit.htm">Timecard Details</a></li>
+            <li><a href="timecard-search.htm">Search Timecards</a></li>
+            <li><a href="timecard-approve.htm">Approve Timecards</a></li>
         </ul>
     </div>
 
@@ -103,9 +103,9 @@
             </div>
 
             <div>
-                <a class="button" href="timecard.htm">Save</a>
-                <a class="button" href="search-timecards.htm">Delete</a>
-                <a class="button" href="timecard.htm">Submit</a>
+                <a class="button" href="timecard-edit.htm">Save</a>
+                <a class="button" href="timecard-search.htm">Delete</a>
+                <a class="button" href="timecard-edit.htm">Submit</a>
             </div>
 
         </form:form>

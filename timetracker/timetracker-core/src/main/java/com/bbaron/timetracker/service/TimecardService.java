@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.bbaron.timetracker.model.TimeAllocation;
 import com.bbaron.timetracker.model.Timecard;
+import com.bbaron.timetracker.model.TimecardSearchCriteria;
 
 public interface TimecardService {
 
@@ -22,4 +23,6 @@ public interface TimecardService {
     Collection<String> getAllTasks();
 
     Collection<String> getAllStatuses();
+
+    Collection<Timecard> searchTimecards(TimecardSearchCriteria criteria);
 }

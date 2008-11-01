@@ -19,9 +19,9 @@
     <div class="menubar">
         <ul>
             <li class="first"><a href="home.htm">Home</a></li>
-            <li><a href="timecard.htm">Timecard Details</a></li>
-            <li><a href="search-timecards.htm">Search Timecards</a></li>
-            <li><a class="selected" href="approve-timecards.htm">Approve Timecards</a></li>
+            <li><a href="timecard-edit.htm">Timecard Details</a></li>
+            <li><a href="timecard-search.htm">Search Timecards</a></li>
+            <li><a class="selected" href="timecard-approve.htm">Approve Timecards</a></li>
         </ul>
     </div>
 

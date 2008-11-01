@@ -19,9 +19,9 @@
     <div class="menubar">
         <ul>
             <li class="first"><a class="selected" href="home.html">Home</a></li>
-            <li><a href="timecard.htm">Timecard Details</a></li>
-            <li><a href="search-timecards.htm">Search Timecards</a></li>
-            <li><a href="approve-timecards.htm">Approve Timecards</a></li>
+            <li><a href="timecard-edit.htm">Timecard Details</a></li>
+            <li><a href="timecard-search.htm">Search Timecards</a></li>
+            <li><a href="timecard-approve.htm">Approve Timecards</a></li>
         </ul>
     </div>
 
@@ -34,16 +34,16 @@
         <table>
             <tbody>
                 <tr>
-                    <td><a href="new-timecard-setup.htm?submitterId=2002">New timecard</a></td>
+                    <td><a href="timecard-new.htm?submitterId=2002">New timecard</a></td>
                 </tr>
                 <tr>
-                    <td><a href="timecard.htm?submitterId=2002">Last saved timecard</a></td>
+                    <td><a href="timecard-edit.htm?submitterId=2002">Last saved timecard</a></td>
                 </tr>
                 <tr>
-                    <td><a href="search-timecards.htm">Search timecards</a></td>
+                    <td><a href="timecard-search.htm">Search timecards</a></td>
                 </tr>
                 <tr>
-                    <td><a href="approve-timecards.htm">Approve timecards</a></td>
+                    <td><a href="timecard-approve.htm">Approve timecards</a></td>
                 </tr>
             </tbody>
         </table>

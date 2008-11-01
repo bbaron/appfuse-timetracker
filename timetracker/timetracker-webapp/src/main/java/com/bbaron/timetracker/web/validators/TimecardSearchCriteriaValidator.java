@@ -4,14 +4,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.bbaron.timetracker.web.commands.NewTimecard;
+import com.bbaron.timetracker.model.TimecardSearchCriteria;
 
 
 @Component
-public class NewTimecardValidator extends AbstractTimecardValidator implements Validator {
+public class TimecardSearchCriteriaValidator extends AbstractTimecardValidator implements Validator {
 
-    public NewTimecardValidator() {
-        super(NewTimecard.class);
+    public TimecardSearchCriteriaValidator() {
+        super(TimecardSearchCriteria.class);
     }
     @Override
     public void validate(Object target, Errors errors) {

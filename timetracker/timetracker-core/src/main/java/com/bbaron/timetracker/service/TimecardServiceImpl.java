@@ -99,4 +99,9 @@ public class TimecardServiceImpl implements TimecardService {
         return map;
     }
 
+    @Override
+    public Collection<Timecard> searchTimecards(TimecardSearchCriteria criteria) {
+        return timecardDao.findByCriteria(criteria);
+    }
+
 }
