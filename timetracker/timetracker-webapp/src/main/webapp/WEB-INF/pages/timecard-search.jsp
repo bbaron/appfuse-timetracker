@@ -33,13 +33,13 @@
                 <h2>Search Criteria</h2>
 
                 <h3>Submitter</h3>
-               <form:select path="submitter">
+               <form:select path="submitterId">
                    <form:option value="" label="-- ALL --"/>
                    <form:options items="${users}"/>
                </form:select>
 
                 <h3>Approver</h3>
-               <form:select path="approver">
+               <form:select path="approverId">
                    <form:option value="" label="-- ALL --"/>
                    <form:options items="${users}"/>
                </form:select>
