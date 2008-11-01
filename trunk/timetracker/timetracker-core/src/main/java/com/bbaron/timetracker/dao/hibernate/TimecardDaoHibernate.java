@@ -1,13 +1,19 @@
 package com.bbaron.timetracker.dao.hibernate;
 
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.bbaron.timetracker.dao.TimecardDao;
 import com.bbaron.timetracker.model.Timecard;
+import com.bbaron.timetracker.model.TimecardSearchCriteria;
 
 @Repository("timecardDao")
 public class TimecardDaoHibernate extends GenericDaoHibernate<Timecard, Long>
@@ -48,6 +54,50 @@ public class TimecardDaoHibernate extends GenericDaoHibernate<Timecard, Long>
 		List results = template.findByNamedQueryAndNamedParam("timecard", "timecardId", timecardId);
 		Timecard result = (Timecard) DataAccessUtils.requiredUniqueResult(results);
 		return result;
+    }
+
+    @Override
+    public Collection<Timecard> findByCriteria(TimecardSearchCriteria criteria) {
+        // Create the timecard criteria
+        Criteria timecardCriteria = this.getSession().createCriteria(
+                Timecard.class).setFetchMode("submitter", FetchMode.JOIN)
+                .setFetchMode("approver", FetchMode.JOIN);
+
+        // Add submitter criteria
+        if (StringUtils.isEmpty(criteria.getSubmitter()) == false) {
+            timecardCriteria.createCriteria("submitter").add(
+                    Restrictions.eq("username", criteria.getSubmitter()));
+        }
+
+        // Add submitter criteria
+        if (StringUtils.isEmpty(criteria.getApprover()) == false) {
+            timecardCriteria.createCriteria("approver").add(
+                    Restrictions.eq("username", criteria.getApprover()));
+        }
+
+        // Add status criteria
+        if (criteria.getStatus() != null) {
+            timecardCriteria.add(Restrictions.eq("status", criteria.getStatus()));
+        }
+
+        // Add startDateMin criteria
+        if (criteria.getStartDateMin() != null) {
+            timecardCriteria.add(
+                Restrictions.ge("startDate", criteria.getStartDateMin()));
+        }
+
+        // Add startDateMax criteria
+        if (criteria.getStartDateMax() != null) {
+            timecardCriteria.add(
+                Restrictions.le("startDate", criteria.getStartDateMax()));
+        }
+
+        @SuppressWarnings("unchecked")
+        Collection<Timecard> timecards = timecardCriteria.list();
+        if (logger.isDebugEnabled()) {
+            logger.debug(timecards.size() + " timecards found");
+        }
+        return timecards;
     }
 
 }

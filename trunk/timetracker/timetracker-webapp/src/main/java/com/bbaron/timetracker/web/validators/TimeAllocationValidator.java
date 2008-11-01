@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import com.bbaron.timetracker.model.TimeAllocation;
 
 
-@Component("timeAllocationValidator")
+@Component
 public class TimeAllocationValidator extends AbstractTimecardValidator {
 
     public TimeAllocationValidator() {

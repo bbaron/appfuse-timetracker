@@ -19,9 +19,9 @@
     <div class="menubar">
         <ul>
             <li class="first"><a href="home.htm">Home</a></li>
-            <li><a class="selected" href="timecard.htm">Timecard Details</a></li>
-            <li><a href="search-timecards.htm">Search Timecards</a></li>
-            <li><a href="approve-timecards.htm">Approve Timecards</a></li>
+            <li><a class="selected" href="timecard-edit.htm">Timecard Details</a></li>
+            <li><a href="timecard-search.htm">Search Timecards</a></li>
+            <li><a href="timecard-approve.htm">Approve Timecards</a></li>
         </ul>
     </div>
 
@@ -32,7 +32,7 @@
             <label for="startdate">Start Date:</label>
             <input type="text" id="startdate"/>
             <br /><br />
-            <a class="button" href="timecard.htm">Create New Timecard</a>
+            <a class="button" href="timecard-edit.htm">Create New Timecard</a>
         -->
         <form:form method="POST" modelAttribute="timecard">
             <label for="startdate">Start Date:</label>
