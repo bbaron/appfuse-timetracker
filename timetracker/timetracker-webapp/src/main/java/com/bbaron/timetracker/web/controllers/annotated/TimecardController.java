@@ -97,16 +97,21 @@ public class TimecardController {
         model.addAttribute("timecard", timecard);
         model.addAttribute("timeAllocation", new TimeAllocation());
         model.addAttribute("tasks", timecardService.getAllTasks());
-        Map<Long, String> users = new HashMap<Long, String>();
-
-        for (User user : timecardService.getAllUsers()) {
-            users.put(user.getId(), user.getUsername());
-        }
+        Map<Long, String> users = getAllUsers();
 
         model.addAttribute("users", users);
         model.addAttribute("dates", timecard.getDateSelection());
         model.addAttribute("statuses", timecardService.getAllStatuses());
         return "timecard-edit";
+    }
+
+    private Map<Long, String> getAllUsers() {
+        Map<Long, String> users = new HashMap<Long, String>();
+
+        for (User user : timecardService.getAllUsers()) {
+            users.put(user.getId(), user.getUsername());
+        }
+        return users;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/timecard-search.htm")
@@ -126,7 +131,7 @@ public class TimecardController {
     @RequestMapping(method = RequestMethod.GET, value = "/timecard-search.htm")
     public String setupSearchTimecards(ModelMap model) {
         model.addAttribute("criteria", new TimecardSearchCriteria());
-        model.addAttribute("users", timecardService.getAllUsers());
+        model.addAttribute("users", getAllUsers());
         model.addAttribute("statuses", timecardService.getAllStatuses());
         return "timecard-search";
     }

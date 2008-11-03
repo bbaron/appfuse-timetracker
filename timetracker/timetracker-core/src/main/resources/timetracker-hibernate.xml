@@ -36,7 +36,7 @@
 				hibernate.cache.use_second_level_cache=true
 				hibernate.cache.provider_class=org.hibernate.cache.EhCacheProvider
 				hibernate.show_sql=true
-				hibernate.format_sql=true
+				hibernate.format_sql=false
             </value>
 		</property>
 	</bean>
