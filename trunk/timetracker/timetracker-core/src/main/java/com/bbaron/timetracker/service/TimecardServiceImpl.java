@@ -1,5 +1,7 @@
 package com.bbaron.timetracker.service;
 
+import static com.bbaron.timetracker.model.TimecardStatus.*;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.SortedSet;
@@ -12,12 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bbaron.timetracker.dao.TimecardDao;
 import com.bbaron.timetracker.dao.UserDao;
-import com.bbaron.timetracker.model.Task;
-import com.bbaron.timetracker.model.TimeAllocation;
-import com.bbaron.timetracker.model.Timecard;
-import com.bbaron.timetracker.model.TimecardSearchCriteria;
-import com.bbaron.timetracker.model.TimecardStatus;
-import com.bbaron.timetracker.model.User;
+import com.bbaron.timetracker.model.*;
 
 @Service("timecardService")
 public class TimecardServiceImpl implements TimecardService {
@@ -105,20 +102,20 @@ public class TimecardServiceImpl implements TimecardService {
 
     @Override
     public void submitTimecard(Long timecardId) {
-        updateTimecardStatus(timecardId, TimecardStatus.Submitted);
+        updateTimecardStatus(timecardId, Submitted);
     }
 
     @Override
     public void rejectTimecard(Long timecardId) {
-        updateTimecardStatus(timecardId, TimecardStatus.Rejected);
+        updateTimecardStatus(timecardId, Rejected);
     }
 
     @Override
     public void approveTimecard(Long timecardId, Long approverId) {
         Timecard timecard = timecardDao.get(timecardId);
-        timecard.setStatus(TimecardStatus.Approved);
+        timecard.setStatus(Approved);
         timecard.setApprover(userDao.get(approverId));
-        updateTimecardStatus(timecardId, TimecardStatus.Approved);
+        updateTimecardStatus(timecardId, Approved);
     }
 
     private void updateTimecardStatus(Long timecardId, TimecardStatus status) {
