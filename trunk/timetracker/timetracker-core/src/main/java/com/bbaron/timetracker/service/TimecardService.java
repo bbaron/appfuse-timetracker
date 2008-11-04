@@ -25,4 +25,10 @@ public interface TimecardService {
     Collection<String> getAllStatuses();
 
     Collection<Timecard> searchTimecards(TimecardSearchCriteria criteria);
+
+    void submitTimecard(Long timecardId);
+
+    void approveTimecard(Long timecardId, Long approverId);
+
+    void rejectTimecard(Long timecardId);
 }

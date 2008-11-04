@@ -103,4 +103,28 @@ public class TimecardServiceImpl implements TimecardService {
         return timecardDao.findByCriteria(criteria);
     }
 
+    @Override
+    public void submitTimecard(Long timecardId) {
+        updateTimecardStatus(timecardId, TimecardStatus.Submitted);
+    }
+
+    @Override
+    public void rejectTimecard(Long timecardId) {
+        updateTimecardStatus(timecardId, TimecardStatus.Rejected);
+    }
+
+    @Override
+    public void approveTimecard(Long timecardId, Long approverId) {
+        Timecard timecard = timecardDao.get(timecardId);
+        timecard.setStatus(TimecardStatus.Approved);
+        timecard.setApprover(userDao.get(approverId));
+        updateTimecardStatus(timecardId, TimecardStatus.Approved);
+    }
+
+    private void updateTimecardStatus(Long timecardId, TimecardStatus status) {
+        Timecard timecard = timecardDao.get(timecardId);
+        timecard.setStatus(status);
+        timecardDao.save(timecard);
+    }
+
 }

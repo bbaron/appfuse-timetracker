@@ -55,6 +55,14 @@ public class TimecardDaoHibernate extends GenericDaoHibernate<Timecard, Long>
 		return result;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Collection<Timecard> findSubmitted(Long approverId) {
+        HibernateTemplate template = getHibernateTemplate();
+        List results = template.findByNamedQueryAndNamedParam("submittedTimecards", "approverId", approverId);
+        return results;
+    }
+
     @Override
     public Collection<Timecard> findByCriteria(TimecardSearchCriteria criteria) {
         // Create the timecard criteria

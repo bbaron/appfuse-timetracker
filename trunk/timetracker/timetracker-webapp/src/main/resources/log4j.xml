@@ -51,7 +51,7 @@
     </logger>
    
     <logger name="com.bbaron">
-        <level value="INFO"/>
+        <level value="DEBUG"/>
     </logger>
 
     <logger name="com.bbaron.webapp.filter.StaticFilter">
