@@ -36,4 +36,10 @@ public class MockTimecardDao extends MockGenericDao<Timecard, Long> implements T
         return null;
     }
 
+    @Override
+    public Collection<Timecard> findSubmitted(Long approverId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

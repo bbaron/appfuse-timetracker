@@ -32,6 +32,12 @@ import com.bbaron.timetracker.util.Constants;;
 			+ "left join fetch timecard.approver "
 			+ "left join fetch timecard.timeAllocations "
 			+ "where timecard.id = :timecardId ")
+    ,@NamedQuery(name = "submittedTimecards", query = "from Timecard timecard "
+	            + "join fetch timecard.submitter "
+	            + "left join fetch timecard.approver "
+	            + "join fetch timecard.timeAllocations "
+	            + "where timecard.submitter.id != :approverId "
+	            + "and timecard.status = 'Submitted'")
 	})
 public class Timecard implements IEntity<Long> {
 

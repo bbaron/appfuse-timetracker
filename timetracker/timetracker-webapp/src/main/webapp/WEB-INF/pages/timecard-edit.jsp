@@ -103,9 +103,9 @@
             </div>
 
             <div>
-                <a class="button" href="timecard-edit.htm">Save</a>
+                <a class="button" href="timecard-save.htm?timecardId=${timecard.id}">Save</a>
                 <a class="button" href="timecard-search.htm">Delete</a>
-                <a class="button" href="timecard-edit.htm">Submit</a>
+                <a class="button" href="timecard-submit.htm?timecardId=${timecard.id}">Submit</a>
             </div>
 
         </form:form>

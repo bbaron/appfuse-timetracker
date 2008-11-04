@@ -3,7 +3,6 @@ package com.bbaron.timetracker.web.controllers.annotated;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -27,10 +26,10 @@ import com.bbaron.timetracker.model.TimeAllocation;
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.model.TimecardSearchCriteria;
 import com.bbaron.timetracker.model.TimecardStatus;
-import com.bbaron.timetracker.model.User;
 import com.bbaron.timetracker.service.TimecardService;
 import com.bbaron.timetracker.util.Constants;
 import com.bbaron.timetracker.util.EnumEditor;
+import com.bbaron.timetracker.util.Utils;
 import com.bbaron.timetracker.web.commands.NewTimecard;
 import com.bbaron.timetracker.web.validators.NewTimecardValidator;
 import com.bbaron.timetracker.web.validators.TimeAllocationValidator;
@@ -88,30 +87,18 @@ public class TimecardController {
                 return setupNewTimecardForm(submitterId, model);
             }
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("timecard has " + timecard.getTimeAllocationList().size() + " time allocations");
-            for (TimeAllocation ta : timecard.getTimeAllocationList()) {
-                logger.debug(ta);
-            }
-        }
         model.addAttribute("timecard", timecard);
         model.addAttribute("timeAllocation", new TimeAllocation());
         model.addAttribute("tasks", timecardService.getAllTasks());
-        Map<Long, String> users = getAllUsers();
 
-        model.addAttribute("users", users);
+        model.addAttribute("users", getAllUsers());
         model.addAttribute("dates", timecard.getDateSelection());
         model.addAttribute("statuses", timecardService.getAllStatuses());
         return "timecard-edit";
     }
 
-    private Map<Long, String> getAllUsers() {
-        Map<Long, String> users = new HashMap<Long, String>();
-
-        for (User user : timecardService.getAllUsers()) {
-            users.put(user.getId(), user.getUsername());
-        }
-        return users;
+    private Map<String, String> getAllUsers() {
+        return Utils.toMap(timecardService.getAllUsers(), "id", "username");
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/timecard-search.htm")
@@ -157,6 +144,13 @@ public class TimecardController {
         timecard.setSubmitterId(submitterId);
         model.addAttribute("timecard", timecard);
         return "timecard-new";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/timecard-submit.htm")
+    public String submitTimecard(@RequestParam(required = true, value = "timecardId") Long timecardId) {
+        logger.debug("submitting timecard " + timecardId);
+        timecardService.submitTimecard(timecardId);
+        return "redirect:timecard-edit.htm?timecardId=" + timecardId;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/timecard-new.htm")

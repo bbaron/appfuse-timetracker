@@ -11,5 +11,7 @@ public interface TimecardDao extends GenericDao<Timecard, Long> {
 
     Timecard findById(Long timecardId);
     
+    Collection<Timecard> findSubmitted(Long approverId);
+    
     Collection<Timecard> findByCriteria(TimecardSearchCriteria criteria);
 }
