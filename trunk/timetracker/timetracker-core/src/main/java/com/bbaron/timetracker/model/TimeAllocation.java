@@ -2,41 +2,40 @@ package com.bbaron.timetracker.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.joda.time.LocalDate;
+import org.joda.time.*;
 
 @Embeddable
 public class TimeAllocation implements Serializable {
 
 	private static final long serialVersionUID = 33779457716057568L;
 	private LocalDate taskDate;
-	private Integer hours = 0;
-	private Integer minutes = 0;
+	private Hours hours = Hours.ZERO;
+	private Minutes minutes = Minutes.ZERO;
 	private Task task;
 
+    @org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.HoursUserType")
 	@Column(nullable = false, name = "hours")
-	public Integer getHours() {
+	public Hours getHours() {
 		return hours;
 	}
 
-	public void setHours(Integer hours) {
+	public void setHours(Hours hours) {
 		this.hours = hours;
 	}
 
+    @org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.MinutesUserType")
 	@Column(nullable = false, name = "minutes")
-	public Integer getMinutes() {
+	public Minutes getMinutes() {
 		return minutes;
 	}
 
-	public void setMinutes(Integer minutes) {
+	public void setMinutes(Minutes minutes) {
 		this.minutes = minutes;
 	}
 
@@ -58,6 +57,12 @@ public class TimeAllocation implements Serializable {
 
 	public void setTask(Task task) {
 		this.task = task;
+	}
+	
+	@Transient
+	public Duration getDuration() {
+	    Duration d = hours.toStandardDuration().plus(minutes.toStandardDuration());
+	    return d;
 	}
 
 	@Override

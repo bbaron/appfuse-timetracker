@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 
 import com.bbaron.timetracker.util.Constants;
@@ -123,6 +124,11 @@ public class Timecard implements IEntity<Long> {
 
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+	
+	@Transient
+	public Duration getDuration() {
+	    return null;
 	}
 
 	@Override
