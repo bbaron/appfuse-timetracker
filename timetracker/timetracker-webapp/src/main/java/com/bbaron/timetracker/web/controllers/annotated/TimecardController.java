@@ -6,7 +6,9 @@ import java.util.Map;
 import javax.servlet.ServletException;
 
 import org.apache.log4j.Logger;
+import org.joda.time.Hours;
 import org.joda.time.LocalDate;
+import org.joda.time.Minutes;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Controller;
@@ -18,13 +20,11 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.bbaron.timetracker.model.*;
 import com.bbaron.timetracker.service.TimecardService;
-import com.bbaron.timetracker.util.Constants;
-import com.bbaron.timetracker.util.EnumEditor;
-import com.bbaron.timetracker.util.LocalDateEditor;
-import com.bbaron.timetracker.util.Utils;
+import com.bbaron.timetracker.util.*;
 import com.bbaron.timetracker.web.commands.NewTimecard;
-
-import com.bbaron.timetracker.web.validators.*;
+import com.bbaron.timetracker.web.validators.NewTimecardValidator;
+import com.bbaron.timetracker.web.validators.TimeAllocationValidator;
+import com.bbaron.timetracker.web.validators.TimecardSearchCriteriaValidator;
 
 @Controller
 @RequestMapping("/timecard-*.htm")
@@ -60,6 +60,8 @@ public class TimecardController {
         binder.registerCustomEditor(LocalDate.class, new LocalDateEditor(dateFormat, true));
         binder.registerCustomEditor(TimecardStatus.class, new EnumEditor(TimecardStatus.class));
         binder.registerCustomEditor(Task.class, new EnumEditor(Task.class));
+        binder.registerCustomEditor(Hours.class, new HoursEditor());
+        binder.registerCustomEditor(Minutes.class, new MinutesEditor());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/timecard-edit.htm")

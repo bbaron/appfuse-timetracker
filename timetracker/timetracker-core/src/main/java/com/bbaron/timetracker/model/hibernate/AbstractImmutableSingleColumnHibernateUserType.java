@@ -75,12 +75,12 @@ public abstract class AbstractImmutableSingleColumnHibernateUserType implements 
     }
 
     @Override
-    public final void nullSafeSet(PreparedStatement st, Object value, int index) throws HibernateException,
+    public final void nullSafeSet(PreparedStatement st, Object object, int index) throws HibernateException,
             SQLException {
-        if (value == null) {
+        if (object == null) {
             st.setNull(index, sqlTypes[0]);
         } else {
-            doSet(st, value, index);
+            doSet(st, object, index);
         }
     }
 
@@ -89,7 +89,7 @@ public abstract class AbstractImmutableSingleColumnHibernateUserType implements 
         return false;
     }
 
-    protected abstract void doSet(PreparedStatement st, Object value, int index) throws HibernateException,
+    protected abstract void doSet(PreparedStatement st, Object object, int index) throws HibernateException,
             SQLException;
 
 }

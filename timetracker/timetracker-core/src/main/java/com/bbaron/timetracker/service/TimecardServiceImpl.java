@@ -3,7 +3,6 @@ package com.bbaron.timetracker.service;
 import static com.bbaron.timetracker.model.TimecardStatus.*;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.SortedSet;
 import java.util.TreeSet;
 

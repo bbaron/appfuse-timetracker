@@ -3,7 +3,9 @@ package com.bbaron.timetracker.dao;
 import java.util.Collection;
 
 import org.hibernate.LazyInitializationException;
+import org.joda.time.Hours;
 import org.joda.time.LocalDate;
+import org.joda.time.Minutes;
 
 import com.bbaron.timetracker.dao.hibernate.GenericDaoHibernate;
 import com.bbaron.timetracker.dao.hibernate.TimecardDaoHibernate;
@@ -33,8 +35,8 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
         TimeAllocation alloc = new TimeAllocation();
         alloc.setTask(Task.Development);
         alloc.setTaskDate(date);
-        alloc.setHours(3);
-        alloc.setMinutes(15);
+        alloc.setHours(Hours.hours(3));
+        alloc.setMinutes(Minutes.minutes(15));
         timecard.addTimeAllocation(alloc);
         User submitter = (User) getSessionFactory().getCurrentSession().get(User.class, -1L);
         timecard.setSubmitter(submitter);

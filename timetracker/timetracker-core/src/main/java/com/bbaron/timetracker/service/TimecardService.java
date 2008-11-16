@@ -1,7 +1,6 @@
 package com.bbaron.timetracker.service;
 
 import java.util.Collection;
-import java.util.Date;
 
 import org.joda.time.LocalDate;
 

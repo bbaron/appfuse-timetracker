@@ -2,7 +2,9 @@ package com.bbaron.timetracker.service;
 
 import static org.junit.Assert.*;
 
+import org.joda.time.Hours;
 import org.joda.time.LocalDate;
+import org.joda.time.Minutes;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,8 +54,8 @@ public class TimecardServiceTest {
 		Task task = Task.Admin;
 		TimeAllocation alloc = new TimeAllocation();
 		alloc.setTask(task);
-		alloc.setHours(hours);
-		alloc.setMinutes(minutes);
+		alloc.setHours(Hours.hours(hours));
+		alloc.setMinutes(Minutes.minutes(minutes));
 		alloc.setTaskDate(startTime);
 		Timecard timecard = new Timecard();
 		timecard.setStartDate(startTime);

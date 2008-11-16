@@ -3,32 +3,30 @@ package com.bbaron.timetracker.model.hibernate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
-import org.joda.time.LocalDate;
+import org.joda.time.Hours;
 
-public class LocalDateUserType extends AbstractImmutableSingleColumnHibernateUserType {
+public class HoursUserType extends AbstractImmutableSingleColumnHibernateUserType {
 
-    public LocalDateUserType() {
-        super(LocalDate.class, Hibernate.TIMESTAMP);
+    public HoursUserType() {
+        super(Hours.class, Hibernate.INTEGER);
     }
 
     @Override
     public Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws HibernateException, SQLException {
-        Timestamp value = rs.getTimestamp(names[0]);
+        int value = rs.getInt(names[0]);
         if (rs.wasNull()) {
             return null;
         }
-        return new LocalDate(value.getTime());
+        return Hours.hours(value);
     }
 
     @Override
     protected void doSet(PreparedStatement st, Object object, int index) throws HibernateException, SQLException {
-        LocalDate value = (LocalDate) object;
-        st.setTimestamp(index, new Timestamp(value.toDateTimeAtStartOfDay().getMillis()));
+        Hours value = (Hours) object;
+        st.setInt(index, value.getHours());
     }
-    
 
 }
