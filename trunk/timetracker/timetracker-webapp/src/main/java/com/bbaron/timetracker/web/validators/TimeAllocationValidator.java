@@ -18,6 +18,9 @@ public class TimeAllocationValidator extends AbstractTimecardValidator {
         rejectIfEmpty(target, errors, "task");
         rejectIfEmpty(target, errors, "taskDate");
         TimeAllocation alloc = (TimeAllocation) target;
+        if (alloc.getHours() + alloc.getMinutes() <= 0) {
+            errors.reject("time.entered.none", "no time allocated");
+        }
         rejectIfOutOfBounds(target, errors, "hours", 0, 24, alloc.getHours());
         rejectIfOutOfBounds(target, errors, "hours", 0, 60, alloc.getMinutes());
     }

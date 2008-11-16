@@ -1,19 +1,16 @@
 package com.bbaron.timetracker.model;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.hibernate.annotations.AccessType;
+import org.joda.time.LocalDate;
 
-import com.bbaron.timetracker.util.Constants;;
+import com.bbaron.timetracker.util.Constants;
 
 @Entity
 @Table(name = "tt_timecard", uniqueConstraints = { @UniqueConstraint(columnNames = {
@@ -44,7 +41,7 @@ public class Timecard implements IEntity<Long> {
 	private static final long serialVersionUID = -6182443930278749700L;
 	private Long id;
 	private TimecardStatus status = TimecardStatus.Draft;
-	private Date startDate;
+	private LocalDate startDate;
 	private String comments;
 	private User submitter;
 	private User approver;
@@ -53,7 +50,7 @@ public class Timecard implements IEntity<Long> {
 	@org.hibernate.annotations.CollectionOfElements(fetch = FetchType.LAZY)
 	@org.hibernate.annotations.IndexColumn(name = "position", nullable = false)
 	@JoinTable(name = "tt_timecard_alloc", joinColumns = @JoinColumn(name = "timecard_id"))
-    @AccessType("field")
+    @org.hibernate.annotations.AccessType("field")
 	public List<TimeAllocation> getTimeAllocations() {
 		return timeAllocations;
 	}
@@ -109,12 +106,13 @@ public class Timecard implements IEntity<Long> {
 		this.status = status;
 	}
 
+	@org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.LocalDateUserType")
 	@Column(name = "start_date", nullable = false)
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
@@ -164,7 +162,7 @@ public class Timecard implements IEntity<Long> {
 	public String toString() {
 		ToStringBuilder sb = new ToStringBuilder(this,
 				ToStringStyle.DEFAULT_STYLE).append("submitter",
-				this.getSubmitter().getUsername())
+				this.getSubmitter())
 				.append("status", this.status).append("startDate",
 						this.startDate);
 		return sb.toString();
@@ -172,15 +170,13 @@ public class Timecard implements IEntity<Long> {
 
 	@Transient
 	public String[] getDateSelection() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.SYSTEM_DATE_FORMAT);
+	    LocalDate startDate = getStartDate();
+	    
         String[] dates = new String[7];
-        dates[0] = dateFormat.format(getStartDate());
-        Calendar next = Calendar.getInstance();
-        next.setTime(getStartDate());
-        next.add(Calendar.DATE, 1);
-        for (int i = 1; i < 7; i++) {
-        	dates[i] = dateFormat.format(next.getTime());
-            next.add(Calendar.DATE, 1);
+        LocalDate next = startDate;
+        for (int i = 0; i < 7; i++) {
+            dates[i] = next.toString(Constants.SYSTEM_DATE_FORMAT);
+            next = next.plusDays(1);
         }
 		return dates;
 	}

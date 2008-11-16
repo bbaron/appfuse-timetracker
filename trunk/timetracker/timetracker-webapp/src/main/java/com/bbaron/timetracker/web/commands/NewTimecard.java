@@ -1,11 +1,11 @@
 package com.bbaron.timetracker.web.commands;
 
-import java.util.Date;
+import org.joda.time.LocalDate;
 
 public class NewTimecard {
 
     private Long submitterId;
-    private Date startDate = new Date();
+    private LocalDate startDate = new LocalDate();
 
     public Long getSubmitterId() {
         return submitterId;
@@ -15,11 +15,11 @@ public class NewTimecard {
         this.submitterId = submitterId;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
-
-    public void setStartDate(Date startDate) {
+    
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 

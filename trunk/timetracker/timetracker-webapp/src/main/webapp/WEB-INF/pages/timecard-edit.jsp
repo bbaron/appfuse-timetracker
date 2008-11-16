@@ -41,7 +41,7 @@
                         <td>${timecard.submitter}</td>
                         <td>${timecard.approver}</td>
                         <td>${timecard.status}</td>
-                        <td><fmt:formatDate value="${timecard.startDate}" type="date" pattern="yyyy-MM-dd"/></td>
+                        <td>${timecard.startDate}</td>
                     </tr>
                 </table>
             </div>
@@ -62,7 +62,7 @@
                     <tbody>
 				        <c:forEach var="alloc" items="${timecard.timeAllocationList}">
                         <tr>
-                            <td><fmt:formatDate value="${alloc.taskDate}" type="date" pattern="yyyy-MM-dd"/></td>
+                            <td><c:out value="${alloc.taskDate}"/></td>
                             <td><c:out value="${alloc.hours}"/></td>
                             <td><c:out value="${alloc.minutes}"/></td>
                             <td><c:out value="${alloc.task}"/></td>
