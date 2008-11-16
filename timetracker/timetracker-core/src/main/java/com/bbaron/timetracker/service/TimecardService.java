@@ -3,6 +3,8 @@ package com.bbaron.timetracker.service;
 import java.util.Collection;
 import java.util.Date;
 
+import org.joda.time.LocalDate;
+
 import com.bbaron.timetracker.model.TimeAllocation;
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.model.TimecardSearchCriteria;
@@ -10,7 +12,7 @@ import com.bbaron.timetracker.model.User;
 
 public interface TimecardService {
 
-    Long createTimecard(Long submitterId, Date startDate);
+    Long createTimecard(Long submitterId, LocalDate startDate);
 
     void enterTimeAllocation(Long timecardId, TimeAllocation alloc);
 

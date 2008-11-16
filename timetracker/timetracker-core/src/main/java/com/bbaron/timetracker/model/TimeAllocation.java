@@ -1,7 +1,6 @@
 package com.bbaron.timetracker.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -12,13 +11,14 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.joda.time.LocalDate;
 
 @Embeddable
 public class TimeAllocation implements Serializable {
 
 	private static final long serialVersionUID = 33779457716057568L;
-	private Date taskDate;
-	private Integer hours;
+	private LocalDate taskDate;
+	private Integer hours = 0;
 	private Integer minutes = 0;
 	private Task task;
 
@@ -41,11 +41,12 @@ public class TimeAllocation implements Serializable {
 	}
 
 	@Column(name = "task_date", nullable = false)
-	public Date getTaskDate() {
+    @org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.LocalDateUserType")
+	public LocalDate getTaskDate() {
 		return taskDate;
 	}
 
-	public void setTaskDate(Date taskDate) {
+	public void setTaskDate(LocalDate taskDate) {
 		this.taskDate = taskDate;
 	}
 

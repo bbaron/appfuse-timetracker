@@ -2,8 +2,7 @@ package com.bbaron.timetracker.service;
 
 import static org.junit.Assert.*;
 
-import java.util.Date;
-
+import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,7 +36,7 @@ public class TimecardServiceTest {
 
     @Test
     public void testCreateTimecard() throws Exception {
-        Date startDate = new Date();
+        LocalDate startDate = new LocalDate();
         Long expected = TIMECARD_ID;
         timecardDao.setId(expected);
         Long actual = timecardService.createTimecard(USER_ID, startDate);
@@ -49,14 +48,13 @@ public class TimecardServiceTest {
 		Long timecardId = TIMECARD_ID;
 		Integer hours = 4;
 		Integer minutes = 30;
-		Date startTime = new Date();
-		Date taskDate = new Date();
+		LocalDate startTime = new LocalDate();
 		Task task = Task.Admin;
 		TimeAllocation alloc = new TimeAllocation();
 		alloc.setTask(task);
 		alloc.setHours(hours);
 		alloc.setMinutes(minutes);
-		alloc.setTaskDate(taskDate);
+		alloc.setTaskDate(startTime);
 		Timecard timecard = new Timecard();
 		timecard.setStartDate(startTime);
 		timecard.setSubmitter(user);

@@ -1,12 +1,9 @@
 package com.bbaron.timetracker.dao;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.hibernate.LazyInitializationException;
+import org.joda.time.LocalDate;
 
 import com.bbaron.timetracker.dao.hibernate.GenericDaoHibernate;
 import com.bbaron.timetracker.dao.hibernate.TimecardDaoHibernate;
@@ -28,14 +25,14 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 
     @Override
     protected Timecard createEntity() {
-        Calendar cal = new GregorianCalendar();
+        LocalDate date = new LocalDate();
         Timecard timecard = new Timecard();
         timecard.setComments("comment");
-        timecard.setStartDate(cal.getTime());
+        timecard.setStartDate(date);
         timecard.setStatus(TimecardStatus.Submitted);
         TimeAllocation alloc = new TimeAllocation();
         alloc.setTask(Task.Development);
-        alloc.setTaskDate(cal.getTime());
+        alloc.setTaskDate(date);
         alloc.setHours(3);
         alloc.setMinutes(15);
         timecard.addTimeAllocation(alloc);
@@ -71,19 +68,19 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
                 "insert into tt_user (id, first_name, last_name, username) values (-2, 'first2', 'last2', 'user2')",
                 "insert into tt_user (id, first_name, last_name, username) values (-3, 'first3', 'last3', 'user3')",
                 "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
-                        + "values (-1, 'Draft', '2008/11/15', 'Timecard -1', null, -1)",
+                        + "values (-1, 'Draft', '2007/11/15', 'Timecard -1', null, -1)",
                 "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
-                        + "values (-2, 'Draft', '2008/11/22', 'Timecard -2', -2, -1)",
+                        + "values (-2, 'Draft', '2007/11/22', 'Timecard -2', -2, -1)",
                 "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
-                        + "values (-3, 'Draft', '2008/11/23', null, null, -3)",
+                        + "values (-3, 'Draft', '2007/11/23', null, null, -3)",
                 "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
-                        + "values (-1, '2008/11/15', 4, 20, 'Admin', 0)",
+                        + "values (-1, '2007/11/15', 4, 20, 'Admin', 0)",
                 "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
-                        + "values (-1, '2008/11/16', 1, 0, 'Meeting', 1)",
+                        + "values (-1, '2007/11/16', 1, 0, 'Meeting', 1)",
                 "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
-                        + "values (-2, '2008/11/22', 4, 20, 'Admin', 0)",
+                        + "values (-2, '2007/11/22', 4, 20, 'Admin', 0)",
                 "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
-                        + "values (-2, '2008/11/23', 1, 0, 'Meeting', 1)",
+                        + "values (-2, '2007/11/23', 1, 0, 'Meeting', 1)",
 
         };
     }
@@ -150,9 +147,8 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 
     public void testFindByCriteriaDate() throws Exception {
         TimecardSearchCriteria criteria = new TimecardSearchCriteria();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date nov15 = format.parse("2008-11-15");
-        Date nov22 = format.parse("2008-11-22");
+        LocalDate nov15 = new LocalDate(2007,11,15);
+        LocalDate nov22 = new LocalDate(2007,11,22);
         criteria.setStartDateMin(nov15);
         criteria.setStartDateMax(nov22);
         assertTestFindByCriteria(criteria, 2);
