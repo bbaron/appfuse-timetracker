@@ -9,7 +9,6 @@ import javax.persistence.*;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.joda.time.Duration;
-import org.joda.time.LocalDate;
 
 import com.bbaron.timetracker.util.Constants;
 
@@ -42,7 +41,7 @@ public class Timecard implements IEntity<Long> {
 	private static final long serialVersionUID = -6182443930278749700L;
 	private Long id;
 	private TimecardStatus status = TimecardStatus.Draft;
-	private LocalDate startDate;
+	private TimecardDate startDate;
 	private String comments;
 	private User submitter;
 	private User approver;
@@ -107,13 +106,13 @@ public class Timecard implements IEntity<Long> {
 		this.status = status;
 	}
 
-	@org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.LocalDateUserType")
+	@org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.TimecardDateUserType")
 	@Column(name = "start_date", nullable = false)
-	public LocalDate getStartDate() {
+	public TimecardDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(TimecardDate startDate) {
 		this.startDate = startDate;
 	}
 
@@ -176,10 +175,10 @@ public class Timecard implements IEntity<Long> {
 
 	@Transient
 	public String[] getDateSelection() {
-	    LocalDate startDate = getStartDate();
+	    TimecardDate startDate = getStartDate();
 	    
         String[] dates = new String[7];
-        LocalDate next = startDate;
+        TimecardDate next = startDate;
         for (int i = 0; i < 7; i++) {
             dates[i] = next.toString(Constants.SYSTEM_DATE_FORMAT);
             next = next.plusDays(1);

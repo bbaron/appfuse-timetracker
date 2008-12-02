@@ -3,9 +3,6 @@ package com.bbaron.timetracker.dao;
 import java.util.Collection;
 
 import org.hibernate.LazyInitializationException;
-import org.joda.time.Hours;
-import org.joda.time.LocalDate;
-import org.joda.time.Minutes;
 
 import com.bbaron.timetracker.dao.hibernate.GenericDaoHibernate;
 import com.bbaron.timetracker.dao.hibernate.TimecardDaoHibernate;
@@ -27,7 +24,7 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 
     @Override
     protected Timecard createEntity() {
-        LocalDate date = new LocalDate();
+        TimecardDate date = TimecardDate.today();
         Timecard timecard = new Timecard();
         timecard.setComments("comment");
         timecard.setStartDate(date);
@@ -35,8 +32,8 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
         TimeAllocation alloc = new TimeAllocation();
         alloc.setTask(Task.Development);
         alloc.setTaskDate(date);
-        alloc.setHours(Hours.hours(3));
-        alloc.setMinutes(Minutes.minutes(15));
+        alloc.setHours(TimecardHours.hours(3));
+        alloc.setMinutes(TimecardMinutes.minutes(15));
         timecard.addTimeAllocation(alloc);
         User submitter = (User) getSessionFactory().getCurrentSession().get(User.class, -1L);
         timecard.setSubmitter(submitter);
@@ -149,8 +146,8 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 
     public void testFindByCriteriaDate() throws Exception {
         TimecardSearchCriteria criteria = new TimecardSearchCriteria();
-        LocalDate nov15 = new LocalDate(2007,11,15);
-        LocalDate nov22 = new LocalDate(2007,11,22);
+        TimecardDate nov15 = TimecardDate.date(2007,11,15);
+        TimecardDate nov22 = TimecardDate.date(2007,11,22);
         criteria.setStartDateMin(nov15);
         criteria.setStartDateMax(nov22);
         assertTestFindByCriteria(criteria, 2);

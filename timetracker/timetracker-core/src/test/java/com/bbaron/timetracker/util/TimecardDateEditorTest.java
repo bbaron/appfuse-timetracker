@@ -2,36 +2,34 @@ package com.bbaron.timetracker.util;
 
 import static org.junit.Assert.*;
 
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LocalDateEditorTest {
+import com.bbaron.timetracker.model.TimecardDate;
 
-	private DateTimeFormatter dateFormat;
-    private LocalDateEditor editor;
-    private LocalDate localDate;
-    private String localDateString = "2001-09-11";
+public class TimecardDateEditorTest {
+
+    private TimecardDateEditor editor;
+    private TimecardDate timecardDate;
+    private String timecardDateString = "2001-09-11";
+    private String dateFormat = "yyyy-MM-dd";
 
 	@Before
 	public void setUp() throws Exception {
-	    localDate = new LocalDate(2001, 9, 11);
-	    dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd");
-	    editor = new LocalDateEditor(dateFormat, true);
+	    timecardDate = TimecardDate.date(2001, 9, 11);
+	    editor = new TimecardDateEditor(true, dateFormat);
 	}
 
     @Test
     public void testSetAsText() throws Exception {
-        editor.setAsText(localDateString);
-        assertEquals(localDate, editor.getValue());
+        editor.setAsText(timecardDateString);
+        assertEquals(timecardDate, editor.getValue());
     }
 
     @Test
     public void testGetAsText() throws Exception {
-        editor.setValue(localDate);
-        assertEquals(localDateString, editor.getAsText());
+        editor.setValue(timecardDate);
+        assertEquals(timecardDateString, editor.getAsText());
     }
 
 	@Test
@@ -49,7 +47,7 @@ public class LocalDateEditorTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testEmptyDisallowed() throws Exception {
-		new LocalDateEditor(dateFormat, false).setAsText(null);
+		new TimecardDateEditor(false, dateFormat).setAsText(null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)

@@ -4,4 +4,6 @@ import com.bbaron.timetracker.model.User;
 
 public interface UserDao extends GenericDao<User, Long> {
 
+    User findByUsername(String submitterUsername);
+
 }

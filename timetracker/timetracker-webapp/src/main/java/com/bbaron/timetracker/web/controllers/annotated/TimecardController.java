@@ -6,11 +6,6 @@ import java.util.Map;
 import javax.servlet.ServletException;
 
 import org.apache.log4j.Logger;
-import org.joda.time.Hours;
-import org.joda.time.LocalDate;
-import org.joda.time.Minutes;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -56,12 +51,11 @@ public class TimecardController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         logger.debug("initializing web data binding");
-        DateTimeFormatter dateFormat = DateTimeFormat.forPattern(Constants.SYSTEM_DATE_FORMAT);
-        binder.registerCustomEditor(LocalDate.class, new LocalDateEditor(dateFormat, true));
+        binder.registerCustomEditor(TimecardDate.class, new TimecardDateEditor(true));
         binder.registerCustomEditor(TimecardStatus.class, new EnumEditor(TimecardStatus.class));
         binder.registerCustomEditor(Task.class, new EnumEditor(Task.class));
-        binder.registerCustomEditor(Hours.class, new HoursEditor());
-        binder.registerCustomEditor(Minutes.class, new MinutesEditor());
+        binder.registerCustomEditor(TimecardHours.class, new TimecardHoursEditor());
+        binder.registerCustomEditor(TimecardMinutes.class, new TimecardMinutesEditor());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/timecard-edit.htm")

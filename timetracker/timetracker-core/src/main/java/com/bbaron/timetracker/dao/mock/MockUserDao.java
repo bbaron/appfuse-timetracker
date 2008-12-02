@@ -22,4 +22,10 @@ public class MockUserDao extends MockGenericDao<User, Long> implements UserDao {
         return list;
     }
 
+    @Override
+    public User findByUsername(String submitterUsername) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

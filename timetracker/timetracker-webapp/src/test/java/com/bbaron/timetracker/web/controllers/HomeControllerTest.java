@@ -4,19 +4,35 @@ import static org.junit.Assert.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.junit.Test;
+import com.bbaron.timetracker.model.Timecard;
+import com.bbaron.timetracker.service.TimecardServiceImpl;
 
-public class HomeControllerTest {
+public class HomeControllerTest extends TimecardServiceImpl {
 
-	@Test
-	public void handleRequest() throws Exception {
-		HomeController controller = new HomeController();
-		controller.setViewName("home");
-		HttpServletRequest request = new MockHttpServletRequest("GET", "/");
-		ModelAndView mav = controller.handleRequest(request, null);
-		assertEquals("home", mav.getViewName());
-	}
+    private Timecard timecard = null;
+
+    @Override
+    public Timecard getLatestTimecard(String submitterUsername) {
+        return timecard;
+    }
+
+    @Test
+    public void handleRequest() throws Exception {
+        HttpServletRequest request = new MockHttpServletRequest("GET", "/");
+        HomeController controller = new HomeController();
+        ModelAndView mav = controller.handleRequest(request, null);
+        assertFalse(mav.getModel().containsKey("hasLatest"));
+        
+        controller.setTimecardService(this);
+        mav = controller.handleRequest(request, null);
+        assertEquals(Boolean.FALSE, mav.getModel().get("hasLatest"));
+        
+        timecard = new Timecard();
+        mav = controller.handleRequest(request, null);
+        assertEquals(Boolean.TRUE, mav.getModel().get("hasLatest"));
+    }
 }

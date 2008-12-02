@@ -36,9 +36,11 @@
                 <tr>
                     <td><a href="timecard-new.htm?submitterId=2002">New timecard</a></td>
                 </tr>
+                <c:if test="${hasLatest}">
                 <tr>
                     <td><a href="timecard-edit.htm?submitterId=2002">Last saved timecard</a></td>
                 </tr>
+                </c:if>
                 <tr>
                     <td><a href="timecard-search.htm">Search timecards</a></td>
                 </tr>

@@ -2,25 +2,33 @@ package com.bbaron.timetracker.util;
 
 import java.beans.PropertyEditorSupport;
 
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.util.StringUtils;
 
-public class LocalDateEditor extends PropertyEditorSupport {
+import com.bbaron.timetracker.model.TimecardDate;
 
-    private final DateTimeFormatter dateFormat;
+public class TimecardDateEditor extends PropertyEditorSupport {
+
+    private final String dateFormat;
 
     private final boolean allowEmpty;
 
-    public LocalDateEditor(DateTimeFormatter dateFormat, boolean allowEmpty) {
+    public TimecardDateEditor(boolean allowEmpty, String dateFormat) {
         super();
         this.dateFormat = dateFormat;
         this.allowEmpty = allowEmpty;
     }
 
+    public TimecardDateEditor(boolean allowEmpty) {
+        this(allowEmpty, Constants.SYSTEM_DATE_FORMAT);
+    }
+
+    public TimecardDateEditor() {
+        this(true);
+    }
+
     @Override
     public String getAsText() {
-        LocalDate value = (LocalDate) getValue();
+        TimecardDate value = (TimecardDate) getValue();
         return (value != null ? value.toString(dateFormat) : "");
     }
 
@@ -30,7 +38,7 @@ public class LocalDateEditor extends PropertyEditorSupport {
             setValue(null);
         } else {
             try {
-                setValue(this.dateFormat.parseDateTime(text).toLocalDate());
+                setValue(TimecardDate.date(text, dateFormat));
             } catch (IllegalArgumentException e) {
                 throw e;
             } catch (Exception e) {

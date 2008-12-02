@@ -5,7 +5,7 @@ public abstract class IntegralValue<T> {
 
     private final T value;
     
-    public IntegralValue(T value, int lowerBound, int upperBound) {
+    public IntegralValue(final T value, final int lowerBound, final int upperBound) {
         if (value != null) {
             int n = nullSafeToInteger(value);
             if (n < lowerBound || n > upperBound) {
@@ -19,7 +19,7 @@ public abstract class IntegralValue<T> {
         this(value, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    public T getValue() {
+    public final T getValue() {
         return value;
     }
 
@@ -30,12 +30,12 @@ public abstract class IntegralValue<T> {
     protected abstract int nullSafeToInteger(T value);
     
     @Override
-    public String toString() {
+    public final String toString() {
         return value == null ? "null" : toInteger().toString();
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((value == null) ? 0 : value.hashCode());
@@ -43,7 +43,7 @@ public abstract class IntegralValue<T> {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

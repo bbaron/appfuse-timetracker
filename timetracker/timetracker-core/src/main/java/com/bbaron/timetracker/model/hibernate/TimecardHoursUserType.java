@@ -2,7 +2,7 @@ package com.bbaron.timetracker.model.hibernate;
 
 import com.bbaron.timetracker.model.TimecardHours;
 
-public class TimecardHoursUserType extends IntegralValueUserType<TimecardHours> {
+public final class TimecardHoursUserType extends IntegralValueUserType<TimecardHours> {
 
     public TimecardHoursUserType() {
         super(TimecardHours.class);
@@ -10,7 +10,7 @@ public class TimecardHoursUserType extends IntegralValueUserType<TimecardHours> 
 
     @Override
     protected TimecardHours construct(int value) {
-        return new TimecardHours(value);
+        return TimecardHours.hours(value);
     }
 
 }

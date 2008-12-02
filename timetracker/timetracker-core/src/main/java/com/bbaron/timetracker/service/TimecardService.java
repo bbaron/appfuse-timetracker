@@ -2,22 +2,19 @@ package com.bbaron.timetracker.service;
 
 import java.util.Collection;
 
-import org.joda.time.LocalDate;
-
-import com.bbaron.timetracker.model.TimeAllocation;
-import com.bbaron.timetracker.model.Timecard;
-import com.bbaron.timetracker.model.TimecardSearchCriteria;
-import com.bbaron.timetracker.model.User;
+import com.bbaron.timetracker.model.*;
 
 public interface TimecardService {
 
-    Long createTimecard(Long submitterId, LocalDate startDate);
+    Long createTimecard(Long submitterId, TimecardDate startDate);
 
     void enterTimeAllocation(Long timecardId, TimeAllocation alloc);
 
     Timecard getTimecard(Long timecardId);
     
     Timecard getLatestTimecard(Long submitterId);
+
+    Timecard getLatestTimecard(String submitterUsername);
 
     Collection<User> getAllUsers();
 

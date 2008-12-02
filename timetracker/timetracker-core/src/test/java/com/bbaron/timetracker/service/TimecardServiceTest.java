@@ -2,18 +2,12 @@ package com.bbaron.timetracker.service;
 
 import static org.junit.Assert.*;
 
-import org.joda.time.Hours;
-import org.joda.time.LocalDate;
-import org.joda.time.Minutes;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.bbaron.timetracker.dao.mock.MockTimecardDao;
 import com.bbaron.timetracker.dao.mock.MockUserDao;
-import com.bbaron.timetracker.model.Task;
-import com.bbaron.timetracker.model.TimeAllocation;
-import com.bbaron.timetracker.model.Timecard;
-import com.bbaron.timetracker.model.User;
+import com.bbaron.timetracker.model.*;
 
 public class TimecardServiceTest {
 
@@ -38,7 +32,7 @@ public class TimecardServiceTest {
 
     @Test
     public void testCreateTimecard() throws Exception {
-        LocalDate startDate = new LocalDate();
+        TimecardDate startDate = TimecardDate.today();
         Long expected = TIMECARD_ID;
         timecardDao.setId(expected);
         Long actual = timecardService.createTimecard(USER_ID, startDate);
@@ -50,12 +44,12 @@ public class TimecardServiceTest {
 		Long timecardId = TIMECARD_ID;
 		Integer hours = 4;
 		Integer minutes = 30;
-		LocalDate startTime = new LocalDate();
+        TimecardDate startTime = TimecardDate.today();
 		Task task = Task.Admin;
 		TimeAllocation alloc = new TimeAllocation();
 		alloc.setTask(task);
-		alloc.setHours(Hours.hours(hours));
-		alloc.setMinutes(Minutes.minutes(minutes));
+		alloc.setHours(TimecardHours.hours(hours));
+		alloc.setMinutes(TimecardMinutes.minutes(minutes));
 		alloc.setTaskDate(startTime);
 		Timecard timecard = new Timecard();
 		timecard.setStartDate(startTime);
