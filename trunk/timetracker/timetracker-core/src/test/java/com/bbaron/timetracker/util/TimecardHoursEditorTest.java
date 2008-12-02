@@ -11,7 +11,7 @@ public class TimecardHoursEditorTest extends AbstractIntegralValueEditorTest {
 
     @Override
     protected Object createValue(int n) {
-        return new TimecardHours(n);
+        return TimecardHours.hours(n);
     }
 
 }

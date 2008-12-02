@@ -14,7 +14,7 @@ public class TimecardHoursEditor extends IntegralValueEditor {
 
     @Override
     protected Object construct(int n) {
-        return new TimecardHours(n);
+        return TimecardHours.hours(n);
     }
 
 }

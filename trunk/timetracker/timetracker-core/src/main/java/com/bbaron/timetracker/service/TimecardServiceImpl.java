@@ -7,7 +7,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +37,7 @@ public class TimecardServiceImpl implements TimecardService {
 
     @Override
     @Transactional
-    public Long createTimecard(Long userId, LocalDate startDate) {
+    public Long createTimecard(Long userId, TimecardDate startDate) {
         User submitter = userDao.get(userId);
         if (logger.isInfoEnabled()) {
             logger.info("creating timecard for user " + submitter + " starting " + startDate);
@@ -122,6 +121,15 @@ public class TimecardServiceImpl implements TimecardService {
         Timecard timecard = timecardDao.get(timecardId);
         timecard.setStatus(status);
         timecardDao.save(timecard);
+    }
+
+    @Override
+    public Timecard getLatestTimecard(String submitterUsername) {
+        User user = userDao.findByUsername(submitterUsername);
+        if (user == null) {
+            return null;
+        }
+        return getLatestTimecard(user.getId());
     }
 
 }

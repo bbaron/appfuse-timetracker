@@ -4,15 +4,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Date;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
-import org.joda.time.LocalDate;
 
-public class LocalDateUserType extends AbstractImmutableSingleColumnHibernateUserType {
+import com.bbaron.timetracker.model.TimecardDate;
 
-    public LocalDateUserType() {
-        super(LocalDate.class, Hibernate.TIMESTAMP);
+public class TimecardDateUserType extends AbstractImmutableSingleColumnHibernateUserType {
+
+    public TimecardDateUserType() {
+        super(TimecardDate.class, Hibernate.DATE);
     }
 
     @Override
@@ -21,14 +23,13 @@ public class LocalDateUserType extends AbstractImmutableSingleColumnHibernateUse
         if (rs.wasNull()) {
             return null;
         }
-        return new LocalDate(value.getTime());
+        return TimecardDate.date(value.getTime());
     }
 
     @Override
     protected void doSet(PreparedStatement st, Object object, int index) throws HibernateException, SQLException {
-        LocalDate value = (LocalDate) object;
-        st.setTimestamp(index, new Timestamp(value.toDateTimeAtStartOfDay().getMillis()));
+        TimecardDate value = (TimecardDate) object;
+        st.setDate(index, new Date(value.getMillis()));
     }
-    
 
 }

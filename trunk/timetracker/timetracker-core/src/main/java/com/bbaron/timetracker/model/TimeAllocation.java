@@ -8,44 +8,43 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.joda.time.*;
 
 @Embeddable
 public class TimeAllocation implements Serializable {
 
 	private static final long serialVersionUID = 33779457716057568L;
-	private LocalDate taskDate;
-	private Hours hours = Hours.ZERO;
-	private Minutes minutes = Minutes.ZERO;
+	private TimecardDate taskDate;
+	private TimecardHours hours = TimecardHours.ZERO;
+	private TimecardMinutes minutes = TimecardMinutes.ZERO;
 	private Task task;
 
-    @org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.HoursUserType")
+    @org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.TimecardHoursUserType")
 	@Column(nullable = false, name = "hours")
-	public Hours getHours() {
+	public TimecardHours getHours() {
 		return hours;
 	}
 
-	public void setHours(Hours hours) {
+	public void setHours(TimecardHours hours) {
 		this.hours = hours;
 	}
 
-    @org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.MinutesUserType")
+    @org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.TimecardMinutesUserType")
 	@Column(nullable = false, name = "minutes")
-	public Minutes getMinutes() {
+	public TimecardMinutes getMinutes() {
 		return minutes;
 	}
 
-	public void setMinutes(Minutes minutes) {
+	public void setMinutes(TimecardMinutes minutes) {
 		this.minutes = minutes;
 	}
 
 	@Column(name = "task_date", nullable = false)
-    @org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.LocalDateUserType")
-	public LocalDate getTaskDate() {
+    @org.hibernate.annotations.Type(type = "com.bbaron.timetracker.model.hibernate.TimecardDateUserType")
+	public TimecardDate getTaskDate() {
 		return taskDate;
 	}
 
-	public void setTaskDate(LocalDate taskDate) {
+	public void setTaskDate(TimecardDate taskDate) {
 		this.taskDate = taskDate;
 	}
 
@@ -60,8 +59,8 @@ public class TimeAllocation implements Serializable {
 	}
 	
 	@Transient
-	public Duration getDuration() {
-	    Duration d = hours.toStandardDuration().plus(minutes.toStandardDuration());
+	public TimecardDuration getDuration() {
+	    TimecardDuration d = TimecardDuration.duration(hours, minutes);
 	    return d;
 	}
 

@@ -20,6 +20,7 @@
 
 	<bean id="homeController" class="com.bbaron.timetracker.web.controllers.HomeController">
 		<property name="viewName" value="home" />
+		<property name="timecardService" ref="timecardService" />
 	</bean>
 	<bean id="approveTimecardsController" class="com.bbaron.timetracker.web.controllers.HomeController">
 		<property name="viewName" value="approve-timecards" />

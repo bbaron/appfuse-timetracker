@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.Calendar;
 
-import org.joda.time.LocalDate;
 import org.junit.Test;
 
 
@@ -20,7 +19,7 @@ public class TimecardTest {
 	public void testDateSelection() throws Exception {
 		Timecard t = new Timecard();
 		Calendar c = Calendar.getInstance();
-		LocalDate localdate = new LocalDate(2005, 12, 31);
+		TimecardDate localdate = TimecardDate.date(2005, 12, 31);
 		c.set(2005, Calendar.DECEMBER, 31);
 		t.setStartDate(localdate);
         System.out.println(t);

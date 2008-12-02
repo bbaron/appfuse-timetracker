@@ -99,6 +99,11 @@
         	<version>2.5.1</version>
         	<scope>test</scope>
         </dependency>
+        <dependency>
+        	<groupId>com.google.collections</groupId>
+        	<artifactId>google-collections</artifactId>
+        	<version>0.8</version>
+        </dependency>
 	</dependencies>
 	<properties>
         <aspectj.version>1.6.0</aspectj.version>
@@ -118,6 +123,6 @@
 		<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
 		<jdbc.url><![CDATA[jdbc:mysql://localhost/timetracker?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8]]></jdbc.url>
 		<jdbc.username>timetracker</jdbc.username>
-		<jdbc.password></jdbc.password>
+		<jdbc.password>timetracker</jdbc.password>
 	</properties>
 </project>

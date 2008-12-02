@@ -6,7 +6,7 @@ import com.bbaron.timetracker.model.TimecardMinutes;
 
 public class TimecardMinutesUserTypeTest extends AbstractIntegralValueUserTypeTest<TimecardMinutes> {
 
-    private static final TimecardMinutes VALUE = new TimecardMinutes(13);
+    private static final TimecardMinutes VALUE = TimecardMinutes.minutes(13);
 
     @Override
     protected AbstractImmutableSingleColumnHibernateUserType createUserType(Class<?> returnedClass2,

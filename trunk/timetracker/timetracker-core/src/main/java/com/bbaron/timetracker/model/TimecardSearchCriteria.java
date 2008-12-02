@@ -1,14 +1,12 @@
 package com.bbaron.timetracker.model;
 
-import org.joda.time.LocalDate;
-
 public class TimecardSearchCriteria {
 
 	private Long submitterId;
 	private Long approverId;
 	private TimecardStatus status;
-	private LocalDate startDateMin;
-	private LocalDate startDateMax;
+	private TimecardDate startDateMin;
+	private TimecardDate startDateMax;
 
 	public Long getSubmitterId() {
 		return submitterId;
@@ -34,19 +32,19 @@ public class TimecardSearchCriteria {
 		this.status = status;
 	}
 
-	public LocalDate getStartDateMin() {
+	public TimecardDate getStartDateMin() {
 		return startDateMin;
 	}
 
-	public void setStartDateMin(LocalDate startDateMin) {
+	public void setStartDateMin(TimecardDate startDateMin) {
 		this.startDateMin = startDateMin;
 	}
 
-	public LocalDate getStartDateMax() {
+	public TimecardDate getStartDateMax() {
 		return startDateMax;
 	}
 
-	public void setStartDateMax(LocalDate startDateMax) {
+	public void setStartDateMax(TimecardDate startDateMax) {
 		this.startDateMax = startDateMax;
 	}
 
