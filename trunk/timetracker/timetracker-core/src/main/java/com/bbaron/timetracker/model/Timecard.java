@@ -42,7 +42,7 @@ public class Timecard implements IEntity<Long> {
 	private Long id;
 	private TimecardStatus status = TimecardStatus.Draft;
 	private TimecardDate startDate;
-	private String comments;
+	private String comments = "No comment";
 	private User submitter;
 	private User approver;
 	private List<TimeAllocation> timeAllocations = new ArrayList<TimeAllocation>();

@@ -10,5 +10,15 @@
 		<config>src/main/webapp/WEB-INF/timetracker-servlet.xml</config>
 	</configs>
 	<configSets>
+		<configSet>
+			<name><![CDATA[timetracker-webapp]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>/timetracker-core/src/main/resources/timetracker-core.xml</config>
+				<config>/timetracker-core/src/main/resources/timetracker-hibernate.xml</config>
+				<config>src/main/webapp/WEB-INF/timetracker-servlet.xml</config>
+			</configs>
+		</configSet>
 	</configSets>
 </beansProjectDescription>

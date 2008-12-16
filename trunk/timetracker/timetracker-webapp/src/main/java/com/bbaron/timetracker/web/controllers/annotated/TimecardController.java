@@ -1,6 +1,5 @@
 package com.bbaron.timetracker.web.controllers.annotated;
 
-import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -19,18 +18,16 @@ import com.bbaron.timetracker.util.*;
 import com.bbaron.timetracker.web.commands.NewTimecard;
 import com.bbaron.timetracker.web.validators.NewTimecardValidator;
 import com.bbaron.timetracker.web.validators.TimeAllocationValidator;
-import com.bbaron.timetracker.web.validators.TimecardSearchCriteriaValidator;
 
 @Controller
 @RequestMapping("/timecard-*.htm")
-@SessionAttributes("timeAllocation")
+@SessionAttributes( { "timeAllocation", "timecard" })
 public class TimecardController {
 
     protected final Logger logger = Logger.getLogger(getClass());
     private TimecardService timecardService;
     private NewTimecardValidator newTimecardValidator;
     private TimeAllocationValidator timeAllocationValidator;
-    private TimecardSearchCriteriaValidator timecardSearchCriteriaValidator;
 
     public void setNewTimecardValidator(NewTimecardValidator newTimecardValidator) {
         this.newTimecardValidator = newTimecardValidator;
@@ -40,17 +37,12 @@ public class TimecardController {
         this.timeAllocationValidator = timecardEntryValidator;
     }
 
-    public void setTimecardSearchCriteriaValidator(TimecardSearchCriteriaValidator timecardSearchCriteriaValidator) {
-        this.timecardSearchCriteriaValidator = timecardSearchCriteriaValidator;
-    }
-
     public void setTimecardService(TimecardService timecardService) {
         this.timecardService = timecardService;
     }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        logger.debug("initializing web data binding");
         binder.registerCustomEditor(TimecardDate.class, new TimecardDateEditor(true));
         binder.registerCustomEditor(TimecardStatus.class, new EnumEditor(TimecardStatus.class));
         binder.registerCustomEditor(Task.class, new EnumEditor(Task.class));
@@ -87,40 +79,28 @@ public class TimecardController {
         return Utils.toMap(timecardService.getAllUsers(), "id", "username");
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/timecard-search.htm")
-    public String searchTimecards(@ModelAttribute("criteria") TimecardSearchCriteria criteria, BindingResult result,
-            SessionStatus status, ModelMap model) {
-        logger.info("criteria = " + criteria);
-        timecardSearchCriteriaValidator.validate(criteria, result);
-        model.addAttribute("criteria", criteria);
-        if (!result.hasErrors()) {
-            Collection<Timecard> timecards = timecardService.searchTimecards(criteria);
-            logger.info("timecards found = " + timecards.size());
-            model.addAttribute("timecards", timecards);
-        }
-        return setupSearchTimecards(model);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/timecard-search.htm")
-    public String setupSearchTimecards(ModelMap model) {
-        model.addAttribute("criteria", new TimecardSearchCriteria());
-        model.addAttribute("users", getAllUsers());
-        model.addAttribute("statuses", timecardService.getAllStatuses());
-        return "timecard-search";
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/timecard-edit.htm")
-    public String processTimecard(@RequestParam(required = true, value = "timecardId") Long timecardId,
+    @RequestMapping(method = RequestMethod.POST, value = "/timecard-enter-time-allocation.htm")
+    public String enterTimeAllocation(@RequestParam(required = true, value = "timecardId") Long timecardId,
             @ModelAttribute("timeAllocation") TimeAllocation alloc, BindingResult result, SessionStatus status) {
+        logger.debug("enterTimeAllocation " + alloc);
         timeAllocationValidator.validate(alloc, result);
-        if (result.hasErrors()) {
-            return "redirect:timecard-edit.htm?" + "timecardId=" + timecardId;
-        } else {
+        if (!result.hasErrors()) {
             logger.debug("submitting alloc " + alloc + " for timecard id " + timecardId);
             timecardService.enterTimeAllocation(timecardId, alloc);
             status.setComplete();
-            return "redirect:timecard-edit.htm?" + "timecardId=" + timecardId;
         }
+        return "redirect:timecard-edit.htm?" + "timecardId=" + timecardId;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/timecard-save.htm")
+    public String saveTimecard(@ModelAttribute("timecard") Timecard timecard, BindingResult result,
+            SessionStatus status) {
+        logger.debug("saveTimecard " + timecard);
+
+        if (!result.hasErrors()) {
+            timecardService.saveTimecard(timecard);
+        }
+        return "redirect:timecard-edit.htm?" + "timecardId=" + timecard.getId();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/timecard-new.htm")

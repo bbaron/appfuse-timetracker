@@ -1,38 +1,40 @@
 package com.bbaron.timetracker.web.controllers.annotated;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import com.bbaron.timetracker.model.Task;
-import com.bbaron.timetracker.model.TimecardStatus;
+import com.bbaron.timetracker.model.*;
 import com.bbaron.timetracker.service.TimecardService;
-import com.bbaron.timetracker.util.Constants;
-import com.bbaron.timetracker.util.EnumEditor;
+import com.bbaron.timetracker.util.*;
 
 public abstract class AbstractTimecardController {
-	protected final TimecardService timecardService;
-    protected final Validator validator;
+	protected TimecardService timecardService;
+    protected Validator validator;
     protected final Logger logger = Logger.getLogger(getClass());
+        
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(TimecardDate.class, new TimecardDateEditor(true));
+        binder.registerCustomEditor(TimecardStatus.class, new EnumEditor(TimecardStatus.class));
+        binder.registerCustomEditor(Task.class, new EnumEditor(Task.class));
+        binder.registerCustomEditor(TimecardHours.class, new TimecardHoursEditor());
+        binder.registerCustomEditor(TimecardMinutes.class, new TimecardMinutesEditor());
+    }
 
-    public AbstractTimecardController(TimecardService timecardService, Validator validator) {
+    public void setTimecardService(TimecardService timecardService) {
         this.timecardService = timecardService;
+    }
+
+    protected void setValidator(Validator validator) {
         this.validator = validator;
     }
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        logger.debug("initializing web data binding");
-        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.SYSTEM_DATE_FORMAT);
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-        binder.registerCustomEditor(TimecardStatus.class, new EnumEditor(TimecardStatus.class));
-        binder.registerCustomEditor(Task.class, new EnumEditor(Task.class));
+    protected final Map<String, String> getAllUsers() {
+        return Utils.toMap(timecardService.getAllUsers(), "id", "username");
     }
 
 }

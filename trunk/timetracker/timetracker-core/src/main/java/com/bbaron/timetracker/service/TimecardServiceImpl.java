@@ -52,6 +52,7 @@ public class TimecardServiceImpl implements TimecardService {
     @Override
     @Transactional
     public void enterTimeAllocation(Long timecardId, TimeAllocation alloc) {
+        logger.debug("entering alloc " + alloc);
         Timecard timecard = timecardDao.get(timecardId);
         timecard.addTimeAllocation(alloc);
         timecardDao.save(timecard);
@@ -130,6 +131,11 @@ public class TimecardServiceImpl implements TimecardService {
             return null;
         }
         return getLatestTimecard(user.getId());
+    }
+
+    @Override
+    public void saveTimecard(Timecard timecard) {
+        timecardDao.save(timecard);
     }
 
 }

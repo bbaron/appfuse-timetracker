@@ -1,4 +1,7 @@
 <%@ include file="/common/taglibs.jsp"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
@@ -62,6 +65,9 @@
         </div>
 
         <div>
+        	<c:choose><c:when test="${empty timecards}">
+        		<h2>No timecards found</h2>
+        	</c:when><c:otherwise>
                 <h2>Search Results</h2>
 
                 <div class="timecard">
@@ -82,14 +88,14 @@
 	                            <td><c:out value="${timecard.submitter.username}"/></td>
 	                            <td><c:out value="${timecard.approver.username}"/></td>
 	                            <td><c:out value="${timecard.status}"/></td>
-	                            <td><fmt:formatDate value="${timecard.startDate}" type="date" pattern="yyyy-MM-dd"/></td>
+	                            <td><c:out value="${timecard.startDate}"/></td>
                                 <td><a href="<c:url value="timecard-edit.htm?timecardId=${timecard.id}" />">Details</a></td>
                             </tr>
                         </c:forEach>    
                         </tbody>
                     </table>
                 </div>
-
+        	</c:otherwise></c:choose>
         </div>
 
     </div>

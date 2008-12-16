@@ -20,7 +20,6 @@
 
 	<bean id="homeController" class="com.bbaron.timetracker.web.controllers.HomeController">
 		<property name="viewName" value="home" />
-		<property name="timecardService" ref="timecardService" />
 	</bean>
 	<bean id="approveTimecardsController" class="com.bbaron.timetracker.web.controllers.HomeController">
 		<property name="viewName" value="approve-timecards" />
@@ -30,7 +29,7 @@
 		<property name="mappings">
 			<value>
 				/home.htm=homeController
-				/approve-timecards.htm=approveTimecardsController
+				/timecard-approve.htm=approveTimecardsController
 			</value>
 		</property>
 		<property name="order" value="0" />
