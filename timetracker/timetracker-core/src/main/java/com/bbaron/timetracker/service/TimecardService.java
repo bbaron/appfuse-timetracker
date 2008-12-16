@@ -29,4 +29,6 @@ public interface TimecardService {
     void approveTimecard(Long timecardId, Long approverId);
 
     void rejectTimecard(Long timecardId);
+
+    void saveTimecard(Timecard timecard);
 }
