@@ -22,7 +22,7 @@
 
     <!-- Suppress success logging from InteractiveAuthenticationSuccessEvent -->
     <logger name="org.springframework.security">
-        <level value="ERROR"/>
+        <level value="DEBUG"/>
     </logger>
 
     <logger name="org.apache">
