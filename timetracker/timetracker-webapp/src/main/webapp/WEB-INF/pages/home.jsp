@@ -19,7 +19,7 @@
 
     <div class="menubar">
         <ul>
-            <li class="first"><a class="selected" href="home.html">Home</a></li>
+            <li class="first"><a class="selected" href="home.htm">Home</a></li>
             <li><a href="timecard-edit.htm">Timecard Details</a></li>
             <li><a href="timecard-search.htm">Search Timecards</a></li>
             <li><a href="timecard-approve.htm">Approve Timecards</a></li>
