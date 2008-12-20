@@ -34,7 +34,7 @@ public abstract class AbstractTimecardController {
     }
 
     protected final Map<String, String> getAllUsers() {
-        return Utils.toMap(timecardService.getAllUsers(), "id", "username");
+        return Utils.toMap(timecardService.getAllUsers(), "username", "username");
     }
 
 }

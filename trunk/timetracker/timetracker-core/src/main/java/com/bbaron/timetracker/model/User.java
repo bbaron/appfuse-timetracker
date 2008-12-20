@@ -1,23 +1,19 @@
 package com.bbaron.timetracker.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.io.Serializable;
 
-import org.hibernate.annotations.AccessType;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "tt_user")
-public class User implements IEntity<Long> {
+@Table(name = "users")
+public class User implements Serializable {
 
 	private static final long serialVersionUID = -275331587263329788L;
 	private String firstName;
     private String lastName;
     private String username;
-    private Long id;
+    private Boolean enabled = Boolean.TRUE;
+    private String password = "changeme";
 
 	User() {
     	
@@ -27,15 +23,6 @@ public class User implements IEntity<Long> {
 		this.username = username;
 	}
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Column(name = "first_name", length = 30, nullable = false)
     public String getFirstName() {
@@ -55,15 +42,45 @@ public class User implements IEntity<Long> {
         this.lastName = lastName;
     }
 
-    @Column(nullable = false, length = 50, unique = true, updatable = false)
-    @AccessType("field")
+    @Column(length = 50)
+    @Id
     public String getUsername() {
         return username;
     }
 
+//    public String getId() {
+//        return getUsername();
+//    }
+// 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+//    public void setId(String id) {
+//        setUsername(id);
+//    }
+//
     @Override
     public String toString() {
         return getUsername();
+    }
+
+    @Column(name = "enabled", nullable = false)
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Column(name = "password", length = 50, nullable = false)
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

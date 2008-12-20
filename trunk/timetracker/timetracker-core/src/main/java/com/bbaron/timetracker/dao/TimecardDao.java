@@ -7,11 +7,11 @@ import com.bbaron.timetracker.model.TimecardSearchCriteria;
 
 public interface TimecardDao extends GenericDao<Timecard, Long> {
 
-    Timecard findLatest(Long submitterId);
+    Timecard findLatest(String submitter);
 
     Timecard findById(Long timecardId);
     
-    Collection<Timecard> findSubmitted(Long approverId);
+    Collection<Timecard> findSubmitted(String approver);
     
     Collection<Timecard> findByCriteria(TimecardSearchCriteria criteria);
 }

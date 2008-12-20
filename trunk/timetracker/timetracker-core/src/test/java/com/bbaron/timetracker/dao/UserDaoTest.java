@@ -2,15 +2,15 @@ package com.bbaron.timetracker.dao;
 
 import com.bbaron.timetracker.model.User;
 
-public class UserDaoTest extends AbstractGenericDaoTestCase<User, Long> {
+public class UserDaoTest extends AbstractGenericDaoTestCase<User, String> {
     
     public UserDaoTest() {
-        super(User.class, -1L, 1000L);
+        super(User.class, "user1", "user1000");
     }
 
     @Override
     protected User createEntity() {
-        User user = new User("testuser");
+        User user = new User("user1");
         user.setFirstName("Test");
         user.setLastName("Last");
         return user;
@@ -27,19 +27,19 @@ public class UserDaoTest extends AbstractGenericDaoTestCase<User, Long> {
     }
 
     @Override
-    protected Long getIdFrom(User user) {
-        return user.getId();
+    protected String getIdFrom(User user) {
+        return user.getUsername();
     }
 
     @Override
     protected void clearIdFrom(User user) {
-        user.setId(null);
+        user.setUsername(null);
     }
 
     @Override
     protected String[] getSetUpStatements() {
         return new String[] {
-                "insert into tt_user (id, first_name, last_name, username) values (-1, 'first1', 'last1', 'user1')",
+                "insert into users (first_name, last_name, username, enabled, password) values ('first1', 'last1', 'user1', 1, 'x')",
         };
     }
 

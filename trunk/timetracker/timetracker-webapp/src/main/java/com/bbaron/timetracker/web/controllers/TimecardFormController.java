@@ -1,6 +1,5 @@
 package com.bbaron.timetracker.web.controllers;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,7 +8,6 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractFormController;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.service.TimecardService;
@@ -33,15 +31,15 @@ public class TimecardFormController extends AbstractFormController {
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         Long timecardId = ServletRequestUtils.getLongParameter(request, "timecardId");
-        Long submitterId = ServletRequestUtils.getLongParameter(request, "submitterId");
-        if (timecardId == null && submitterId == null) {
-            throw new ServletRequestBindingException("one or timecardId, submitterId is required");
+        String submitter = request.getParameter("submitter");
+        if (timecardId == null && submitter == null) {
+            throw new ServletRequestBindingException("one or timecardId, submiter is required");
         }
         Timecard timecard = null;
         if (timecardId != null) {
             timecard = timecardService.getTimecard(timecardId);
         } else {
-            timecard = timecardService.getLatestTimecard(submitterId);
+            timecard = timecardService.getLatestTimecard(submitter);
             if (timecard == null) {
 //                return setupNewTimecardForm(submitterId, model);
             }

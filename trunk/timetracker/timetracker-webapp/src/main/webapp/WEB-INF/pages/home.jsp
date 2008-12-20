@@ -1,5 +1,7 @@
 <%@ include file="/common/taglibs.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib tagdir="/WEB-INF/tags/mytags" prefix="my"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
@@ -9,22 +11,7 @@
 </head>
 <body>
 
-    <div class="topmenu">
-        <a class="menu" href="login.html">Log out [nbhatia]</a>
-    </div>
-
-    <div class="header">
-        <h1><span>Time</span>Tracker</h1>
-    </div>
-
-    <div class="menubar">
-        <ul>
-            <li class="first"><a class="selected" href="home.htm">Home</a></li>
-            <li><a href="timecard-edit.htm">Timecard Details</a></li>
-            <li><a href="timecard-search.htm">Search Timecards</a></li>
-            <li><a href="timecard-approve.htm">Approve Timecards</a></li>
-        </ul>
-    </div>
+	<%@ include file="/common/menubar.jsp" %>
 
     <div class="content">
         <h2>Welcome to TimeTracker</h2>
@@ -35,11 +22,11 @@
         <table>
             <tbody>
                 <tr>
-                    <td><a href="timecard-new.htm?submitterId=2002">New timecard</a></td>
+                    <td><a href="timecard-new.htm">New timecard</a></td>
                 </tr>
                 <c:if test="${hasLatest}">
                 <tr>
-                    <td><a href="timecard-edit.htm?submitterId=2002">Last saved timecard</a></td>
+                    <td><a href="timecard-edit.htm">Last saved timecard</a></td>
                 </tr>
                 </c:if>
                 <tr>
@@ -51,6 +38,5 @@
             </tbody>
         </table>
     </div>
-
 </body>
 </html>

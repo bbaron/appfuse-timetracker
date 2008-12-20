@@ -6,15 +6,13 @@ import com.bbaron.timetracker.model.*;
 
 public interface TimecardService {
 
-    Long createTimecard(Long submitterId, TimecardDate startDate);
+    Long createTimecard(String submitter, TimecardDate startDate);
 
     void enterTimeAllocation(Long timecardId, TimeAllocation alloc);
 
     Timecard getTimecard(Long timecardId);
     
-    Timecard getLatestTimecard(Long submitterId);
-
-    Timecard getLatestTimecard(String submitterUsername);
+    Timecard getLatestTimecard(String submitter);
 
     Collection<User> getAllUsers();
 
@@ -26,7 +24,7 @@ public interface TimecardService {
 
     void submitTimecard(Long timecardId);
 
-    void approveTimecard(Long timecardId, Long approverId);
+    void approveTimecard(Long timecardId, String approver);
 
     void rejectTimecard(Long timecardId);
 

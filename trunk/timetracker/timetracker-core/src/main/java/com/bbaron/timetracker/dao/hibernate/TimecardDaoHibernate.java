@@ -3,6 +3,7 @@ package com.bbaron.timetracker.dao.hibernate;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
@@ -39,9 +40,9 @@ public class TimecardDaoHibernate extends GenericDaoHibernate<Timecard, Long>
      */
     @Override
     @SuppressWarnings("unchecked")
-	public Timecard findLatest(Long submitterId) {
+	public Timecard findLatest(String submitter) {
 		HibernateTemplate template = getHibernateTemplate();
-		List results = template.findByNamedQueryAndNamedParam("latestTimecard", "submitterId", submitterId);
+		List results = template.findByNamedQueryAndNamedParam("latestTimecard", "submitterId", submitter);
 		Timecard result = (Timecard) DataAccessUtils.uniqueResult(results);
 		return result;
 	}
@@ -57,9 +58,9 @@ public class TimecardDaoHibernate extends GenericDaoHibernate<Timecard, Long>
 
     @SuppressWarnings("unchecked")
     @Override
-    public Collection<Timecard> findSubmitted(Long approverId) {
+    public Collection<Timecard> findSubmitted(String approver) {
         HibernateTemplate template = getHibernateTemplate();
-        List results = template.findByNamedQueryAndNamedParam("submittedTimecards", "approverId", approverId);
+        List results = template.findByNamedQueryAndNamedParam("submittedTimecards", "approverId", approver);
         return results;
     }
 
@@ -70,16 +71,16 @@ public class TimecardDaoHibernate extends GenericDaoHibernate<Timecard, Long>
                 Timecard.class).setFetchMode("submitter", FetchMode.JOIN)
                 .setFetchMode("approver", FetchMode.JOIN);
 
-        // Add submitter criteria
-        if (criteria.getSubmitterId() != null) {
+        if (!StringUtils.isBlank(criteria.getSubmitter())) {
+            logger.debug("adding submitter " + criteria.getSubmitter() + " to search" );
             timecardCriteria.createCriteria("submitter").add(
-                    Restrictions.idEq(criteria.getSubmitterId()));
+                    Restrictions.idEq(criteria.getSubmitter()));
         }
 
-        // Add submitter criteria
-        if (criteria.getApproverId() != null) {
+        if (!StringUtils.isBlank(criteria.getApprover())) {
+            logger.debug("adding approver " + criteria.getApprover()+ " to search" );
             timecardCriteria.createCriteria("approver").add(
-                    Restrictions.idEq(criteria.getApproverId()));
+                    Restrictions.idEq(criteria.getApprover()));
         }
 
         // Add status criteria

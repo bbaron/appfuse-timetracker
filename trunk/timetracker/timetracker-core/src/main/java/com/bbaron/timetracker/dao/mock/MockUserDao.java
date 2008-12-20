@@ -9,7 +9,7 @@ import com.bbaron.timetracker.dao.UserDao;
 import com.bbaron.timetracker.model.User;
 
 @Repository
-public class MockUserDao extends MockGenericDao<User, Long> implements UserDao {
+public class MockUserDao extends MockGenericDao<User, String> implements UserDao {
 
     @Override
     protected List<User> createEntities() {
@@ -17,15 +17,9 @@ public class MockUserDao extends MockGenericDao<User, Long> implements UserDao {
         User e = new User("user");
         e.setFirstName("first");
         e.setLastName("last");
-        e.setId(1L);
         list.add(e);
         return list;
     }
 
-    @Override
-    public User findByUsername(String submitterUsername) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
 }

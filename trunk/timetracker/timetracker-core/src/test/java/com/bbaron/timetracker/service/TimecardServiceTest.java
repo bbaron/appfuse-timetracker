@@ -16,7 +16,7 @@ public class TimecardServiceTest {
     private MockUserDao userDao;
 	private User user;
 	private static final Long TIMECARD_ID = 1L;
-	private static final Long USER_ID = 1L;
+	private static final String USER_ID = "user1";
 
     @Before
     public void setUp() throws Exception {
@@ -26,7 +26,7 @@ public class TimecardServiceTest {
         timecardService.setTimecardDao(timecardDao);
         timecardService.setUserDao(userDao);
         user = new User("user");
-        user.setId(USER_ID);
+        user.setUsername(USER_ID);
         userDao.setEntities(user);
     }
 

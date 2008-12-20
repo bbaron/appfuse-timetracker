@@ -35,7 +35,7 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
         alloc.setHours(TimecardHours.hours(3));
         alloc.setMinutes(TimecardMinutes.minutes(15));
         timecard.addTimeAllocation(alloc);
-        User submitter = (User) getSessionFactory().getCurrentSession().get(User.class, -1L);
+        User submitter = (User) getSessionFactory().getCurrentSession().get(User.class, "user1");
         timecard.setSubmitter(submitter);
         return timecard;
     }
@@ -63,15 +63,15 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
     @Override
     protected String[] getSetUpStatements() {
         return new String[] {
-                "insert into tt_user (id, first_name, last_name, username) values (-1, 'first1', 'last1', 'user1')",
-                "insert into tt_user (id, first_name, last_name, username) values (-2, 'first2', 'last2', 'user2')",
-                "insert into tt_user (id, first_name, last_name, username) values (-3, 'first3', 'last3', 'user3')",
+                "insert into users (first_name, last_name, username, enabled, password) values ('first1', 'last1', 'user1', 1, 'x')",
+                "insert into users (first_name, last_name, username, enabled, password) values ('first2', 'last2', 'user2', 1, 'x')",
+                "insert into users (first_name, last_name, username, enabled, password) values ('first3', 'last3', 'user3', 1, 'x')",
                 "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
-                        + "values (-1, 'Draft', '2007/11/15', 'Timecard -1', null, -1)",
+                        + "values (-1, 'Draft', '2007/11/15', 'Timecard -1', null, 'user1')",
                 "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
-                        + "values (-2, 'Draft', '2007/11/22', 'Timecard -2', -2, -1)",
+                        + "values (-2, 'Draft', '2007/11/22', 'Timecard -2', 'user2', 'user1')",
                 "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
-                        + "values (-3, 'Draft', '2007/11/23', null, null, -3)",
+                        + "values (-3, 'Draft', '2007/11/23', null, null, 'user3')",
                 "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
                         + "values (-1, '2007/11/15', 4, 20, 'Admin', 0)",
                 "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
@@ -90,7 +90,7 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
     }
 
     public void testFindLatest() throws Exception {
-        Timecard latest = timecardDao.findLatest(-1L);
+        Timecard latest = timecardDao.findLatest("user1");
         assertEquals(-2, latest.getId().intValue());
         super.endTransaction();
         try {
@@ -116,7 +116,7 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
     }
 
     public void testFindLatest_noAssociations() throws Exception {
-        Timecard latest = timecardDao.findLatest(-3L);
+        Timecard latest = timecardDao.findLatest("user3");
         flush();
         endTransaction();
         assertNull(latest.getApprover());
@@ -125,7 +125,7 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 
     public void testNoLastTimecard() throws Exception {
         try {
-            assertNull(timecardDao.findLatest(-999L));
+            assertNull(timecardDao.findLatest("user999"));
         } catch (Exception e) {
             e.printStackTrace();
             fail("findLatest should return null when nothing found " + e.toString());
@@ -134,13 +134,13 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
 
     public void testFindByCriteriaSubmitter() throws Exception {
         TimecardSearchCriteria criteria = new TimecardSearchCriteria();
-        criteria.setSubmitterId(-1L);
+        criteria.setSubmitter("user1");
         assertTestFindByCriteria(criteria, 2);
     }
 
     public void testFindByCriteriaApprover() throws Exception {
         TimecardSearchCriteria criteria = new TimecardSearchCriteria();
-        criteria.setApproverId(-2L);
+        criteria.setApprover("user2");
         assertTestFindByCriteria(criteria, 1);
     }
 
