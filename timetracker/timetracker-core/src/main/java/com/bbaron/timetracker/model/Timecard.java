@@ -69,6 +69,7 @@ public class Timecard implements IEntity<Long> {
 	}
 
 	@ManyToOne(optional = false)
+    @JoinColumn(name = "submitter_id")
 	public User getSubmitter() {
 		return submitter;
 	}
@@ -78,6 +79,7 @@ public class Timecard implements IEntity<Long> {
 	}
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY)
+	@JoinColumn(name = "approver_id")
 	public User getApprover() {
 		return approver;
 	}

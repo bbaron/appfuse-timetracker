@@ -1,9 +1,12 @@
 package com.bbaron.timetracker.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
 import com.bbaron.timetracker.model.Timecard;
+import com.bbaron.timetracker.model.TimecardSearchCriteria;
 
 public class TimecardServiceIntegrationTest extends AbstractTransactionalDataSourceSpringContextTests {
     
@@ -31,6 +34,14 @@ public class TimecardServiceIntegrationTest extends AbstractTransactionalDataSou
         Timecard timecard = timecardService.getTimecard(2000L);
         assertNotNull(timecard);
         assertNotNull(timecard.getSubmitter().getUsername());
+    }
+    
+    public void testSearchTimecards() throws Exception {
+        TimecardSearchCriteria crit = new TimecardSearchCriteria();
+        crit.setSubmitter("nbhatia");
+        crit.setApprover("");
+        Collection<Timecard> cards = timecardService.searchTimecards(crit);
+        assertFalse("found timecards", cards.isEmpty());
     }
     
 }

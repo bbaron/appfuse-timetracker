@@ -11,22 +11,7 @@
 </head>
 <body>
 
-    <div class="topmenu">
-        <a class="menu" href="login.htm">Log out [nbhatia]</a>
-    </div>
-
-    <div class="header">
-        <h1><span>Time</span>Tracker</h1>
-    </div>
-
-    <div class="menubar">
-        <ul>
-            <li class="first"><a href="home.htm">Home</a></li>
-            <li><a href="timecard-edit.htm">Timecard Details</a></li>
-            <li><a class="selected" href="timecard-search.htm">Search Timecards</a></li>
-            <li><a href="timecard-approve.htm">Approve Timecards</a></li>
-        </ul>
-    </div>
+	<%@ include file="/common/menubar.jsp" %>
 
     <div class="content">
 
@@ -36,13 +21,13 @@
                 <h2>Search Criteria</h2>
 
                 <h3>Submitter</h3>
-               <form:select path="submitterId">
+               <form:select path="submitter">
                    <form:option value="" label="-- ALL --"/>
                    <form:options items="${users}"/>
                </form:select>
 
                 <h3>Approver</h3>
-               <form:select path="approverId">
+               <form:select path="approver">
                    <form:option value="" label="-- ALL --"/>
                    <form:options items="${users}"/>
                </form:select>

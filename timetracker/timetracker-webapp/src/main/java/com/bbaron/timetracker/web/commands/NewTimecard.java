@@ -5,15 +5,15 @@ import com.bbaron.timetracker.model.TimecardDate;
 
 public class NewTimecard {
 
-    private Long submitterId;
+    private String submitter;
     private TimecardDate startDate = TimecardDate.today();
 
-    public Long getSubmitterId() {
-        return submitterId;
+    public String getSubmitter() {
+        return submitter;
     }
 
-    public void setSubmitterId(Long submitterId) {
-        this.submitterId = submitterId;
+    public void setSubmitter(String submitterId) {
+        this.submitter = submitterId;
     }
 
     public TimecardDate getStartDate() {

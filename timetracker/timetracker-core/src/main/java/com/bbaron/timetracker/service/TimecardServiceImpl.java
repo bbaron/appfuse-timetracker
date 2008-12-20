@@ -37,8 +37,8 @@ public class TimecardServiceImpl implements TimecardService {
 
     @Override
     @Transactional
-    public Long createTimecard(Long userId, TimecardDate startDate) {
-        User submitter = userDao.get(userId);
+    public Long createTimecard(String user, TimecardDate startDate) {
+        User submitter = userDao.get(user);
         if (logger.isInfoEnabled()) {
             logger.info("creating timecard for user " + submitter + " starting " + startDate);
         }
@@ -66,8 +66,8 @@ public class TimecardServiceImpl implements TimecardService {
     }
 
     @Override
-    public Timecard getLatestTimecard(Long submitterId) {
-        Timecard timecard = timecardDao.findLatest(submitterId);
+    public Timecard getLatestTimecard(String submitter) {
+        Timecard timecard = timecardDao.findLatest(submitter);
         return timecard;
     }
 
@@ -111,10 +111,10 @@ public class TimecardServiceImpl implements TimecardService {
     }
 
     @Override
-    public void approveTimecard(Long timecardId, Long approverId) {
+    public void approveTimecard(Long timecardId, String approver) {
         Timecard timecard = timecardDao.get(timecardId);
         timecard.setStatus(Approved);
-        timecard.setApprover(userDao.get(approverId));
+        timecard.setApprover(userDao.get(approver));
         updateTimecardStatus(timecardId, Approved);
     }
 
@@ -122,15 +122,6 @@ public class TimecardServiceImpl implements TimecardService {
         Timecard timecard = timecardDao.get(timecardId);
         timecard.setStatus(status);
         timecardDao.save(timecard);
-    }
-
-    @Override
-    public Timecard getLatestTimecard(String submitterUsername) {
-        User user = userDao.findByUsername(submitterUsername);
-        if (user == null) {
-            return null;
-        }
-        return getLatestTimecard(user.getId());
     }
 
     @Override

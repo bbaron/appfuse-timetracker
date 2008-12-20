@@ -2,6 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <!DOCTYPE 
     html
     PUBLIC
@@ -18,45 +19,7 @@
   </head>
   <body>
 
-    <div class="topmenu">
-      <a class="menu" href="login.htm">
-        Log out [nbhatia]
-      </a>
-    </div>
-
-    <div class="header">
-      <h1>
-        <span>
-          Time
-        </span>
-        Tracker
-      </h1>
-    </div>
-
-    <div class="menubar">
-      <ul>
-        <li class="first">
-        <a href="home.htm">
-          Home
-        </a>
-      </li>
-      <li>
-      <a class="selected" href="timecard-edit.htm">
-        Timecard Details
-      </a>
-    </li>
-    <li>
-    <a href="timecard-search.htm">
-      Search Timecards
-    </a>
-  </li>
-  <li>
-  <a href="timecard-approve.htm">
-    Approve Timecards
-  </a>
-</li>
-</ul>
-</div>
+	<%@ include file="/common/menubar.jsp" %>
 
 <div class="content">
   <h2>

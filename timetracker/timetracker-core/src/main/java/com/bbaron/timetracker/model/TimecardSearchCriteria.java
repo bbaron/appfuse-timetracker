@@ -2,26 +2,26 @@ package com.bbaron.timetracker.model;
 
 public class TimecardSearchCriteria {
 
-	private Long submitterId;
-	private Long approverId;
+	private String submitter;
+	private String approver;
 	private TimecardStatus status;
 	private TimecardDate startDateMin;
 	private TimecardDate startDateMax;
 
-	public Long getSubmitterId() {
-		return submitterId;
+	public String getSubmitter() {
+		return submitter;
 	}
 
-	public void setSubmitterId(Long submitterId) {
-		this.submitterId = submitterId;
+	public void setSubmitter(String submitter) {
+		this.submitter = submitter;
 	}
 
-	public Long getApproverId() {
-		return approverId;
+	public String getApprover() {
+		return approver;
 	}
 
-	public void setApproverId(Long approverId) {
-		this.approverId = approverId;
+	public void setApprover(String approver) {
+		this.approver = approver;
 	}
 
 	public TimecardStatus getStatus() {
@@ -51,11 +51,11 @@ public class TimecardSearchCriteria {
 	@Override
 	public String toString() {
 	    StringBuilder s = new StringBuilder();
-        if (submitterId != null) {
-            s.append(" submitter = " + submitterId);
+        if (submitter != null) {
+            s.append(" submitter = " + submitter);
         }
-        if (approverId != null) {
-            s.append(" approver = " + approverId);
+        if (approver != null) {
+            s.append(" approver = " + approver);
         }
         if (startDateMin != null) {
             s.append(" min = " + startDateMin);

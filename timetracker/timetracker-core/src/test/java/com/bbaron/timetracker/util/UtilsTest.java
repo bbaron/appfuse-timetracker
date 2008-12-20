@@ -18,30 +18,27 @@ public class UtilsTest {
     @Test
     public void testToMap() throws Exception {
         List<User> users = getUsers();
-        Map<String, String> userMap = Utils.toMap(users, "id", "username");
+        Map<String, String> userMap = Utils.toMap(users, "username", "username");
         assertEquals(3, userMap.size());
-        assertEquals("user1", userMap.get("1"));
+        assertEquals("user1", userMap.get("user1"));
         Iterator<Entry<String, String>> entries = userMap.entrySet().iterator();
         Entry<String, String> entry;
         entry = entries.next();
         assertEquals("user1", entry.getValue());
-        assertEquals("1", entry.getKey());
+        assertEquals("user1", entry.getKey());
         entry = entries.next();
         assertEquals("user2", entry.getValue());
-        assertEquals("2", entry.getKey());
+        assertEquals("user2", entry.getKey());
         entry = entries.next();
         assertEquals("user3", entry.getValue());
-        assertEquals("3", entry.getKey());
+        assertEquals("user3", entry.getKey());
     }
 
     private List<User> getUsers() {
         List<User> users = new ArrayList<User>();
         User u1 = new User("user1");
-        u1.setId(1L);
         User u2 = new User("user2");
-        u2.setId(2L);
         User u3 = new User("user3");
-        u3.setId(3L);
         users.add(u1);
         users.add(u2);
         users.add(u3);

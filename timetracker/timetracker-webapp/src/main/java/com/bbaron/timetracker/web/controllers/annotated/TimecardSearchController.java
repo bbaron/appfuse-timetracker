@@ -2,8 +2,10 @@ package com.bbaron.timetracker.web.controllers.annotated;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,21 +26,30 @@ public class TimecardSearchController extends AbstractTimecardController {
     
     @RequestMapping(method = RequestMethod.POST)
     public String searchTimecards(@ModelAttribute("criteria") TimecardSearchCriteria criteria, BindingResult result,
-            SessionStatus status, ModelMap model) {
+            SessionStatus status, Model model) {
         logger.info("criteria = " + criteria);
         validator.validate(criteria, result);
         model.addAttribute("criteria", criteria);
         if (!result.hasErrors()) {
-            Collection<Timecard> timecards = timecardService.searchTimecards(criteria);
-            logger.info("timecards found = " + timecards.size());
-            model.addAttribute("timecards", timecards);
+            performSearch(criteria, model);
         }
-        return setupSearchTimecards(model);
+        return setupSearchTimecards(model, null);
+    }
+
+    private void performSearch(TimecardSearchCriteria criteria, Model model) {
+        Collection<Timecard> timecards = timecardService.searchTimecards(criteria);
+        logger.info("timecards found = " + timecards.size());
+        model.addAttribute("timecards", timecards);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String setupSearchTimecards(ModelMap model) {
-        model.addAttribute("criteria", new TimecardSearchCriteria());
+    public String setupSearchTimecards(Model model, HttpServletRequest request) {
+        TimecardSearchCriteria criteria = new TimecardSearchCriteria();
+        if (request != null) {
+            criteria.setSubmitter(request.getRemoteUser());
+            performSearch(criteria, model);
+        }
+        model.addAttribute("criteria", criteria);
         model.addAttribute("users", getAllUsers());
         model.addAttribute("statuses", timecardService.getAllStatuses());
         return "timecard-search";

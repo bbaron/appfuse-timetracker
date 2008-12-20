@@ -20,7 +20,7 @@ public class MockTimecardDao extends MockGenericDao<Timecard, Long> implements T
     }
 
 	@Override
-	public Timecard findLatest(Long submitterId) {
+	public Timecard findLatest(String submitterId) {
 		return null;
 	}
 
@@ -37,7 +37,7 @@ public class MockTimecardDao extends MockGenericDao<Timecard, Long> implements T
     }
 
     @Override
-    public Collection<Timecard> findSubmitted(Long approverId) {
+    public Collection<Timecard> findSubmitted(String approverId) {
         // TODO Auto-generated method stub
         return null;
     }

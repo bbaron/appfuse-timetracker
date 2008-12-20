@@ -3,6 +3,7 @@ package com.bbaron.timetracker.web.controllers.annotated;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ import com.bbaron.timetracker.util.*;
 import com.bbaron.timetracker.web.commands.NewTimecard;
 import com.bbaron.timetracker.web.validators.NewTimecardValidator;
 import com.bbaron.timetracker.web.validators.TimeAllocationValidator;
-
+    
 @Controller
 @RequestMapping("/timecard-*.htm")
 @SessionAttributes( { "timeAllocation", "timecard" })
@@ -52,17 +53,19 @@ public class TimecardController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/timecard-edit.htm")
     public String setupTimecardForm(@RequestParam(required = false, value = "timecardId") Long timecardId,
-            @RequestParam(required = false, value = "submitterId") Long submitterId, ModelMap model) throws Exception {
-        if (timecardId == null && submitterId == null) {
-            throw new ServletException("one or timecardId, submitterId is required");
+            ModelMap model, HttpServletRequest request) throws Exception {
+        String submitter = request.getRemoteUser();
+        logger.debug("remote user is " + submitter);
+        if (timecardId == null && submitter == null) {
+            throw new ServletException("either timecardId or submitterId must be specified");
         }
         Timecard timecard = null;
         if (timecardId != null) {
             timecard = timecardService.getTimecard(timecardId);
         } else {
-            timecard = timecardService.getLatestTimecard(submitterId);
+            timecard = timecardService.getLatestTimecard(submitter);
             if (timecard == null) {
-                return setupNewTimecardForm(submitterId, model);
+                return setupNewTimecardForm(request, model);
             }
         }
         model.addAttribute("timecard", timecard);
@@ -76,7 +79,7 @@ public class TimecardController {
     }
 
     private Map<String, String> getAllUsers() {
-        return Utils.toMap(timecardService.getAllUsers(), "id", "username");
+        return Utils.toMap(timecardService.getAllUsers(), "username", "username");
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/timecard-enter-time-allocation.htm")
@@ -104,10 +107,11 @@ public class TimecardController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/timecard-new.htm")
-    public String setupNewTimecardForm(@RequestParam(required = false, value = "submitterId") Long submitterId,
+    public String setupNewTimecardForm(HttpServletRequest request,
             ModelMap model) {
+        String submitter = request.getRemoteUser();
         NewTimecard timecard = new NewTimecard();
-        timecard.setSubmitterId(submitterId);
+        timecard.setSubmitter(submitter);
         model.addAttribute("timecard", timecard);
         return "timecard-new";
     }
@@ -126,7 +130,7 @@ public class TimecardController {
         if (result.hasErrors()) {
             return "timecard-new";
         } else {
-            Long id = timecardService.createTimecard(timecard.getSubmitterId(), timecard.getStartDate());
+            Long id = timecardService.createTimecard(timecard.getSubmitter(), timecard.getStartDate());
             status.setComplete();
             return "redirect:timecard-edit.htm?timecardId=" + id;
         }
