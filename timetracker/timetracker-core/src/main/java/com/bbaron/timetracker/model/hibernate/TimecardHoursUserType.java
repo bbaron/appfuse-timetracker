@@ -1,6 +1,6 @@
 package com.bbaron.timetracker.model.hibernate;
 
-import com.bbaron.timetracker.model.TimecardHours;
+import com.bbaron.timetracker.temporal.TimecardHours;
 
 public final class TimecardHoursUserType extends IntegralValueUserType<TimecardHours> {
 

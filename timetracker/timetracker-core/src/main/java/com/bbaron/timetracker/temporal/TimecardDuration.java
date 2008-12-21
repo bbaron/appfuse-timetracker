@@ -1,4 +1,5 @@
-package com.bbaron.timetracker.model;
+package com.bbaron.timetracker.temporal;
+
 
 public class TimecardDuration {
 

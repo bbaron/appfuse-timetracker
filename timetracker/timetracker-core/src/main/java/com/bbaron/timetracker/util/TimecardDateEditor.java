@@ -4,7 +4,7 @@ import java.beans.PropertyEditorSupport;
 
 import org.springframework.util.StringUtils;
 
-import com.bbaron.timetracker.model.TimecardDate;
+import com.bbaron.timetracker.temporal.TimecardDate;
 
 public class TimecardDateEditor extends PropertyEditorSupport {
 

@@ -10,6 +10,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.joda.time.Duration;
 
+import com.bbaron.timetracker.temporal.TimecardDate;
 import com.bbaron.timetracker.util.Constants;
 
 @Entity

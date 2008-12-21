@@ -8,6 +8,9 @@ import org.junit.Test;
 import com.bbaron.timetracker.dao.mock.MockTimecardDao;
 import com.bbaron.timetracker.dao.mock.MockUserDao;
 import com.bbaron.timetracker.model.*;
+import com.bbaron.timetracker.temporal.TimecardDate;
+import com.bbaron.timetracker.temporal.TimecardHours;
+import com.bbaron.timetracker.temporal.TimecardMinutes;
 
 public class TimecardServiceTest {
 

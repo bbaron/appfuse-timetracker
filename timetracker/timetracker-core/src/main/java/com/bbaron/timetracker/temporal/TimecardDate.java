@@ -1,4 +1,4 @@
-package com.bbaron.timetracker.model;
+package com.bbaron.timetracker.temporal;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;

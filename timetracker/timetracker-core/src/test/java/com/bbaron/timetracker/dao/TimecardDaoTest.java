@@ -7,6 +7,9 @@ import org.hibernate.LazyInitializationException;
 import com.bbaron.timetracker.dao.hibernate.GenericDaoHibernate;
 import com.bbaron.timetracker.dao.hibernate.TimecardDaoHibernate;
 import com.bbaron.timetracker.model.*;
+import com.bbaron.timetracker.temporal.TimecardDate;
+import com.bbaron.timetracker.temporal.TimecardHours;
+import com.bbaron.timetracker.temporal.TimecardMinutes;
 
 public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> {
 

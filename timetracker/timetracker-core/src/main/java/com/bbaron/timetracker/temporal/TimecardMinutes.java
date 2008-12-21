@@ -1,7 +1,9 @@
-package com.bbaron.timetracker.model;
+package com.bbaron.timetracker.temporal;
 
 import org.joda.time.Minutes;
 import org.springframework.util.Assert;
+
+import com.bbaron.timetracker.model.IntegralValue;
 
 public final class TimecardMinutes extends IntegralValue<Minutes> {
 

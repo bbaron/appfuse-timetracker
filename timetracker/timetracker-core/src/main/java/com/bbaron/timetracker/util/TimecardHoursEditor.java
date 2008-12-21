@@ -1,6 +1,6 @@
 package com.bbaron.timetracker.util;
 
-import com.bbaron.timetracker.model.TimecardHours;
+import com.bbaron.timetracker.temporal.TimecardHours;
 
 public class TimecardHoursEditor extends IntegralValueEditor {
 

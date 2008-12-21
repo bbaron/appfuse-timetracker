@@ -3,6 +3,7 @@ package com.bbaron.timetracker.service;
 import java.util.Collection;
 
 import com.bbaron.timetracker.model.*;
+import com.bbaron.timetracker.temporal.TimecardDate;
 
 public interface TimecardService {
 

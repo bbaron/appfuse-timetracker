@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 
 import com.bbaron.timetracker.model.*;
 import com.bbaron.timetracker.service.TimecardService;
+import com.bbaron.timetracker.temporal.TimecardDate;
+import com.bbaron.timetracker.temporal.TimecardHours;
+import com.bbaron.timetracker.temporal.TimecardMinutes;
 import com.bbaron.timetracker.util.*;
 
 public abstract class AbstractTimecardController {

@@ -1,5 +1,7 @@
 package com.bbaron.timetracker.model;
 
+import com.bbaron.timetracker.temporal.TimecardDate;
+
 public class TimecardSearchCriteria {
 
 	private String submitter;

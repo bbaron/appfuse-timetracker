@@ -1,6 +1,6 @@
 package com.bbaron.timetracker.util;
 
-import com.bbaron.timetracker.model.TimecardMinutes;
+import com.bbaron.timetracker.temporal.TimecardMinutes;
 
 public class TimecardMinutesEditorTest extends AbstractIntegralValueEditorTest {
 
