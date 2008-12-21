@@ -2,7 +2,7 @@ package com.bbaron.timetracker.model.hibernate;
 
 import org.hibernate.type.NullableType;
 
-import com.bbaron.timetracker.model.TimecardMinutes;
+import com.bbaron.timetracker.temporal.TimecardMinutes;
 
 public class TimecardMinutesUserTypeTest extends AbstractIntegralValueUserTypeTest<TimecardMinutes> {
 

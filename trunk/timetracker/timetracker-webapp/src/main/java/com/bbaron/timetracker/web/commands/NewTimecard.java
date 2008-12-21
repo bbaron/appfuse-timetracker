@@ -1,6 +1,6 @@
 package com.bbaron.timetracker.web.commands;
 
-import com.bbaron.timetracker.model.TimecardDate;
+import com.bbaron.timetracker.temporal.TimecardDate;
 
 
 public class NewTimecard {

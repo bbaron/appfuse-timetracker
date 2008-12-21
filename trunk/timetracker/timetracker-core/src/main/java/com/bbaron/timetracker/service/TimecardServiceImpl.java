@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bbaron.timetracker.dao.TimecardDao;
 import com.bbaron.timetracker.dao.UserDao;
 import com.bbaron.timetracker.model.*;
+import com.bbaron.timetracker.temporal.TimecardDate;
 
 @Service("timecardService")
 public class TimecardServiceImpl implements TimecardService {

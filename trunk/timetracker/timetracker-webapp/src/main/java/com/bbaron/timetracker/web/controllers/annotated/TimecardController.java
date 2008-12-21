@@ -15,6 +15,9 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.bbaron.timetracker.model.*;
 import com.bbaron.timetracker.service.TimecardService;
+import com.bbaron.timetracker.temporal.TimecardDate;
+import com.bbaron.timetracker.temporal.TimecardHours;
+import com.bbaron.timetracker.temporal.TimecardMinutes;
 import com.bbaron.timetracker.util.*;
 import com.bbaron.timetracker.web.commands.NewTimecard;
 import com.bbaron.timetracker.web.validators.NewTimecardValidator;

@@ -9,7 +9,7 @@ import java.sql.Date;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
-import com.bbaron.timetracker.model.TimecardDate;
+import com.bbaron.timetracker.temporal.TimecardDate;
 
 public class TimecardDateUserType extends AbstractImmutableSingleColumnHibernateUserType {
 
