@@ -3,11 +3,11 @@ package com.bbaron.timetracker.web.controllers.annotated;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import com.bbaron.timetracker.model.*;
+import com.bbaron.timetracker.model.Task;
+import com.bbaron.timetracker.model.TimecardStatus;
 import com.bbaron.timetracker.service.TimecardService;
 import com.bbaron.timetracker.temporal.TimecardDate;
 import com.bbaron.timetracker.temporal.TimecardHours;
@@ -16,7 +16,6 @@ import com.bbaron.timetracker.util.*;
 
 public abstract class AbstractTimecardController {
 	protected TimecardService timecardService;
-    protected Validator validator;
     protected final Logger logger = Logger.getLogger(getClass());
         
     @InitBinder
@@ -30,10 +29,6 @@ public abstract class AbstractTimecardController {
 
     public void setTimecardService(TimecardService timecardService) {
         this.timecardService = timecardService;
-    }
-
-    protected void setValidator(Validator validator) {
-        this.validator = validator;
     }
 
     protected final Map<String, String> getAllUsers() {

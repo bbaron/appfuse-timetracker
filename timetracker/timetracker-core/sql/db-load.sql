@@ -1,4 +1,4 @@
-insert into users (first_name, last_name, username, password, enabled) values ('system', 'user', 'user', 'changeme', 1); 
+insert into users (first_name, last_name, username, password, enabled) values ('system', 'user', 'user', 'user', 1); 
 insert into users (first_name, last_name, username, password, enabled) values ('system', 'admin', 'admin', 'changeme', 1); 
 insert into users (first_name, last_name, username, password, enabled) values ('Naresh', 'Bhatia', 'nbhatia', 'changeme', 1); 
 insert into users (first_name, last_name, username, password, enabled) values ('Louis', 'Coude', 'lcoude', 'changeme', 1); 
