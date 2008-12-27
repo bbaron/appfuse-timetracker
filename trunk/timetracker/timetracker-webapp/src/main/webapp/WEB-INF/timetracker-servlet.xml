@@ -22,7 +22,7 @@
 		<property name="viewName" value="home" />
 	</bean>
 	<bean id="approveTimecardsController" class="com.bbaron.timetracker.web.controllers.HomeController">
-		<property name="viewName" value="approve-timecards" />
+		<property name="viewName" value="timecard-approve" />
 	</bean>
 	<bean id="simpleUrlHandlerMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">

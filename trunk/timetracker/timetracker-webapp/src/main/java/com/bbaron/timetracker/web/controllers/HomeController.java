@@ -22,6 +22,7 @@ public class HomeController extends ParameterizableViewController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ModelAndView mav = super.handleRequestInternal(request, response);
+        logger.debug("view name = " + mav.getViewName());
         if (timecardService != null) {
             String user = request.getRemoteUser();
             if (user == null) {
