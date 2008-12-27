@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Hibernate;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Repository;
 import com.bbaron.timetracker.dao.TimecardDao;
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.model.TimecardSearchCriteria;
+import com.bbaron.timetracker.model.TimecardStatus;
+import com.bbaron.timetracker.model.User;
 
 @Repository("timecardDao")
 public class TimecardDaoHibernate extends GenericDaoHibernate<Timecard, Long>
@@ -60,7 +64,9 @@ public class TimecardDaoHibernate extends GenericDaoHibernate<Timecard, Long>
     @Override
     public Collection<Timecard> findSubmitted(String approver) {
         HibernateTemplate template = getHibernateTemplate();
-        List results = template.findByNamedQueryAndNamedParam("submittedTimecards", "approverId", approver);
+        List results = template.find("from Timecard t where t.status = 'Submitted' and" +
+        		" t.submitter.id != ?", approver);
+        logger.debug("submitted timecards found = " + results.size());
         return results;
     }
 
@@ -106,6 +112,17 @@ public class TimecardDaoHibernate extends GenericDaoHibernate<Timecard, Long>
             logger.debug(timecards.size() + " timecards found");
         }
         return timecards;
+    }
+
+    @Override
+    public Timecard get(Long id) {
+        Timecard timecard = super.get(id);
+        if (timecard.getApprover() != null) {
+            Hibernate.initialize(timecard.getApprover());
+        }
+        Hibernate.initialize(timecard.getSubmitter());
+        Hibernate.initialize(timecard.getTimeAllocations());
+        return timecard;
     }
 
 }

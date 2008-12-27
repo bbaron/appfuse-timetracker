@@ -75,6 +75,10 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
                         + "values (-2, 'Draft', '2007/11/22', 'Timecard -2', 'user2', 'user1')",
                 "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
                         + "values (-3, 'Draft', '2007/11/23', null, null, 'user3')",
+                "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
+                        + "values (-4, 'Submitted', '2007/11/24', null, null, 'user3')",
+                "insert into tt_timecard (id, status, start_date, comments, approver_id, submitter_id) "
+                        + "values (-5, 'Submitted', '2006/11/25', null, null, 'user1')",
                 "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
                         + "values (-1, '2007/11/15', 4, 20, 'Admin', 0)",
                 "insert into tt_timecard_alloc (timecard_id, task_date, hours, minutes, task, position) "
@@ -138,7 +142,7 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
     public void testFindByCriteriaSubmitter() throws Exception {
         TimecardSearchCriteria criteria = new TimecardSearchCriteria();
         criteria.setSubmitter("user1");
-        assertTestFindByCriteria(criteria, 2);
+        assertTestFindByCriteria(criteria, 3);
     }
 
     public void testFindByCriteriaApprover() throws Exception {
@@ -171,5 +175,10 @@ public class TimecardDaoTest extends AbstractGenericDaoTestCase<Timecard, Long> 
     private void assertTestFindByCriteria(TimecardSearchCriteria criteria, int expectedSize) {
         Collection<Timecard> result = timecardDao.findByCriteria(criteria);
         assertEquals(expectedSize, result.size());
+    }
+    
+    public void testFindSubmitted() throws Exception {
+        Collection<Timecard> result = timecardDao.findSubmitted("user1");
+        assertFalse(result.isEmpty());
     }
 }
