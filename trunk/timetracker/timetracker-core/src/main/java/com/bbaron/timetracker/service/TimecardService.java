@@ -23,11 +23,13 @@ public interface TimecardService {
 
     Collection<Timecard> searchTimecards(TimecardSearchCriteria criteria);
 
-    void submitTimecard(Long timecardId);
+    void submitTimecard(Timecard timecard);
 
-    void approveTimecard(Long timecardId, String approver);
+    void approveTimecard(Timecard timecard, String approver);
 
-    void rejectTimecard(Long timecardId);
+    void rejectTimecard(Timecard timecard);
 
     void saveTimecard(Timecard timecard);
+    
+    void deleteTimecard(Long timecardId);
 }
