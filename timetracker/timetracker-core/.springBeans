@@ -14,7 +14,7 @@
 		<configSet>
 			<name><![CDATA[timetracker-main]]></name>
 			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
-			<incomplete>false</incomplete>
+			<incomplete>true</incomplete>
 			<configs>
 				<config>src/main/resources/timetracker-core.xml</config>
 				<config>src/main/resources/timetracker-hibernate.xml</config>
