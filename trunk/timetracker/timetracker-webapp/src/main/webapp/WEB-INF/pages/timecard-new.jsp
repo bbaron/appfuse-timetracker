@@ -15,12 +15,6 @@
     <div class="content">
         <h2>New Timecard Setup</h2>
         <div class="fieldgroup">
-        <!--
-            <label for="startdate">Start Date:</label>
-            <input type="text" id="startdate"/>
-            <br /><br />
-            <a class="button" href="timecard-edit.htm">Create New Timecard</a>
-        -->
         <form:form method="POST" modelAttribute="timecard">
             <label for="startdate">Start Date:</label>
 			<form:input path="startDate" />        

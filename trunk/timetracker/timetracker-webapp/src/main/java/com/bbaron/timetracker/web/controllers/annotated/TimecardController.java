@@ -13,14 +13,15 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.bbaron.timetracker.model.*;
+import com.bbaron.timetracker.model.Task;
+import com.bbaron.timetracker.model.TimeAllocation;
+import com.bbaron.timetracker.model.Timecard;
+import com.bbaron.timetracker.model.TimecardStatus;
 import com.bbaron.timetracker.service.TimecardService;
 import com.bbaron.timetracker.temporal.TimecardDate;
 import com.bbaron.timetracker.temporal.TimecardHours;
 import com.bbaron.timetracker.temporal.TimecardMinutes;
 import com.bbaron.timetracker.util.*;
-import com.bbaron.timetracker.web.commands.NewTimecard;
-import com.bbaron.timetracker.web.validators.NewTimecardValidator;
 import com.bbaron.timetracker.web.validators.TimeAllocationValidator;
     
 @Controller
@@ -30,12 +31,7 @@ public class TimecardController {
 
     protected final Logger logger = Logger.getLogger(getClass());
     private TimecardService timecardService;
-    private NewTimecardValidator newTimecardValidator;
     private TimeAllocationValidator timeAllocationValidator;
-
-    public void setNewTimecardValidator(NewTimecardValidator newTimecardValidator) {
-        this.newTimecardValidator = newTimecardValidator;
-    }
 
     public void setTimeAllocationValidator(TimeAllocationValidator timecardEntryValidator) {
         this.timeAllocationValidator = timecardEntryValidator;
@@ -68,7 +64,7 @@ public class TimecardController {
         } else {
             timecard = timecardService.getLatestTimecard(submitter);
             if (timecard == null) {
-                return setupNewTimecardForm(request, model);
+                return "redirect:timecard:new";
             }
         }
         model.addAttribute("timecard", timecard);
@@ -109,16 +105,6 @@ public class TimecardController {
         return "redirect:timecard-edit.htm?" + "timecardId=" + timecard.getId();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/timecard-new.htm")
-    public String setupNewTimecardForm(HttpServletRequest request,
-            ModelMap model) {
-        String submitter = request.getRemoteUser();
-        NewTimecard timecard = new NewTimecard();
-        timecard.setSubmitter(submitter);
-        model.addAttribute("timecard", timecard);
-        return "timecard-new";
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/timecard-submit.htm")
     public String submitTimecard(@RequestParam(required = true, value = "timecardId") Long timecardId) {
         logger.debug("submitting timecard " + timecardId);
@@ -126,17 +112,5 @@ public class TimecardController {
         return "redirect:timecard-edit.htm?timecardId=" + timecardId;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/timecard-new.htm")
-    public String processNewTimecard(@ModelAttribute("timecard") NewTimecard timecard, BindingResult result,
-            SessionStatus status) {
-        newTimecardValidator.validate(timecard, result);
-        if (result.hasErrors()) {
-            return "timecard-new";
-        } else {
-            Long id = timecardService.createTimecard(timecard.getSubmitter(), timecard.getStartDate());
-            status.setComplete();
-            return "redirect:timecard-edit.htm?timecardId=" + id;
-        }
-    }
 
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +21,10 @@ import com.bbaron.timetracker.web.validators.TimecardSearchCriteriaValidator;
 @RequestMapping("/timecard-search.htm")
 public class TimecardSearchController extends AbstractTimecardController {
 
+    private Validator validator;
+    
     public void setTimecardSearchCriteriaValidator(TimecardSearchCriteriaValidator v) {
-        super.setValidator(v);
+        this.validator = v;
     }
     
     @RequestMapping(method = RequestMethod.POST)
