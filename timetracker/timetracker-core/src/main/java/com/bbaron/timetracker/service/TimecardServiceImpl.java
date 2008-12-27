@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bbaron.timetracker.dao.TimecardDao;
+import com.bbaron.timetracker.dao.TimecardFactory;
 import com.bbaron.timetracker.dao.UserDao;
 import com.bbaron.timetracker.model.*;
 import com.bbaron.timetracker.temporal.TimecardDate;
@@ -130,6 +131,11 @@ public class TimecardServiceImpl implements TimecardService {
     @Override
     public void deleteTimecard(Long timecardId) {
         timecardDao.remove(timecardId);
+    }
+
+    @Override
+    public Collection<Timecard> getSubmittedTimecards(String approver) {
+        return timecardDao.findSubmitted(approver);
     }
 
 }

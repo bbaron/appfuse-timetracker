@@ -2,7 +2,10 @@ package com.bbaron.timetracker.service;
 
 import java.util.Collection;
 
-import com.bbaron.timetracker.model.*;
+import com.bbaron.timetracker.model.TimeAllocation;
+import com.bbaron.timetracker.model.Timecard;
+import com.bbaron.timetracker.model.TimecardSearchCriteria;
+import com.bbaron.timetracker.model.User;
 import com.bbaron.timetracker.temporal.TimecardDate;
 
 public interface TimecardService {
@@ -32,4 +35,6 @@ public interface TimecardService {
     void saveTimecard(Timecard timecard);
     
     void deleteTimecard(Long timecardId);
+
+    Collection<Timecard> getSubmittedTimecards(String approver);
 }

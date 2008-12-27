@@ -1,4 +1,7 @@
 <%@ include file="/common/taglibs.jsp"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
@@ -8,22 +11,7 @@
 </head>
 <body>
 
-    <div class="topmenu">
-        <a class="menu" href="login.htm">Log out [nbhatia]</a>
-    </div>
-
-    <div class="header">
-        <h1><span>Time</span>Tracker</h1>
-    </div>
-
-    <div class="menubar">
-        <ul>
-            <li class="first"><a href="home.htm">Home</a></li>
-            <li><a href="timecard-edit.htm">Timecard Details</a></li>
-            <li><a href="timecard-search.htm">Search Timecards</a></li>
-            <li><a class="selected" href="timecard-approve.htm">Approve Timecards</a></li>
-        </ul>
-    </div>
+	<%@ include file="/common/menubar.jsp" %>
 
     <div class="content">
 
@@ -35,30 +23,12 @@
                         <th>Start Date</th>
                         <th>Submitter</th>
                     </tr>
+                    <c:forEach var="submittedTimecard" items="${submittedTimecards}">
                     <tr>
-                        <td><a href="">05/29/2006</a></td>
-                        <td>cmicali</td>
-                    </tr>
-                    <tr>
-                        <td><a href="">05/29/2006</a></td>
-                        <td>ecrutchfield</td>
-                    </tr>
-                    <tr>
-                        <td><a href="">05/29/2006</a></td>
-                        <td>lcoude</td>
-                    </tr>
-                    <tr>
-                        <td><a href="">06/05/2006</a></td>
-                        <td>cmicali</td>
-                    </tr>
-                    <tr>
-                        <td><a href="">06/05/2006</a></td>
-                        <td>ecrutchfield</td>
-                    </tr>
-                    <tr>
-                        <td><a href="">06/05/2006</a></td>
-                        <td>lcoude</td>
-                    </tr>
+                        <td><a href="<c:url value="timecard-approve.htm?timecardId=${submittedTimecard.id}"/>">${submittedTimecard.startDate}</a></td>
+                        <td>${submittedTimecard.submitter}</td>
+                     </tr>
+                    </c:forEach>
                 </table>
             </div>
         </div>
@@ -75,10 +45,18 @@
                             <th>Start Date</th>
                         </tr>
                         <tr>
-                            <td>cmicali</td>
-                            <td>nbhatia</td>
-                            <td>Submitted</td>
-                            <td>06/05/2006</td>
+					        <td>
+					          ${timecard.submitter}
+					        </td>
+					        <td>
+					          ${timecard.approver}
+					        </td>
+					        <td>
+					          ${timecard.status}
+					        </td>
+					        <td>
+					          ${timecard.startDate}
+					        </td>
                         </tr>
                     </table>
                 </div>
@@ -92,63 +70,46 @@
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Start</th>
-                                <th>End</th>
+                                <th>Hours</th>
+                                <th>Minutes</th>
                                 <th>Task</th>
                             </tr>
                         </thead>
                         <tbody>
+                        <c:forEach var="alloc" items="${timecard.timeAllocationList}">
                             <tr>
-                                <td>06/05/2006</td>
-                                <td>09:00 AM</td>
-                                <td>12:00 PM</td>
-                                <td>Analysis</td>
+					            <td>
+					              <c:out value="${alloc.taskDate}"/>
+					            </td>
+					            <td>
+					              <c:out value="${alloc.hours}"/>
+					            </td>
+					            <td>
+					              <c:out value="${alloc.minutes}"/>
+					            </td>
+					            <td>
+					              <c:out value="${alloc.task}"/>
+					            </td>
                             </tr>
-                            <tr>
-                                <td>06/05/2006</td>
-                                <td>01:00 PM</td>
-                                <td>05:00 PM</td>
-                                <td>Research</td>
-                            </tr>
-                            <tr>
-                                <td>06/06/2006</td>
-                                <td>09:00 AM</td>
-                                <td>12:00 PM</td>
-                                <td>Analysis</td>
-                            </tr>
-                            <tr>
-                                <td>06/06/2006</td>
-                                <td>01:00 PM</td>
-                                <td>05:00 PM</td>
-                                <td>Analysis</td>
-                            </tr>
-                            <tr>
-                                <td>06/07/2006</td>
-                                <td>09:00 AM</td>
-                                <td>12:00 PM</td>
-                                <td>Analysis</td>
-                            </tr>
-                            <tr>
-                                <td>06/07/2006</td>
-                                <td>01:00 PM</td>
-                                <td>05:00 PM</td>
-                                <td>Research</td>
-                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
 
+             <form:form commandName="timecard" action="timecard-approve.htm">
                 <div class="comments">
                     <label for="comments">Comments</label><br />
-                    <textarea id="comments" rows="2" cols="80"></textarea>
+                    <form:textarea path="comments" rows="2" cols="80"/> 
                 </div>
 
                 <div>
-                    <a class="button" href="">Approve</a>
-                    <a class="button" href="">Reject</a>
+                  <input type="submit" value="Submit" name="timecardAction"/>
+                  <input type="submit" value="Reject" name="timecardAction"/>
                 </div>
+            </form:form>
 
         </div>
+    
     </div>
 </body>
 </html>
