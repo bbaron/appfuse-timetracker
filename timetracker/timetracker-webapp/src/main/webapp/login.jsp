@@ -8,9 +8,6 @@
 </head>
 <body>
 
-    <div class="topmenu">
-        <a class="menu" href="login.html">Log in</a>
-    </div>
 
     <div class="header">
         <h1><span>Time</span>Tracker</h1>

@@ -9,7 +9,7 @@
   <groupId>com.bbaron.timetracker</groupId>
   <artifactId>timetracker-webapp</artifactId>
   <packaging>war</packaging>
-  <name>timetracker-webapp Maven Webapp</name>
+  <name>timetracker-webapp</name>
   <version>0.0.1-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
   <build>

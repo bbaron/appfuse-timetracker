@@ -1,8 +1,8 @@
-<sec:authorize ifNotGranted="ROLE_GUEST">
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="topmenu">
     <a class="menu" href="<c:url value="/logout" />">  Logout&nbsp;[<sec:authentication property="name" />]</a>
 </div>
-</sec:authorize>
 
 <div class="header">
     <h1><span>Time</span>Tracker</h1>

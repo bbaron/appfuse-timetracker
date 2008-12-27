@@ -102,25 +102,22 @@ public class TimecardServiceImpl implements TimecardService {
     }
 
     @Override
-    public void submitTimecard(Long timecardId) {
-        updateTimecardStatus(timecardId, Submitted);
+    public void submitTimecard(Timecard timecard) {
+        updateTimecardStatus(timecard, Submitted);
     }
 
     @Override
-    public void rejectTimecard(Long timecardId) {
-        updateTimecardStatus(timecardId, Rejected);
+    public void rejectTimecard(Timecard timecard) {
+        updateTimecardStatus(timecard, Rejected);
     }
 
     @Override
-    public void approveTimecard(Long timecardId, String approver) {
-        Timecard timecard = timecardDao.get(timecardId);
-        timecard.setStatus(Approved);
+    public void approveTimecard(Timecard timecard, String approver) {
         timecard.setApprover(userDao.get(approver));
-        updateTimecardStatus(timecardId, Approved);
+        updateTimecardStatus(timecard, Approved);
     }
 
-    private void updateTimecardStatus(Long timecardId, TimecardStatus status) {
-        Timecard timecard = timecardDao.get(timecardId);
+    private void updateTimecardStatus(Timecard timecard, TimecardStatus status) {
         timecard.setStatus(status);
         timecardDao.save(timecard);
     }
@@ -128,6 +125,11 @@ public class TimecardServiceImpl implements TimecardService {
     @Override
     public void saveTimecard(Timecard timecard) {
         timecardDao.save(timecard);
+    }
+
+    @Override
+    public void deleteTimecard(Long timecardId) {
+        timecardDao.remove(timecardId);
     }
 
 }

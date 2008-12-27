@@ -107,6 +107,7 @@
       </tbody>
     </table>
 
+	<c:if test="${timecard.status eq 'Draft' or timecard.status eq 'Rejected'}">
     <form:form commandName="timeAllocation" action="timecard-enter-time-allocation.htm?timecardId=${timecard.id}">
       <table class="add_allocation_table bordered_table full_width">
         <colgroup span="4" style="width:22%;" />
@@ -138,9 +139,10 @@
         </tbody>
       </table>
     </form:form>
+	</c:if>
   </div>
 
-  <form:form action="timecard-save.htm?timecardId=${timecard.id}" commandName="timecard">
+  <form:form action="timecard-action.htm" commandName="timecard">
   <div class="comments">
     <label for="comments">
       Comments
@@ -150,13 +152,9 @@
   </div>
 
   <div>
-    <input type="submit" value="Save" />
-    <a class="button" href="timecard-search.htm">
-      Delete
-    </a>
-    <a class="button" href="timecard-submit.htm?timecardId=${timecard.id}">
-      Submit
-    </a>
+    <input type="submit" value="Save" name="timecardAction"/>
+    <input type="submit" value="Delete" name="timecardAction"/>
+    <input type="submit" value="Submit" name="timecardAction"/>
   </div>
   </form:form>
 

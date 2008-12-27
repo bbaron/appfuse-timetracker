@@ -21,12 +21,11 @@
 <!--  </bean>-->
 
   <security:http auto-config="true">
-    <security:intercept-url pattern="/home.htm*" access="ROLE_USER,ROLE_GUEST" />
+    <security:intercept-url pattern="/home.htm*" access="ROLE_USER" />
     <security:intercept-url pattern="/timecard-edit.htm*" access="ROLE_USER" />
     <security:intercept-url pattern="/timecard-search.htm*" access="ROLE_USER" />
     <security:intercept-url pattern="/timecard-approve.htm*" access="ROLE_USER" />
     <security:intercept-url pattern="/timecard-new.htm*" access="ROLE_USER" />
-<!--    <security:intercept-url pattern="/messageDelete.htm*" access="ROLE_ADMIN" />-->
     <security:form-login login-page="/login.jsp"
       default-target-url="/home.htm" authentication-failure-url="/login.jsp?error=true" />
     <security:logout logout-url="/logout" invalidate-session="true"
