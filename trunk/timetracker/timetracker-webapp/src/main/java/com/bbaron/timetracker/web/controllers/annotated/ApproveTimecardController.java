@@ -23,7 +23,7 @@ public class ApproveTimecardController extends AbstractTimecardController {
             Model model, HttpServletRequest request) {
         Collection<Timecard> submittedTimecards = timecardService.getSubmittedTimecards(request.getRemoteUser());
         if (submittedTimecards.isEmpty()) {
-            return "home";
+            return "redirect:home.htm";
         }
         model.addAttribute("submittedTimecards", submittedTimecards);
         if (timecardId == null) {
@@ -42,7 +42,7 @@ public class ApproveTimecardController extends AbstractTimecardController {
         if (result.hasErrors()) {
             return "timecard-approve";
         } else {
-            if (timecardAction.equals("Submit")) {
+            if (timecardAction.equals("Approve")) {
                 timecardService.approveTimecard(timecard, request.getRemoteUser());                
             } else if (timecardAction.equals("Reject")) {
                 timecardService.rejectTimecard(timecard);

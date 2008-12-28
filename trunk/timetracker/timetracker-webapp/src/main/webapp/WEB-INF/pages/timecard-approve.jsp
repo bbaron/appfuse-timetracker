@@ -103,7 +103,7 @@
                 </div>
 
                 <div>
-                  <input type="submit" value="Submit" name="timecardAction"/>
+                  <input type="submit" value="Approve" name="timecardAction"/>
                   <input type="submit" value="Reject" name="timecardAction"/>
                 </div>
             </form:form>

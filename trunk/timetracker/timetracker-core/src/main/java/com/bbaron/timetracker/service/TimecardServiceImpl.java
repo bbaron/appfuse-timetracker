@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bbaron.timetracker.dao.TimecardDao;
-import com.bbaron.timetracker.dao.TimecardFactory;
 import com.bbaron.timetracker.dao.UserDao;
 import com.bbaron.timetracker.model.*;
 import com.bbaron.timetracker.temporal.TimecardDate;
@@ -68,6 +67,7 @@ public class TimecardServiceImpl implements TimecardService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Timecard getLatestTimecard(String submitter) {
         Timecard timecard = timecardDao.findLatest(submitter);
         return timecard;
@@ -98,6 +98,7 @@ public class TimecardServiceImpl implements TimecardService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<Timecard> searchTimecards(TimecardSearchCriteria criteria) {
         return timecardDao.findByCriteria(criteria);
     }
@@ -118,22 +119,26 @@ public class TimecardServiceImpl implements TimecardService {
         updateTimecardStatus(timecard, Approved);
     }
 
+    @Transactional
     private void updateTimecardStatus(Timecard timecard, TimecardStatus status) {
         timecard.setStatus(status);
         timecardDao.save(timecard);
     }
 
     @Override
+    @Transactional
     public void saveTimecard(Timecard timecard) {
         timecardDao.save(timecard);
     }
 
     @Override
+    @Transactional
     public void deleteTimecard(Long timecardId) {
         timecardDao.remove(timecardId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<Timecard> getSubmittedTimecards(String approver) {
         return timecardDao.findSubmitted(approver);
     }

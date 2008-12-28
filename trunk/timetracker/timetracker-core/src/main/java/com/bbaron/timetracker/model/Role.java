@@ -30,7 +30,7 @@ public class Role implements IEntity<Long> {
         this.id = id;
     }
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 50)
     public String getAuthority() {
         return authority;
     }

@@ -32,9 +32,11 @@
                 <tr>
                     <td><a href="timecard-search.htm">Search timecards</a></td>
                 </tr>
+                <sec:authorize ifAllGranted="ROLE_APPROVER">
                 <tr>
                     <td><a href="timecard-approve.htm">Approve timecards</a></td>
                 </tr>
+                </sec:authorize>
             </tbody>
         </table>
     </div>
