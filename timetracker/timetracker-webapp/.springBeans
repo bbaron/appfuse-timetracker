@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[2.1.0.v200808011800]]></pluginVersion>
+	<pluginVersion><![CDATA[2.2.1.v200811281800]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -16,8 +16,6 @@
 			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
 			<incomplete>false</incomplete>
 			<configs>
-				<config>/timetracker-core/src/main/resources/timetracker-core.xml</config>
-				<config>/timetracker-core/src/main/resources/timetracker-hibernate.xml</config>
 				<config>src/main/webapp/WEB-INF/timetracker-servlet.xml</config>
 				<config>src/main/webapp/WEB-INF/timetracker-security.xml</config>
 			</configs>

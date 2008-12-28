@@ -7,7 +7,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
-import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Repository;
 import com.bbaron.timetracker.dao.TimecardDao;
 import com.bbaron.timetracker.model.Timecard;
 import com.bbaron.timetracker.model.TimecardSearchCriteria;
-import com.bbaron.timetracker.model.TimecardStatus;
-import com.bbaron.timetracker.model.User;
 
 @Repository("timecardDao")
 public class TimecardDaoHibernate extends GenericDaoHibernate<Timecard, Long>

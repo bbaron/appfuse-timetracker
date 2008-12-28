@@ -132,6 +132,11 @@ public class Timecard implements IEntity<Long> {
 	public Duration getDuration() {
 	    return null;
 	}
+	
+	@Transient
+	public boolean isUpdatable() {
+	    return status.isUpdatable();
+	}
 
 	@Override
 	public int hashCode() {
