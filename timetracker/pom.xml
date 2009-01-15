@@ -217,7 +217,7 @@
     <org.hibernate.version>3.2.6.ga</org.hibernate.version>
     <hibernate.annotations.version>3.3.0.ga</hibernate.annotations.version>
     <hibernate.version>3.2.6.ga</hibernate.version>
-    <log4j.version>1.2.14</log4j.version>
+    <log4j.version>1.2.15</log4j.version>
     <jdbc.groupId>mysql</jdbc.groupId>
     <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
     <jdbc.version>5.0.5</jdbc.version>
