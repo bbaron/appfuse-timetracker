@@ -19,11 +19,4 @@
 	<aop:aspectj-autoproxy />
 
 
-<!-- 
-	<bean id="timecardService" class="com.bbaron.timetracker.service.TimecardServiceImpl">
-		<property name="timecardDao" ref="timecardDao" />
-		<property name="userDao" ref="userDao" />
-	</bean>
- -->
-
 </beans>

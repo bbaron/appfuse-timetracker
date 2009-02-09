@@ -9,8 +9,11 @@ import javax.persistence.*;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.joda.time.Duration;
+import org.joda.time.MutablePeriod;
+import org.joda.time.Period;
 
 import com.bbaron.timetracker.temporal.TimecardDate;
+import com.bbaron.timetracker.temporal.TimecardDuration;
 import com.bbaron.timetracker.util.Constants;
 
 @Entity
@@ -130,7 +133,19 @@ public class Timecard implements IEntity<Long> {
 	
 	@Transient
 	public Duration getDuration() {
-	    return null;
+	    Duration duration = Duration.ZERO;
+	    for (TimeAllocation alloc : timeAllocations) {
+            duration = duration.plus(alloc.getDuration());
+        }
+	    return duration;
+	}
+	
+	public Period getPeriod() {
+	    MutablePeriod period = new MutablePeriod();
+        for (TimeAllocation alloc : timeAllocations) {
+            period.add(alloc.getDuration());
+        }	    
+	    return new Period(period);
 	}
 	
 	@Transient
