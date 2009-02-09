@@ -8,6 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.joda.time.Duration;
 
 import com.bbaron.timetracker.temporal.TimecardDate;
 import com.bbaron.timetracker.temporal.TimecardDuration;
@@ -64,9 +65,10 @@ public class TimeAllocation implements Serializable {
 	}
 	
 	@Transient
-	public TimecardDuration getDuration() {
-	    TimecardDuration d = TimecardDuration.duration(hours, minutes);
-	    return d;
+	public Duration getDuration() {
+        Duration hDuration = hours.toDuration();
+        Duration mDuration = minutes.toDuration();
+	    return hDuration.plus(mDuration);
 	}
 
 	@Override

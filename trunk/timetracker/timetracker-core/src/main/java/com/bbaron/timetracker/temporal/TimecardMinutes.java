@@ -1,11 +1,12 @@
 package com.bbaron.timetracker.temporal;
 
+import org.joda.time.Duration;
 import org.joda.time.Minutes;
 import org.springframework.util.Assert;
 
-import com.bbaron.timetracker.model.IntegralValue;
+import com.bbaron.timetracker.model.TemporalValue;
 
-public final class TimecardMinutes extends IntegralValue<Minutes> {
+public final class TimecardMinutes extends TemporalValue<Minutes> {
 
     public static final TimecardMinutes[] minutes = new TimecardMinutes[61];
     public static final TimecardMinutes ZERO = minutes[0] = new TimecardMinutes(0);
@@ -25,6 +26,11 @@ public final class TimecardMinutes extends IntegralValue<Minutes> {
             minutes[m] = new TimecardMinutes(m);
         }
         return minutes[m];
+    }
+
+    @Override
+    public Duration toDuration() {
+        return Duration.standardMinutes(super.toInteger());
     }    
     
 }
