@@ -13,7 +13,6 @@ import org.joda.time.MutablePeriod;
 import org.joda.time.Period;
 
 import com.bbaron.timetracker.temporal.TimecardDate;
-import com.bbaron.timetracker.temporal.TimecardDuration;
 import com.bbaron.timetracker.util.Constants;
 
 @Entity
