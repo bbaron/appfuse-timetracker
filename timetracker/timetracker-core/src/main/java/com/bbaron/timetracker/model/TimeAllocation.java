@@ -11,7 +11,6 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.joda.time.Duration;
 
 import com.bbaron.timetracker.temporal.TimecardDate;
-import com.bbaron.timetracker.temporal.TimecardDuration;
 import com.bbaron.timetracker.temporal.TimecardHours;
 import com.bbaron.timetracker.temporal.TimecardMinutes;
 
