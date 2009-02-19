@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:security="http://www.springframework.org/schema/security"
+  xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/security 
+        http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+
+<!--  <bean id="cacheManager"-->
+<!--    class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />-->
+<!--  <bean id="userCache"-->
+<!--    class="org.springframework.security.providers.dao.cache.EhCacheBasedUserCache">-->
+<!--    <property name="cache" ref="userEhCache" />-->
+<!--  </bean>-->
+<!--  <bean id="userEhCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">-->
+<!--    <property name="cacheName" value="userCache" />-->
+<!--    <property name="cacheManager" ref="cacheManager" />-->
+<!--  </bean>-->
+
+  <security:http auto-config="true">
+    <security:intercept-url pattern="/home.htm*" access="ROLE_USER" />
+    <security:intercept-url pattern="/timecard-edit.htm*" access="ROLE_USER" />
+    <security:intercept-url pattern="/timecard-search.htm*" access="ROLE_USER" />
+    <security:intercept-url pattern="/timecard-approve.htm*" access="ROLE_APPROVER" />
+    <security:intercept-url pattern="/timecard-new.htm*" access="ROLE_USER" />
+    <security:form-login login-page="/login.jsp"
+      default-target-url="/home.htm" authentication-failure-url="/login.jsp?error=true" />
+    <security:logout logout-url="/logout" invalidate-session="true"
+      logout-success-url="/login.jsp" />
+    <security:anonymous username="guest" granted-authority="ROLE_GUEST" />
+  </security:http>
+
+  <security:authentication-provider>
+<!--    <security:password-encoder hash="md5" />-->
+    <security:jdbc-user-service data-source-ref="dataSource" />
+<!--      cache-ref="userCache" />-->
+  </security:authentication-provider>
+</beans>
