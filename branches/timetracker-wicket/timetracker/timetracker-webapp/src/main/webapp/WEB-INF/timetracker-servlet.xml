@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-2.5.xsd" default-autowire="byName">
+
+	<context:component-scan
+		base-package="com.bbaron.timetracker.web" />
+	<bean id="defaultAnnotationHandlerMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="order" value="1" />
+	</bean>
+	<bean id="annotationMethodHandlerAdapter"
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<bean id="controllerHandlerAdapter"
+		class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+
+	<bean id="homeController" class="com.bbaron.timetracker.web.controllers.HomeController">
+		<property name="viewName" value="home" />
+	</bean>
+	<bean id="simpleUrlHandlerMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<value>
+				/home.htm=homeController
+			</value>
+		</property>
+		<property name="order" value="0" />
+	</bean>
+	<!-- View Resolver for JSPs -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!--property name="requestContextAttribute" value="rc" /-->
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/pages/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="ApplicationResources"/>
+        <property name="useCodeAsDefaultMessage" value="true"/>
+    </bean>
+
+	
+</beans>
